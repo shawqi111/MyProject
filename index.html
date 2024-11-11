@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./style.css">
+    <title>Sachkunde 34a Übungen</title> 
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+        integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+        
+        
+
+</head>
+
+<body>
+
+    <header id="Button-bar title-bar" class="translate-exclude1 header">
+        <h1 id="title-bar" class="head-nav" style="font-size: 15px;"></h1>
+        <div class="right-nav">
+            <button id="listenButton" class="btn1">Hören</button>
+            <button id="showResults" class="btn1"
+                style="display: flex; justify-content: center; align-items: center;">Prüfung abgeben</button>
+            <div class="icon"><i class="fa-solid fa-bars"></i></div>
+        </div>
+    </header>
+    <div class="list-left">
+        <div class="continar ">
+            <div id="google_translate_element" class="google"></div>
+            <div class="label">
+                <label id="Punkte" class="translate-exclude">Punkte</label>
+            </div>
+        </div>
+    </div>
+    <div id="finalResultText" class="translate-exclude"></div>
+    <div id="countdown-timer" class="translate-exclude timer"></div>
+    <div class="continar">
+        <div class="container" id="resultsContainer">
+            <div class="subject">
+                <h3 id="subjectTitle">الموضوع الأول (0 من 8)</h3>
+                <div class="bar-container">
+                    <div id="progressBar" class="bar green" style="width: 80%;">
+                        <span id="percentage" class="percentage">0%</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="container" id="resultsContainer2">
+            <div class="subject">
+                <h3 id="subjectTitle2">الموضوع الثاني (0 من 4)</h3>
+                <div class="bar-container">
+                    <div id="progressBar2" class="bar green" style="width: 80%;">
+                        <span id="percentage2" class="percentage">0%</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container" id="resultsContainer3">
+        <div class="subject">
+            <h3 id="subjectTitle3">الموضوع الثالث (0 من 4)</h3>
+            <div class="bar-container">
+                <div id="progressBar3" class="bar green" style="width: 80%;">
+                    <span id="percentage3" class="percentage">0%</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+
+    <div class="container" id="resultsContainer4">
+        <div class="subject">
+            <h3 id="subjectTitle4">الموضوع الرايع (0 من 24)</h3>
+            <div class="bar-container">
+                <div id="progressBar4" class="bar green" style="width: 80%;">
+                    <span id="percentage4" class="percentage">0%</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+
+    <div class="container" id="resultsContainer5">
+        <div class="subject">
+            <h3 id="subjectTitle5">الموضوع الرايع (0 من 24)</h3>
+            <div class="bar-container">
+                <div id="progressBar5" class="bar green" style="width: 80%;">
+                    <span id="percentage5" class="percentage">0%</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+
+    <!-- Resul6 Unfallverhütungsvorschrift -->
+    <div class="container" id="resultsContainer6">
+        <div class="subject">
+            <h3 id="subjectTitle6">الموضوع الرايع (0 من 24)</h3>
+            <div class="bar-container">
+                <div id="progressBar6" class="bar green" style="width: 0%;">
+                    <span id="percentage6" class="percentage">0%</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Waffenrecht -->
+    <div class="container" id="resultsContainer7">
+        <div class="subject">
+            <h3 id="subjectTitle7">الموضوع الرايع (0 من 24)</h3>
+            <div class="bar-container">
+                <div id="progressBar7" class="bar green" style="width: 0%;">
+                    <span id="percentage7" class="percentage">0%</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Umgang mit Menschen -->
+    <div class="container" id="resultsContainer8">
+        <div class="subject">
+            <h3 id="subjectTitle8">الموضوع الرايع (0 من 24)</h3>
+            <div class="bar-container">
+                <div id="progressBar8" class="bar green" style="width: 0%;">
+                    <span id="percentage8" class="percentage">0%</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Sicherheitstechnik -->
+    <div class="container" id="resultsContainer9">
+        <div class="subject">
+            <h3 id="subjectTitle9">الموضوع الرايع (0 من 24)</h3>
+            <div class="bar-container">
+                <div id="progressBar9" class="bar green" style="width: 0%;">
+                    <span id="percentage9" class="percentage">0%</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+    <div>
+        <ul id="list2"></ul>
+
+        <div class="button-box">
+            <div id="button-container"></div>
+        </div>
+        <div>
+            <label id="label1"></label>
+            <label id="labelIndex">Index</label>
+
+
+        </div>
+        <div>
+            <label id="label5"></label>
+            <div id="next-buttons">
+                <button id="back">Zurück</button>
+                <button id="checkAnswers">Beantworten</button>
+
+                <button id="next">Weiter</button>
+            </div>
+
+
+            <button id="Pro">Pro</button>
+
+
+            <div>
+                <ul id="list"></ul>
+            </div>
+            <div class="table-container">
+                <table class="first-table">
+                    <thead>
+                        <tr class="tr">
+                            <th class="tr">عنصر</th>
+                        </tr>
+                    </thead>
+                    <tbody id="table-body" class="tbody">
+                        <!-- بيانات الجدول ستتم إضافتها هنا باستخدام JavaScript -->
+                    </tbody>
+                </table>
+            </div>
+
+
+
+            <label id="label40">label40</label>
+
+            <label id="label50">Iabel50</label>
+
+            <label id="label60">Iabel60</label>
+
+            <label id="label70">Iabel70</label>
+
+            <label id="label80">Iabel80</label>
+
+            <script src="main.js"></script>
+</body>
+
+</html>
