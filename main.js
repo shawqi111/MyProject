@@ -1,3 +1,38 @@
+<!-- أضف إذن الإنترنت في AndroidManifest.xml -->
+<uses-permission android:name="android.permission.INTERNET" />
+
+// Java code to set up WebView
+import android.os.Bundle;
+import android.webkit.WebSettings;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
+import androidx.appcompat.app.AppCompatActivity;
+
+public class MainActivity extends AppCompatActivity {
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        WebView webView = findViewById(R.id.webView);
+        WebSettings webSettings = webView.getSettings();
+        
+        // Enable JavaScript
+        webSettings.setJavaScriptEnabled(true);
+        
+        // Enable DOM storage for better compatibility
+        webSettings.setDomStorageEnabled(true);
+        
+        // Load the URL of the HTML page
+        webView.setWebViewClient(new WebViewClient());
+        webView.loadUrl("file:///android_asset/your_html_file.html");
+    }
+}
+
+
+
+
+
 let originalLanguage = "ar"; // اللغة الأصلية
 let currentLanguage = originalLanguage;
 
