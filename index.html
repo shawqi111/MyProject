@@ -1,182 +1,200 @@
 <!DOCTYPE html>
-<html lang="ar">
+<html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>عرض البيانات من ملفات CSV</title>
-    <!-- مكتبة PapaParse لتحليل ملفات CSV -->
+    <link rel="stylesheet" href="./style.css">
+    <title>Sachkunde 34a Übungen</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
-    <style>
-        /* تنسيقات CSS */
-        body {
-            font-family: Arial, sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            flex-direction: column;
-            margin-top: 50px;
-        }
-        #table-container {
-            width: 80%;
-            margin-top: 20px;
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-        th, td {
-            padding: 10px;
-            border: 1px solid #ddd;
-            text-align: center;
-        }
-        button {
-            padding: 10px;
-            margin: 5px;
-            cursor: pointer;
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            border-radius: 5px;
-        }
-        button:hover {
-            background-color: #45a049;
-        }
-        button:focus {
-            outline: none;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-        }
-        #showResults {
-            margin-top: 20px;
-            padding: 10px;
-            background-color: #007bff;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-        #Punkte {
-            display: none;
-            margin-top: 20px;
-        }
-    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+        integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
+
 <body>
 
-    <h1>عرض البيانات من ملفات CSV</h1>
-    <div id="table-container">
-        <table>
-            <tbody id="table-body"></tbody>
-        </table>
+    <header id="Button-bar title-bar" class="translate-exclude1 header">
+        <h1 id="title-bar" class="head-nav" style="font-size: 15px;"></h1>
+        <div class="right-nav">
+            <button id="listenButton" class="btn1">Hören</button>
+            <button id="showResults" class="btn1"
+                style="display: flex; justify-content: center; align-items: center;">Prüfung abgeben</button>
+            <div class="icon"><i class="fa-solid fa-bars"></i></div>
+        </div>
+    </header>
+    <div class="list-left">
+        <div class="continar ">
+            <div id="google_translate_element" class="google"></div>
+            <div class="label">
+                <label id="Punkte" class="translate-exclude">Punkte</label>
+            </div>
+        </div>
+    </div>
+    <div id="finalResultText" class="translate-exclude"></div>
+    <div id="countdown-timer" class="translate-exclude timer"></div>
+    <div class="continar">
+        <div class="container" id="resultsContainer">
+            <div class="subject">
+                <h3 id="subjectTitle">الموضوع الأول (0 من 8)</h3>
+                <div class="bar-container">
+                    <div id="progressBar" class="bar green" style="width: 80%;">
+                        <span id="percentage" class="percentage">0%</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="container" id="resultsContainer2">
+            <div class="subject">
+                <h3 id="subjectTitle2">الموضوع الثاني (0 من 4)</h3>
+                <div class="bar-container">
+                    <div id="progressBar2" class="bar green" style="width: 80%;">
+                        <span id="percentage2" class="percentage">0%</span>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
-    <button id="showResults">Ergebnisse ansehen</button>
-    <div id="Punkte">نقاطك: <span id="score">0</span></div>
+    <div class="container" id="resultsContainer3">
+        <div class="subject">
+            <h3 id="subjectTitle3">الموضوع الثالث (0 من 4)</h3>
+            <div class="bar-container">
+                <div id="progressBar3" class="bar green" style="width: 80%;">
+                    <span id="percentage3" class="percentage">0%</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
 
-    <!-- كود JavaScript -->
-    <script>
-        let isFunctionCalled = false;
-        let currentRow = 0;
-        let currentRowIndex = 0;
+    <div class="container" id="resultsContainer4">
+        <div class="subject">
+            <h3 id="subjectTitle4">الموضوع الرايع (0 من 24)</h3>
+            <div class="bar-container">
+                <div id="progressBar4" class="bar green" style="width: 80%;">
+                    <span id="percentage4" class="percentage">0%</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
 
-        // دالة تحميل البيانات من CSV وإظهارها في الجدول
-        function FarbeinTable() {
-            const urlParams = new URLSearchParams(window.location.search);
-            const value = parseInt(urlParams.get("value"));
+    <div class="container" id="resultsContainer5">
+        <div class="subject">
+            <h3 id="subjectTitle5">الموضوع الرايع (0 من 24)</h3>
+            <div class="bar-container">
+                <div id="progressBar5" class="bar green" style="width: 80%;">
+                    <span id="percentage5" class="percentage">0%</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
 
-            if (!isFunctionCalled) {
-                isFunctionCalled = true;
-                let url;
+    <!-- Resul6 Unfallverhütungsvorschrift -->
+    <div class="container" id="resultsContainer6">
+        <div class="subject">
+            <h3 id="subjectTitle6">الموضوع الرايع (0 من 24)</h3>
+            <div class="bar-container">
+                <div id="progressBar6" class="bar green" style="width: 0%;">
+                    <span id="percentage6" class="percentage">0%</span>
+                </div>
+            </div>
+        </div>
+    </div>
 
-                // تحديد الملف بناءً على قيمة value
-                switch (value) {
-                    case 1: url = "eins203.csv"; break;
-                    case 2: url = "Zwei204.csv"; break;
-                    case 3: url = "Drei211.csv"; break;
-                    case 4: url = "vier213.csv"; break;
-                    case 5: url = "funf217.csv"; break;
-                    case 6: url = "sechs219.csv"; break;
-                    case 7: url = "sieben221.csv"; break;
-                    case 8: url = "MP18.csv"; break;
-                    case 9: url = "Prüfung 1.csv"; break;
-                    case 10: url = "Prüfung 2.csv"; break;
-                    case 11: url = "Prüfung 3.csv"; break;
-                    case 12: url = "Pr4.csv"; break;
-                    case 13: url = "Pr5.csv"; break;
-                    default: url = "eins203.csv";
-                }
+    <!-- Waffenrecht -->
+    <div class="container" id="resultsContainer7">
+        <div class="subject">
+            <h3 id="subjectTitle7">الموضوع الرايع (0 من 24)</h3>
+            <div class="bar-container">
+                <div id="progressBar7" class="bar green" style="width: 0%;">
+                    <span id="percentage7" class="percentage">0%</span>
+                </div>
+            </div>
+        </div>
+    </div>
 
-                if (url) {
-                    fetch(url)
-                        .then(response => response.text())
-                        .then(data => {
-                            const parsedData = Papa.parse(data, {
-                                delimiter: ",",
-                                quoteChar: '"',
-                                header: false,
-                            });
-                            const correctAnswers = parsedData.data.slice(1);
+    <!-- Umgang mit Menschen -->
+    <div class="container" id="resultsContainer8">
+        <div class="subject">
+            <h3 id="subjectTitle8">الموضوع الرايع (0 من 24)</h3>
+            <div class="bar-container">
+                <div id="progressBar8" class="bar green" style="width: 0%;">
+                    <span id="percentage8" class="percentage">0%</span>
+                </div>
+            </div>
+        </div>
+    </div>
 
-                            const tableBody = document.getElementById("table-body");
-                            tableBody.innerHTML = "";
+    <!-- Sicherheitstechnik -->
+    <div class="container" id="resultsContainer9">
+        <div class="subject">
+            <h3 id="subjectTitle9">الموضوع الرايع (0 من 24)</h3>
+            <div class="bar-container">
+                <div id="progressBar9" class="bar green" style="width: 0%;">
+                    <span id="percentage9" class="percentage">0%</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+    <div>
+        <ul id="list2"></ul>
 
-                            correctAnswers.forEach((row, i) => {
-                                const tr = document.createElement("tr");
-                                const button = document.createElement("button");
-                                button.textContent = row[0];
-                                button.dataset.initialBackgroundColor = button.style.backgroundColor;
+        <div class="button-box">
+            <div id="button-container"></div>
+        </div>
+        <div>
+            <label id="label1"></label>
+            <label id="labelIndex">Index</label>
 
-                                button.addEventListener("click", () => {
-                                    handleButtonClick(button, i);
-                                });
 
-                                const td = document.createElement("td");
-                                td.appendChild(button);
-                                tr.appendChild(td);
-                                tableBody.appendChild(tr);
-                            });
-                        });
-                }
-            }
-        }
+        </div>
+        <div>
+            <label id="label5"></label>
+            <div id="next-buttons">
+                <button id="back">Zurück</button>
+                <button id="checkAnswers">Beantworten</button>
 
-        // دالة لعرض نتيجة الصف الحالي
-        function displayRow(row) {
-            document.getElementById("score").textContent = row;
-        }
+                <button id="next">Weiter</button>
+            </div>
 
-        // دالة تعامل مع الزر عند الضغط عليه
-        function handleButtonClick(button, index) {
-            const buttons = document.querySelectorAll("button");
 
-            buttons.forEach((btn) => {
-                btn.style.backgroundColor = btn.dataset.initialBackgroundColor;
-                btn.style.transform = "scale(1)";
-                btn.style.boxShadow = "none";
-            });
+            <button id="Pro">Pro</button>
 
-            currentRow = index + 1;
-            currentRowIndex = index;
-            displayRow(currentRow);
 
-            const Punkte = document.getElementById("Punkte");
-            Punkte.style.display = "flex";
-            button.style.boxShadow = "0 0 10px rgba(0, 0, 0, 0.5)";
-        }
+            <div>
+                <ul id="list"></ul>
+            </div>
+            <div class="table-container">
+                <table class="first-table">
+                    <thead>
+                        <tr class="tr">
+                            <th class="tr">عنصر</th>
+                        </tr>
+                    </thead>
+                    <tbody id="table-body" class="tbody">
+                        <!-- بيانات الجدول ستتم إضافتها هنا باستخدام JavaScript -->
+                    </tbody>
+                </table>
+            </div>
 
-        // ربط حدث "الضغط" على زر "Ergebnisse ansehen" لتغيير حالته عند الضغط
-        document.getElementById("showResults").addEventListener("click", () => {
-            const showResultsButton = document.getElementById("showResults");
-            if (showResultsButton.innerText === "Ergebnisse ansehen") {
-                showResultsButton.innerText = "Prüfung abgeben"; // تغيير النص عند الضغط لأول مرة
-                document.getElementById("Punkte").style.display = "flex"; // عرض القسم الذي يحتوي على النقاط
-            } else {
-                showResultsButton.innerText = "Ergebnisse ansehen"; // إرجاع النص للحالة الأصلية
-                document.getElementById("Punkte").style.display = "none"; // إخفاء النقاط
-            }
-        });
 
-        // استدعاء الدالة الرئيسية
-        FarbeinTable();
-    </script>
+
+            <label id="label40">label40</label>
+
+            <label id="label50">Iabel50</label>
+
+            <label id="label60">Iabel60</label>
+
+            <label id="label70">Iabel70</label>
+
+            <label id="label80">Iabel80</label>
+
+            <script src="main.js"></script>
 </body>
+
 </html>
