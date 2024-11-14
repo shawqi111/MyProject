@@ -1,7 +1,3 @@
-
-
-
-
 let originalLanguage = "ar"; // اللغة الأصلية
 let currentLanguage = originalLanguage;
 
