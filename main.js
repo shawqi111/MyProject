@@ -1,10 +1,56 @@
+let originalLanguage = "ar"; // اللغة الأصلية
+let currentLanguage = originalLanguage;
 
+function changeLanguage(language) {
+  if (language === "original") {
+    language = originalLanguage;
+  }
 
+  // تحديث النصوص في الجدول بناءً على اللغة
+  let rows = document.querySelectorAll("#translationTable tr");
+  rows.forEach((row) => {
+    let cells = row.querySelectorAll("td");
+    cells.forEach((cell) => {
+      cell.innerHTML = cell.getAttribute(`data-${language}`);
+    });
+  });
 
+  // تغيير النص على الزر
+  if (language === "en") {
+    document.getElementById("translateButton").innerText = "رجوع للغة العربية";
+    document
+      .getElementById("translateButton")
+      .setAttribute("onclick", "changeLanguage('original')");
+  } else {
+    document.getElementById("translateButton").innerText = "ترجم للإنجليزية";
+    document
+      .getElementById("translateButton")
+      .setAttribute("onclick", "changeLanguage('en')");
+  }
+}
 
+function loadGoogleTranslate() {
+  var script = document.createElement("script");
+  script.type = "text/javascript";
+  script.src =
+    "https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit";
+  document.getElementsByTagName("head")[0].appendChild(script);
+}
 
+// استدعاء تحميل عنصر الترجمة فور تحميل الصفحة
+window.onload = loadGoogleTranslate;
 
-
+// تعريف دالة googleTranslateElementInit لتكوين عنصر الترجمة
+function googleTranslateElementInit() {
+  new google.translate.TranslateElement(
+    {
+      pageLanguage: "ar", // هنا يمكن تعديل اللغة الأصلية إذا لزم الأمر
+      layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
+      exclude: [".translate-exclude"], // استثناء العناصر التي تحمل الفئة translate-exclude
+    },
+    "google_translate_element"
+  );
+}
 
 var tableContainer = document.querySelector(".table-container");
 var body = document.body;
@@ -635,7 +681,13 @@ document.getElementById("checkAnswers").addEventListener("click", function (e) {
   checkAnswers();
 });
 
-
+document.getElementById("showResults").addEventListener("click", function (e) {
+  e.preventDefault();
+  if (this.innerText === "Prüfung abgeben") {
+    Shawqi();
+  }
+  executeResults();
+});
 
 const buttons = document.querySelectorAll("#button-container button");
 buttons.forEach((button, index) => {
@@ -1087,6 +1139,30 @@ function hideResultsDisplay() {
   buttonContainer.style.display = "none"; // إظهار عنصر الأزرار
 }
 
+document.querySelector("#showResults").addEventListener("click", () => {
+  if (document.getElementById("showResults").innerText === "Prüfung abgeben") {
+    Shawqi();
+  }
+
+  Punkte.style.display = "none";
+
+  var listenButton = document.getElementById("listenButton");
+
+  if (document.getElementById("showResults").innerHTML == "Prüfung abgeben") {
+    const confirmation = confirm(
+      "Möchtest du wirklich den Test beenden und deine Ergebnisse sehen?"
+    );
+
+    // التحقق من رد المستخدم
+    if (confirmation) {
+      // قم بتنفيذ الأوامر
+      executeResults();
+    }
+  } else {
+    // إذا كان مخفيًا، قم بتنفيذ الأوامر مباشرة
+    executeResults();
+  }
+});
 
 // دالة لتنفيذ الأوامر المشتركة في كلتا الحالتين
 function executeResults() {
@@ -1507,10 +1583,6 @@ function iconeHeder() {
       tableContainer.classList.remove("tableAdd"); // إزالة الكلاس
     }
   });
-
-  document.addEventListener("DOMContentLoaded", function () {
-    // تهيئة الأزرار والمكونات الأخرى
-    initializeComponents();
-  });
 }
+
 iconeHeder();
