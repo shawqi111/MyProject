@@ -1,8 +1,5 @@
 
-webView.getSettings().setDomStorageEnabled(true);
-webView.getSettings().setAllowFileAccess(true);
-webView.getSettings().setAllowContentAccess(true);
-
+webView.getSettings().setJavaScriptEnabled(true);
 
 
 
