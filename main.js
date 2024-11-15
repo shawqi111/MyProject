@@ -656,37 +656,30 @@ function checkTextMatch() {
 // عرض السؤال الأول عند بداية التحميل
 displayRow(currentRow);
 
-document.getElementById("next").addEventListener("click", function (e) {
-  e.preventDefault();
+document.getElementById("next").addEventListener("click", () => {
+  Shawqi();
   const labelIndex = parseInt(
     document.getElementById("labelIndex").textContent
   );
   const nextLabelIndex = labelIndex + 1;
+
+  // هنا يمكنك استخدام nextLabelIndex لجلب السؤال التالي وعرضه
   displayRow(nextLabelIndex);
   currentRow = nextLabelIndex;
 });
 
-document.getElementById("back").addEventListener("click", function (e) {
-  e.preventDefault();
+document.getElementById("back").addEventListener("click", () => {
+  Shawqi();
+  // التأكد من أن الصف الحالي أكبر من 1 قبل الانتقال للخلف
+
   const labelIndex = parseInt(
     document.getElementById("labelIndex").textContent
   );
   const previousLabelIndex = labelIndex - 1;
+  // استخدام previousLabelIndex لجلب السؤال السابق وعرضه
   displayRow(previousLabelIndex);
+  // تحديث الصف الحالي بعد الانتقال للخلف
   currentRow = previousLabelIndex;
-});
-
-document.getElementById("checkAnswers").addEventListener("click", function (e) {
-  e.preventDefault();
-  checkAnswers();
-});
-
-document.getElementById("showResults").addEventListener("click", function (e) {
-  e.preventDefault();
-  if (this.innerText === "Prüfung abgeben") {
-    Shawqi();
-  }
-  executeResults();
 });
 
 const buttons = document.querySelectorAll("#button-container button");
@@ -806,6 +799,8 @@ function checkAnswers() {
     }
   }
 }
+
+document.getElementById("checkAnswers").addEventListener("click", checkAnswers);
 
 document.getElementById("listenButton").addEventListener("click", () => {
   const listenButton = document.getElementById("listenButton");
@@ -1043,7 +1038,7 @@ function showResults8() {
   document.getElementById("percentage8").textContent = `${percentage}%`;
   document.getElementById("percentage8").textContent = `${percentage.toFixed(
     0
-  )}%`; // تحويل النسبة إلى صيغة عادية بدون أرام عشرية
+  )}%`; // تحويل النسبة إلى صيغة عادية بدون أر��ام عشرية
 
   document.getElementById("progressBar8").style.backgroundColor =
     percentage < 50 ? "red" : "green"; // تغيير لون الشريط
