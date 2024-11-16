@@ -370,15 +370,14 @@ table {
   padding: 10px; /* هامش داخلي */
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); /* ظل */
   color: #fffdfd; /* لون النص */
-  font-size: 16px; /* حجم الخط */
+  font-size: 15px; /* حجم الخط */
   width: 50%;
   height: auto;
   cursor: pointer;
   outline: none;
   border: none;
   overflow: visible;
-  text-align: center;
-  padding: 10px 20px;
+
 }
 #next:hover {
   background-color: #0056b3;
@@ -392,14 +391,13 @@ table {
   padding: 10px; /* هامش داخلي */
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); /* ظل */
   color: #fffdfd; /* لون النص */
-  font-size: 16px; /* حجم الخط */
+  font-size: 15px; /* حجم الخط */
   width: 50%;
   cursor: pointer;
   outline: none;
   border: none;
   overflow: visible;
-  text-align: center;
-  padding: 10px 20px;
+ 
 }
 #back:hover {
   background-color: #0056b3;
@@ -413,14 +411,13 @@ table {
   padding: 10px; /* هامش داخلي */
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); /* ظل */
   color: #fff; /* لون النص */
-  font-size: 15px; /* حجم الخط */
+  font-size: 13px; /* حجم الخط */
   width: 50%;
   cursor: pointer;
   outline: none;
   border: none;
   overflow: visible;
-  text-align: center;
-  padding: 10px 20px;
+ 
 }
 
 
