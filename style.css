@@ -376,7 +376,7 @@ table {
   cursor: pointer;
   outline: none;
   border: none;
-  overflow: visible;
+
 
 }
 #next:hover {
@@ -396,7 +396,7 @@ table {
   cursor: pointer;
   outline: none;
   border: none;
-  overflow: visible;
+ 
  
 }
 #back:hover {
@@ -416,7 +416,7 @@ table {
   cursor: pointer;
   outline: none;
   border: none;
-  overflow: visible;
+ 
  
 }
 
