@@ -371,7 +371,7 @@ table {
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); /* ظل */
   color: #fffdfd; /* لون النص */
   font-size: 19px; /* حجم الخط */
-  width: 100%;
+  width: 50%;
   height: auto;
   cursor: pointer;
   outline: none;
@@ -390,7 +390,7 @@ table {
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); /* ظل */
   color: #fffdfd; /* لون النص */
   font-size: 19px; /* حجم الخط */
-  width: 100%;
+  width: 50%;
   cursor: pointer;
   outline: none;
   border: none;
@@ -408,7 +408,7 @@ table {
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); /* ظل */
   color: #fff; /* لون النص */
   font-size: 15px; /* حجم الخط */
-  width: 100%;
+  width: 50%;
   cursor: pointer;
   outline: none;
   border: none;
@@ -459,3 +459,37 @@ button:active {
   }
 }
 
+/* تحسينات WebView */
+* {
+  -webkit-tap-highlight-color: transparent !important;
+  -webkit-touch-callout: none !important;
+  -webkit-user-select: none !important;
+  user-select: none !important;
+  touch-action: manipulation !important;
+}
+
+button {
+  transform: translateZ(0) !important;
+  backface-visibility: hidden !important;
+  perspective: 1000px !important;
+  will-change: transform !important;
+  transition: transform 0.1s ease-out !important;
+}
+
+.ripple {
+  position: absolute;
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  pointer-events: none;
+  width: 100px;
+  height: 100px;
+  transform: translate(-50%, -50%) scale(0);
+  animation: ripple 0.6s linear;
+}
+
+@keyframes ripple {
+  to {
+    transform: translate(-50%, -50%) scale(4);
+    opacity: 0;
+  }
+}
