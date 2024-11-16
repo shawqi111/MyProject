@@ -459,37 +459,3 @@ button:active {
   }
 }
 
-/* تحسينات WebView */
-* {
-  -webkit-tap-highlight-color: transparent !important;
-  -webkit-touch-callout: none !important;
-  -webkit-user-select: none !important;
-  user-select: none !important;
-  touch-action: manipulation !important;
-}
-
-button {
-  transform: translateZ(0) !important;
-  backface-visibility: hidden !important;
-  perspective: 1000px !important;
-  will-change: transform !important;
-  transition: transform 0.1s ease-out !important;
-}
-
-.ripple {
-  position: absolute;
-  background: rgba(255, 255, 255, 0.3);
-  border-radius: 50%;
-  pointer-events: none;
-  width: 100px;
-  height: 100px;
-  transform: translate(-50%, -50%) scale(0);
-  animation: ripple 0.6s linear;
-}
-
-@keyframes ripple {
-  to {
-    transform: translate(-50%, -50%) scale(4);
-    opacity: 0;
-  }
-}
