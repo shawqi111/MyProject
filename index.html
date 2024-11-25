@@ -3,60 +3,57 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Custom Google Translate Button</title>
+  <title>Custom Google Translate</title>
   <style>
-    #google_translate_element {
-      display: none; /* إخفاء العنصر الافتراضي */
+    .language-selector {
+      margin: 20px;
+      font-size: 16px;
+      padding: 10px;
     }
   </style>
 </head>
 <body>
-  <!-- زر مخصص لتغيير اللغة -->
-  <button id="customTranslateButton" onclick="translatePage('en')">Translate to English</button>
-  <button id="resetButton" onclick="translatePage('ar')">عودة إلى العربية</button>
+  <h1 id="translateText">مرحباً بك في موقعنا</h1>
+  <p>هذا مثال لاستخدام Google Translate لترجمة نصوص محددة.</p>
 
-  <!-- عنصر الترجمة الخاص بـ Google -->
-  <div id="google_translate_element"></div>
+  <!-- قائمة اختيار اللغة -->
+  <select id="languageSelector" class="language-selector" onchange="translateText()">
+    <option value="">-- اختر اللغة --</option>
+    <option value="ar">العربية</option>
+    <option value="en">English</option>
+    <option value="fr">Français</option>
+    <option value="de">Deutsch</option>
+    <option value="es">Español</option>
+  </select>
 
   <script>
-    // تحميل مكتبة Google Translate
-    function loadGoogleTranslate() {
-      var script = document.createElement("script");
-      script.type = "text/javascript";
-      script.src =
-        "https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit";
-      document.getElementsByTagName("body")[0].appendChild(script);
-    }
+    // دالة لترجمة النصوص
+    async function translateText() {
+      const textToTranslate = document.getElementById("translateText").innerText; // النص المطلوب ترجمته
+      const targetLanguage = document.getElementById("languageSelector").value; // اللغة المطلوبة
 
-    // تهيئة عنصر الترجمة
-    function googleTranslateElementInit() {
-      new google.translate.TranslateElement(
-        {
-          pageLanguage: "ar",
-          layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
-          autoDisplay: false, // تعطيل العرض التلقائي
-        },
-        "google_translate_element"
-      );
-    }
+      if (!targetLanguage) {
+        alert("يرجى اختيار لغة للترجمة.");
+        return;
+      }
 
-    // دالة لتغيير اللغة
-    function translatePage(language) {
-      var frame = document.querySelector("iframe.goog-te-menu-frame");
-      if (frame) {
-        // فتح قائمة Google Translate واختيار اللغة
-        var frameDocument = frame.contentDocument || frame.contentWindow.document;
-        var option = frameDocument.querySelector(`[value="${language}"]`);
-        if (option) {
-          option.click();
-        }
-      } else {
-        alert("Google Translate not loaded yet. Please wait.");
+      // إرسال النص إلى Google Translate API
+      const apiUrl = `https://translate.googleapis.com/translate_a/single?client=gtx&sl=auto&tl=${targetLanguage}&dt=t&q=${encodeURIComponent(
+        textToTranslate
+      )}`;
+
+      try {
+        const response = await fetch(apiUrl);
+        const result = await response.json();
+        const translatedText = result[0][0][0]; // النص المترجم
+
+        // تحديث النص المترجم على الصفحة
+        document.getElementById("translateText").innerText = translatedText;
+      } catch (error) {
+        console.error("Error during translation:", error);
+        alert("عذرًا، حدث خطأ أثناء الترجمة.");
       }
     }
-
-    // تحميل مكتبة الترجمة عند تحميل الصفحة
-    window.onload = loadGoogleTranslate;
   </script>
 </body>
 </html>
