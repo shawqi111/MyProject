@@ -3,32 +3,23 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Google Translate Issue</title>
+  <title>Custom Google Translate Button</title>
+  <style>
+    #google_translate_element {
+      display: none; /* إخفاء العنصر الافتراضي */
+    }
+  </style>
 </head>
 <body>
-  <header id="Button-bar title-bar" class="translate-exclude1 header">
-    <h1 id="title-bar" class="head-nav" style="font-size: 15px;"></h1>
-    <div class="right-nav">
-      <button id="listenButton" class="btn1">Hören</button>
-      <button id="showResults" class="btn1" style="display: flex; justify-content: center; align-items: center;">
-        Prüfung abgeben
-      </button>
-      <div class="icon"><i class="fa-solid fa-bars"></i></div>
-    </div>
-  </header>
-  <div class="list-left">
-    <div class="continar">
-      <div class="label">
-        <label id="Punkte" class="label-class">Label Content</label>
-      </div>
-    </div>
-  </div>
+  <!-- زر مخصص لتغيير اللغة -->
+  <button id="customTranslateButton" onclick="translatePage('en')">Translate to English</button>
+  <button id="resetButton" onclick="translatePage('ar')">عودة إلى العربية</button>
 
-  <!-- عنصر الترجمة الخاص بـ Google يتم نقله إلى هنا -->
-  <div id="google_translate_element" class="google"></div>
+  <!-- عنصر الترجمة الخاص بـ Google -->
+  <div id="google_translate_element"></div>
 
-  <!-- سكربت مكتبة Google Translate -->
   <script>
+    // تحميل مكتبة Google Translate
     function loadGoogleTranslate() {
       var script = document.createElement("script");
       script.type = "text/javascript";
@@ -37,19 +28,34 @@
       document.getElementsByTagName("body")[0].appendChild(script);
     }
 
-    // تعريف دالة Google Translate
+    // تهيئة عنصر الترجمة
     function googleTranslateElementInit() {
       new google.translate.TranslateElement(
         {
           pageLanguage: "ar",
           layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
-          autoDisplay: false,
+          autoDisplay: false, // تعطيل العرض التلقائي
         },
         "google_translate_element"
       );
     }
 
-    // استدعاء تحميل مكتبة Google Translate
+    // دالة لتغيير اللغة
+    function translatePage(language) {
+      var frame = document.querySelector("iframe.goog-te-menu-frame");
+      if (frame) {
+        // فتح قائمة Google Translate واختيار اللغة
+        var frameDocument = frame.contentDocument || frame.contentWindow.document;
+        var option = frameDocument.querySelector(`[value="${language}"]`);
+        if (option) {
+          option.click();
+        }
+      } else {
+        alert("Google Translate not loaded yet. Please wait.");
+      }
+    }
+
+    // تحميل مكتبة الترجمة عند تحميل الصفحة
     window.onload = loadGoogleTranslate;
   </script>
 </body>
