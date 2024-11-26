@@ -186,11 +186,13 @@ body {
   display: flex;
   flex-direction: column;
   gap: 3px; /* المسافة بين الأزرار داخل button-container */
-  padding: 25px;
-  width: 100%;
-  margin: auto;
+  padding: 10px; /* قلل الحشو لتقليل المسافة الداخلية */
+  margin: 0; /* إزالة المسافة الخارجية */
+  width: 95%; /* اجعل العرض قريبًا من الحواف */
+  margin: 0 auto; /* حافظ على التمركز الأفقي */
   position: relative; /* تحديد العنصر كموضع نسبي */
 }
+
 #button-container button {
   text-align: left;
   padding: 15px;
