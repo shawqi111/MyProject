@@ -1,4 +1,96 @@
+let originalHTML = ""; // متغير لحفظ النص الأصلي بالتنسيق
+let isTranslated = false; // حالة لمعرفة ما إذا كان النص مترجماً
 
+async function translateText() {
+  const container = document.getElementById("button-container");
+  const languageSelector = document.getElementById("languageSelector");
+  const restoreButton = document.getElementById("restoreButton");
+  const buttons = container.querySelectorAll("button"); // الأزرار
+  const labels = container.querySelectorAll("label:first-child"); // النصوص داخل label:first-child
+
+  const targetLanguage = languageSelector.value;
+
+  // حفظ النص الأصلي فقط عند أول ترجمة
+  if (!isTranslated) {
+    originalHTML = container.innerHTML; // حفظ النص الأصلي بالتنسيقات
+    isTranslated = true; // تحديث الحالة
+  }
+
+  // إذا كانت اللغة المختارة هي اللغة الافتراضية (الأصلية)، قم بإرجاع النص الأصلي
+  if (targetLanguage === "de") {
+    restoreOriginalText();
+    return;
+  }
+
+  // إخفاء قائمة اختيار اللغة وإظهار زر "الرجوع إلى النص الأصلي"
+  languageSelector.style.display = "none";
+  restoreButton.style.display = "inline-block";
+
+  // دالة لترجمة النصوص
+  const translateNode = async (textToTranslate) => {
+    const apiUrl = `https://translate.googleapis.com/translate_a/single?client=gtx&sl=auto&tl=${targetLanguage}&dt=t&q=${encodeURIComponent(
+      textToTranslate
+    )}`;
+    try {
+      const response = await fetch(apiUrl);
+      const result = await response.json();
+      return result[0][0][0]; // النص المترجم
+    } catch (error) {
+      console.error("خطأ أثناء الترجمة:", error);
+      return textToTranslate; // إذا حدث خطأ، أعد النص الأصلي
+    }
+  };
+// ترجمة النصوص داخل `label:first-child`
+for (const label of labels) {
+  const textToTranslate = label.textContent.trim();
+  const translatedText = await translateNode(textToTranslate);
+
+  // تحديث نص الـ label
+  label.textContent = translatedText;
+
+  // إذا كانت اللغة عربية، اجعل النص على اليمين
+  if (targetLanguage === "ar") {
+    label.style.direction = "rtl"; // النص يبدأ من اليمين
+    label.style.textAlign = "right"; // محاذاة النص
+  } else {
+    label.style.direction = "ltr";
+    label.style.textAlign = "left";
+  }
+}
+  // ترجمة النصوص داخل الأزرار
+  for (const button of buttons) {
+    const textToTranslate = button.textContent.trim();
+    const translatedText = await translateNode(textToTranslate);
+
+    // تحديث نص الزر
+    button.textContent = translatedText;
+
+    // إذا كانت اللغة عربية، اجعل النص على اليمين
+    if (targetLanguage === "ar") {
+      button.style.direction = "rtl"; // النص يبدأ من اليمين
+      button.style.textAlign = "right"; // محاذاة النص
+    } else {
+      button.style.direction = "ltr";
+      button.style.textAlign = "left";
+    }
+  }
+
+  
+}
+
+function restoreOriginalText() {
+  const container = document.getElementById("button-container");
+  const languageSelector = document.getElementById("languageSelector");
+  const restoreButton = document.getElementById("restoreButton");
+
+  // استعادة النصوص الأصلية
+  container.innerHTML = originalHTML;
+  isTranslated = false; // إعادة الحالة إلى غير مترجم
+
+  // إظهار قائمة اختيار اللغة وإخفاء زر "الرجوع إلى النص الأصلي"
+  languageSelector.style.display = "inline-block";
+  restoreButton.style.display = "none";
+}
 
 
 
