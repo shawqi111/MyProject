@@ -79,36 +79,21 @@ for (const label of labels) {
 }
 
 
-let originalButtonTexts = [];
-let originalLabelTexts = [];
-
-// حفظ النصوص الأصلية
-function saveOriginalTexts() {
+function restoreOriginalText() {
   const container = document.getElementById("button-container");
-  const buttons = container.querySelectorAll("button");
-  const labels = container.querySelectorAll("label:first-child");
+  const languageSelector = document.getElementById("languageSelector");
+  const restoreButton = document.getElementById("restoreButton");
 
-  originalButtonTexts = Array.from(buttons).map(button => button.textContent);
-  originalLabelTexts = Array.from(labels).map(label => label.textContent);
-}
+  // استعادة النص الأصلي الذي تم حفظه قبل الترجمة
+  container.innerHTML = originalHTML;
+  isTranslated = false; // إعادة الحالة إلى غير مترجم
 
-// استعادة النصوص الأصلية
-function restoreOriginalTexts() {
-  const container = document.getElementById("button-container");
-  const buttons = container.querySelectorAll("button");
-  const labels = container.querySelectorAll("label:first-child");
-
-  buttons.forEach((button, index) => {
-    button.textContent = originalButtonTexts[index];
-  });
-
-  labels.forEach((label, index) => {
-    label.textContent = originalLabelTexts[index];
-  });
-
-  // إظهار قائمة اللغة وإخفاء زر الاستعادة
+  // إظهار قائمة اختيار اللغة وإخفاء زر "الرجوع إلى النص الأصلي"
   languageSelector.style.display = "inline-block";
   restoreButton.style.display = "none";
+
+  // إعادة تعيين الخيار الافتراضي للقائمة المنسدلة
+  languageSelector.value = ""; // ضبط القائمة على الخيار الافتراضي
 }
 
 
