@@ -81,33 +81,22 @@ for (const label of labels) {
 
 function restoreOriginalText() {
   const container = document.getElementById("button-container");
+  container.innerHTML = originalHTML; // استعادة النصوص الأصلية
+  isTranslated = false;
+
+  // إعادة تعيين الأحداث
   const buttons = container.querySelectorAll("button");
-  const labels = container.querySelectorAll("label:first-child");
-
-  // استعادة النصوص الأصلية دون استبدال DOM بالكامل
-  buttons.forEach((button, index) => {
-    button.textContent = originalButtonTexts[index];
-  });
-
-  labels.forEach((label, index) => {
-    label.textContent = originalLabelTexts[index];
-  });
-
-  // إعادة الحالة الأصلية للاتجاه والتنسيق
-  buttons.forEach(button => {
-    button.style.direction = "ltr";
-    button.style.textAlign = "left";
-  });
-
-  labels.forEach(label => {
-    label.style.direction = "ltr";
-    label.style.textAlign = "left";
+  buttons.forEach((button) => {
+    button.addEventListener("click", function() {
+      // وظيفتك هنا
+    });
   });
 
   // إظهار قائمة اللغة وإخفاء زر الاستعادة
   languageSelector.style.display = "inline-block";
   restoreButton.style.display = "none";
 }
+
 
 
 
