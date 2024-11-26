@@ -81,20 +81,34 @@ for (const label of labels) {
 
 function restoreOriginalText() {
   const container = document.getElementById("button-container");
-  const languageSelector = document.getElementById("languageSelector");
-  const restoreButton = document.getElementById("restoreButton");
+  const buttons = container.querySelectorAll("button");
+  const labels = container.querySelectorAll("label:first-child");
 
-  // استعادة النص الأصلي الذي تم حفظه قبل الترجمة
-  container.innerHTML = originalHTML;
-  isTranslated = false; // إعادة الحالة إلى غير مترجم
+  // استعادة النصوص الأصلية دون استبدال DOM بالكامل
+  buttons.forEach((button, index) => {
+    button.textContent = originalButtonTexts[index];
+  });
 
-  // إظهار قائمة اختيار اللغة وإخفاء زر "الرجوع إلى النص الأصلي"
+  labels.forEach((label, index) => {
+    label.textContent = originalLabelTexts[index];
+  });
+
+  // إعادة الحالة الأصلية للاتجاه والتنسيق
+  buttons.forEach(button => {
+    button.style.direction = "ltr";
+    button.style.textAlign = "left";
+  });
+
+  labels.forEach(label => {
+    label.style.direction = "ltr";
+    label.style.textAlign = "left";
+  });
+
+  // إظهار قائمة اللغة وإخفاء زر الاستعادة
   languageSelector.style.display = "inline-block";
   restoreButton.style.display = "none";
-
-  // إعادة تعيين الخيار الافتراضي للقائمة المنسدلة
-  languageSelector.value = ""; // ضبط القائمة على الخيار الافتراضي
 }
+
 
 
 
