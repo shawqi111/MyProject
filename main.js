@@ -131,31 +131,31 @@ function FarbeinTable() {
 
   if (!isFunctionCalled) {
     let url;
-    if (value === 14) {
+    if (value === 1) {
       url = "eins203.csv";
-    } else if (value === 15) {
+    } else if (value === 2) {
       url = "Zwei204.csv";
-    } else if (value === 16) {
+    } else if (value === 3) {
       url = "Drei211.csv";
-    } else if (value === 17) {
+    } else if (value === 4) {
       url = "vier213.csv";
-    } else if (value === 18) {
+    } else if (value === 5) {
       url = "funf217.csv";
-    } else if (value === 19) {
+    } else if (value === 6) {
       url = "sechs219.csv";
-    } else if (value === 20) {
+    } else if (value === 7) {
       url = "sieben221.csv";
-    } else if (value === 21) {
+    } else if (value === 8) {
       url = "MP18.csv";
-    } else if (value === 22) {
+    } else if (value === 9) {
       url = "Prüfung 1.csv";
-    } else if (value === 23) {
+    } else if (value === 10) {
       url = "Prüfung 2.csv";
-    } else if (value === 24) {
+    } else if (value === 11) {
       url = "Prüfung 3.csv";
-    } else if (value === 25) {
+    } else if (value === 12) {
       url = "Pr4.csv";
-    } else if (value === 26) {
+    } else if (value === 13) {
       url = "Pr5.csv";
     } else {
       url = "eins203.csv";
@@ -191,7 +191,6 @@ function FarbeinTable() {
                 "Prüfung abgeben"
               ) {
                 Shawqi();
-                restoreOriginalText();
               }
 
               currentRow = i + 1; // تحديث الصف الحالي
@@ -318,31 +317,31 @@ const urlParams = new URLSearchParams(window.location.search);
 const value = parseInt(urlParams.get("value"));
 
 let url;
-if (value === 14) {
+if (value === 1) {
   url = "Lösung203.csv";
-} else if (value === 15) {
+} else if (value === 2) {
   url = "lösung204.csv";
-} else if (value === 16) {
+} else if (value === 3) {
   url = "Lösung211.csv";
-} else if (value === 17) {
+} else if (value === 4) {
   url = "Lösung213.csv";
-} else if (value === 18) {
+} else if (value === 5) {
   url = "Lösung217.csv";
-} else if (value === 19) {
+} else if (value === 6) {
   url = "Lösung219.csv";
-} else if (value === 20) {
+} else if (value === 7) {
   url = "Lösung221.csv";
-} else if (value === 21) {
+} else if (value === 8) {
   url = "MPLös18.csv";
-} else if (value === 22) {
+} else if (value === 9) {
   url = "LösungPr1.csv";
-} else if (value === 23) {
+} else if (value === 10) {
   url = "LösungPr2.csv";
-} else if (value === 24) {
+} else if (value === 11) {
   url = "LösungPr3.csv";
-} else if (value === 25) {
+} else if (value === 12) {
   url = "LösungPr4.csv";
-} else if (value === 26) {
+} else if (value === 13) {
   url = "LösungPr5.csv";
 } else {
   url = "Lösung203.csv";
@@ -368,31 +367,31 @@ function displayRow(rowNumber) {
   const urlParams = new URLSearchParams(window.location.search);
   const value = parseInt(urlParams.get("value"));
   let url;
-  if (value === 14) {
+  if (value === 1) {
     url = "eins203.csv";
-  } else if (value === 15) {
+  } else if (value === 2) {
     url = "Zwei204.csv";
-  } else if (value === 16) {
+  } else if (value === 3) {
     url = "Drei211.csv";
-  } else if (value === 17) {
+  } else if (value === 4) {
     url = "vier213.csv";
-  } else if (value === 18) {
+  } else if (value === 5) {
     url = "funf217.csv";
-  } else if (value === 19) {
+  } else if (value === 6) {
     url = "sechs219.csv";
-  } else if (value === 20) {
+  } else if (value === 7) {
     url = "sieben221.csv";
-  } else if (value === 21) {
+  } else if (value === 8) {
     url = "MP18.csv";
-  } else if (value === 22) {
+  } else if (value === 9) {
     url = "Prüfung 1.csv";
-  } else if (value === 23) {
+  } else if (value === 10) {
     url = "Prüfung 2.csv";
-  } else if (value === 24) {
+  } else if (value === 11) {
     url = "Prüfung 3.csv";
-  } else if (value === 25) {
+  } else if (value === 12) {
     url = "Pr4.csv";
-  } else if (value === 26) {
+  } else if (value === 13) {
     url = "Pr5.csv";
   } else {
     url = "eins203.csv";
@@ -727,7 +726,6 @@ displayRow(currentRow);
 
 document.getElementById("next").addEventListener("click", () => {
   Shawqi();
-  restoreOriginalText();
   const labelIndex = parseInt(
     document.getElementById("labelIndex").textContent
   );
@@ -740,7 +738,6 @@ document.getElementById("next").addEventListener("click", () => {
 
 document.getElementById("back").addEventListener("click", () => {
   Shawqi();
-  restoreOriginalText();
   // التأكد من أن الصف الحالي أكبر من 1 قبل الانتقال للخلف
 
   const labelIndex = parseInt(
@@ -1648,13 +1645,12 @@ function iconeHeder() {
     if (!tableContainer.contains(event.target) && event.target !== icone) {
       tableContainer.classList.remove("tableAdd"); // إزالة الكلاس
     }
-    if (tableContainer.contains(event.target) && event.target !== icone) {
-      tableContainer.classList.remove("tableAdd"); // إزالة الكلاس
-    }
   });
 }
 
 iconeHeder();
+
+
 
 // إضافة خاصية التمرير إلى الأعلى لزر "Weiter"
 document.getElementById('next').addEventListener('click', function() {
