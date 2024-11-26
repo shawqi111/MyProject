@@ -1,4 +1,3 @@
-
 let originalHTML = ""; // متغير لحفظ النص الأصلي بالتنسيق
 let isTranslated = false; // حالة لمعرفة ما إذا كان النص مترجماً
 
@@ -101,7 +100,6 @@ function restoreOriginalText() {
 
 
 
-
 var tableContainer = document.querySelector(".table-container");
 var body = document.body;
 
@@ -113,31 +111,31 @@ function FarbeinTable() {
 
   if (!isFunctionCalled) {
     let url;
-    if (value === 1) {
+    if (value === 14) {
       url = "eins203.csv";
-    } else if (value === 2) {
+    } else if (value === 15) {
       url = "Zwei204.csv";
-    } else if (value === 3) {
+    } else if (value === 16) {
       url = "Drei211.csv";
-    } else if (value === 4) {
+    } else if (value === 17) {
       url = "vier213.csv";
-    } else if (value === 5) {
+    } else if (value === 18) {
       url = "funf217.csv";
-    } else if (value === 6) {
+    } else if (value === 19) {
       url = "sechs219.csv";
-    } else if (value === 7) {
+    } else if (value === 20) {
       url = "sieben221.csv";
-    } else if (value === 8) {
+    } else if (value === 21) {
       url = "MP18.csv";
-    } else if (value === 9) {
+    } else if (value === 22) {
       url = "Prüfung 1.csv";
-    } else if (value === 10) {
+    } else if (value === 23) {
       url = "Prüfung 2.csv";
-    } else if (value === 11) {
+    } else if (value === 24) {
       url = "Prüfung 3.csv";
-    } else if (value === 12) {
+    } else if (value === 25) {
       url = "Pr4.csv";
-    } else if (value === 13) {
+    } else if (value === 26) {
       url = "Pr5.csv";
     } else {
       url = "eins203.csv";
@@ -173,6 +171,7 @@ function FarbeinTable() {
                 "Prüfung abgeben"
               ) {
                 Shawqi();
+                restoreOriginalText();
               }
 
               currentRow = i + 1; // تحديث الصف الحالي
@@ -299,31 +298,31 @@ const urlParams = new URLSearchParams(window.location.search);
 const value = parseInt(urlParams.get("value"));
 
 let url;
-if (value === 1) {
+if (value === 14) {
   url = "Lösung203.csv";
-} else if (value === 2) {
+} else if (value === 15) {
   url = "lösung204.csv";
-} else if (value === 3) {
+} else if (value === 16) {
   url = "Lösung211.csv";
-} else if (value === 4) {
+} else if (value === 17) {
   url = "Lösung213.csv";
-} else if (value === 5) {
+} else if (value === 18) {
   url = "Lösung217.csv";
-} else if (value === 6) {
+} else if (value === 19) {
   url = "Lösung219.csv";
-} else if (value === 7) {
+} else if (value === 20) {
   url = "Lösung221.csv";
-} else if (value === 8) {
+} else if (value === 21) {
   url = "MPLös18.csv";
-} else if (value === 9) {
+} else if (value === 22) {
   url = "LösungPr1.csv";
-} else if (value === 10) {
+} else if (value === 23) {
   url = "LösungPr2.csv";
-} else if (value === 11) {
+} else if (value === 23) {
   url = "LösungPr3.csv";
-} else if (value === 12) {
+} else if (value === 24) {
   url = "LösungPr4.csv";
-} else if (value === 13) {
+} else if (value === 25) {
   url = "LösungPr5.csv";
 } else {
   url = "Lösung203.csv";
@@ -349,31 +348,31 @@ function displayRow(rowNumber) {
   const urlParams = new URLSearchParams(window.location.search);
   const value = parseInt(urlParams.get("value"));
   let url;
-  if (value === 1) {
+  if (value === 14) {
     url = "eins203.csv";
-  } else if (value === 2) {
+  } else if (value === 15) {
     url = "Zwei204.csv";
-  } else if (value === 3) {
+  } else if (value === 16) {
     url = "Drei211.csv";
-  } else if (value === 4) {
+  } else if (value === 17) {
     url = "vier213.csv";
-  } else if (value === 5) {
+  } else if (value === 18) {
     url = "funf217.csv";
-  } else if (value === 6) {
+  } else if (value === 19) {
     url = "sechs219.csv";
-  } else if (value === 7) {
+  } else if (value === 20) {
     url = "sieben221.csv";
-  } else if (value === 8) {
+  } else if (value === 21) {
     url = "MP18.csv";
-  } else if (value === 9) {
+  } else if (value === 22) {
     url = "Prüfung 1.csv";
-  } else if (value === 10) {
+  } else if (value === 23) {
     url = "Prüfung 2.csv";
-  } else if (value === 11) {
+  } else if (value === 24) {
     url = "Prüfung 3.csv";
-  } else if (value === 12) {
+  } else if (value === 25) {
     url = "Pr4.csv";
-  } else if (value === 13) {
+  } else if (value === 26) {
     url = "Pr5.csv";
   } else {
     url = "eins203.csv";
@@ -708,6 +707,7 @@ displayRow(currentRow);
 
 document.getElementById("next").addEventListener("click", () => {
   Shawqi();
+  restoreOriginalText();
   const labelIndex = parseInt(
     document.getElementById("labelIndex").textContent
   );
@@ -720,6 +720,8 @@ document.getElementById("next").addEventListener("click", () => {
 
 document.getElementById("back").addEventListener("click", () => {
   Shawqi();
+  restoreOriginalText();
+
   // التأكد من أن الصف الحالي أكبر من 1 قبل الانتقال للخلف
 
   const labelIndex = parseInt(
@@ -1650,6 +1652,28 @@ document.getElementById('back').addEventListener('click', function() {
   });
 });
 
+function iconeHeder() {
+  const icone = document.querySelector(".icon");
+  const tableContainer = document.querySelector(".table-container");
+
+  // إضافة مستمع الحدث عند النقر على الأيقونة
+  icone.addEventListener("click", function (event) {
+    event.stopPropagation(); // منع الحدث من الانتقال إلى العناصر الأب
+    tableContainer.classList.toggle("tableAdd");
+  });
+
+  // إضافة مستمع الحدث للنقر على النافذة
+  window.addEventListener("click", function (event) {
+    // التحقق إذا كان النقر ليس داخل الـ tableContainer أو الأيقونة
+    if (!tableContainer.contains(event.target) && event.target !== icone) {
+      tableContainer.classList.remove("tableAdd"); // إزالة الكلاس
+    }
+      if (tableContainer.contains(event.target) && event.target !== icone) {
+        tableContainer.classList.remove("tableAdd"); // إزالة الكلاس
+      }
+    
+  });
+}
 
 
 
