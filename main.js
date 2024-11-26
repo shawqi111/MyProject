@@ -97,51 +97,115 @@ async function translateText() {
 
   for (let i = 0; i < labels.length; i++) {
     const translatedText = await translateNode(labels[i].textContent.trim());
-    labels[i].textContent = translatedText;
+let originalTexts = []; // لتخزين النصوص الأصلية بالتنسيق
+let isTranslated = false; // لمعرفة ما إذا كان النص مترجماً
 
+async function translateText() {
+  const container = document.getElementById("button-container");
+  const languageSelector = document.getElementById("languageSelector");
+  const restoreButton = document.getElementById("restoreButton");
+  const buttons = container.querySelectorAll("button"); // الأزرار
+  const labels = container.querySelectorAll("label:first-child"); // النصوص داخل label:first-child
+
+  const targetLanguage = languageSelector.value;
+
+  // حفظ النصوص الأصلية فقط عند أول ترجمة
+  if (!isTranslated) {
+    originalTexts = {
+      labels: Array.from(labels).map((label) => label.textContent),
+      buttons: Array.from(buttons).map((button) => button.textContent),
+    };
+    isTranslated = true; // تحديث الحالة
+  }
+
+  // إذا كانت اللغة المختارة هي اللغة الافتراضية (الأصلية)، قم بإرجاع النصوص الأصلية
+  if (targetLanguage === "de") {
+    restoreOriginalText(labels, buttons);
+    return;
+  }
+
+  // إخفاء قائمة اختيار اللغة وإظهار زر "الرجوع إلى النص الأصلي"
+  languageSelector.style.display = "none";
+  restoreButton.style.display = "inline-block";
+
+  // دالة لترجمة النصوص
+  const translateNode = async (textToTranslate) => {
+    const apiUrl = `https://translate.googleapis.com/translate_a/single?client=gtx&sl=auto&tl=${targetLanguage}&dt=t&q=${encodeURIComponent(
+      textToTranslate
+    )}`;
+    try {
+      const response = await fetch(apiUrl);
+      const result = await response.json();
+      return result[0][0][0]; // النص المترجم
+    } catch (error) {
+      console.error("خطأ أثناء الترجمة:", error);
+      return textToTranslate; // إذا حدث خطأ، أعد النص الأصلي
+    }
+  };
+
+  // ترجمة النصوص داخل `label:first-child`
+  for (const label of labels) {
+    const textToTranslate = label.textContent.trim();
+    const translatedText = await translateNode(textToTranslate);
+
+    // تحديث نص الـ label
+    label.textContent = translatedText;
+
+    // إذا كانت اللغة عربية، اجعل النص على اليمين
     if (targetLanguage === "ar") {
-      labels[i].style.direction = "rtl";
-      labels[i].style.textAlign = "right";
+      label.style.direction = "rtl"; // النص يبدأ من اليمين
+      label.style.textAlign = "right"; // محاذاة النص
     } else {
-      labels[i].style.direction = "ltr";
-      labels[i].style.textAlign = "left";
+      label.style.direction = "ltr";
+      label.style.textAlign = "left";
     }
   }
 
-  for (let i = 0; i < buttons.length; i++) {
-    const translatedText = await translateNode(buttons[i].textContent.trim());
-    buttons[i].textContent = translatedText;
+  // ترجمة النصوص داخل الأزرار
+  for (const button of buttons) {
+    const textToTranslate = button.textContent.trim();
+    const translatedText = await translateNode(textToTranslate);
 
+    // تحديث نص الزر
+    button.textContent = translatedText;
+
+    // إذا كانت اللغة عربية، اجعل النص على اليمين
     if (targetLanguage === "ar") {
-      buttons[i].style.direction = "rtl";
-      buttons[i].style.textAlign = "right";
+      button.style.direction = "rtl"; // النص يبدأ من اليمين
+      button.style.textAlign = "right"; // محاذاة النص
     } else {
-      buttons[i].style.direction = "ltr";
-      buttons[i].style.textAlign = "left";
+      button.style.direction = "ltr";
+      button.style.textAlign = "left";
     }
   }
 }
 
 function restoreOriginalText(labels, buttons) {
-  for (let i = 0; i < labels.length; i++) {
-    labels[i].textContent = originalTexts[i];
-    labels[i].style.direction = "ltr";
-    labels[i].style.textAlign = "left";
-  }
-
-  for (let i = 0; i < buttons.length; i++) {
-    buttons[i].textContent = originalTexts[labels.length + i];
-    buttons[i].style.direction = "ltr";
-    buttons[i].style.textAlign = "left";
-  }
-
   const languageSelector = document.getElementById("languageSelector");
   const restoreButton = document.getElementById("restoreButton");
+
+  // استعادة النصوص الأصلية لكل عنصر
+  labels.forEach((label, index) => {
+    label.textContent = originalTexts.labels[index];
+    label.style.direction = "ltr"; // إعادة الاتجاه إلى الافتراضي
+    label.style.textAlign = "left";
+  });
+
+  buttons.forEach((button, index) => {
+    button.textContent = originalTexts.buttons[index];
+    button.style.direction = "ltr"; // إعادة الاتجاه إلى الافتراضي
+    button.style.textAlign = "left";
+  });
+
+  // إعادة تعيين الواجهة
   languageSelector.style.display = "inline-block";
   restoreButton.style.display = "none";
+
+  // إعادة تعيين الخيار الافتراضي للقائمة المنسدلة
   languageSelector.value = ""; // ضبط القائمة على الخيار الافتراضي
   isTranslated = false; // إعادة الحالة إلى غير مترجم
 }
+
 
 
 
