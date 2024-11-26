@@ -79,23 +79,38 @@ for (const label of labels) {
 }
 
 
-function restoreOriginalText() {
-  const container = document.getElementById("button-container");
-  container.innerHTML = originalHTML; // استعادة النصوص الأصلية
-  isTranslated = false;
+let originalButtonTexts = [];
+let originalLabelTexts = [];
 
-  // إعادة تعيين الأحداث
+// حفظ النصوص الأصلية
+function saveOriginalTexts() {
+  const container = document.getElementById("button-container");
   const buttons = container.querySelectorAll("button");
-  buttons.forEach((button) => {
-    button.addEventListener("click", function() {
-      // وظيفتك هنا
-    });
+  const labels = container.querySelectorAll("label:first-child");
+
+  originalButtonTexts = Array.from(buttons).map(button => button.textContent);
+  originalLabelTexts = Array.from(labels).map(label => label.textContent);
+}
+
+// استعادة النصوص الأصلية
+function restoreOriginalTexts() {
+  const container = document.getElementById("button-container");
+  const buttons = container.querySelectorAll("button");
+  const labels = container.querySelectorAll("label:first-child");
+
+  buttons.forEach((button, index) => {
+    button.textContent = originalButtonTexts[index];
+  });
+
+  labels.forEach((label, index) => {
+    label.textContent = originalLabelTexts[index];
   });
 
   // إظهار قائمة اللغة وإخفاء زر الاستعادة
   languageSelector.style.display = "inline-block";
   restoreButton.style.display = "none";
 }
+
 
 
 
