@@ -78,26 +78,6 @@ for (const label of labels) {
   
 }
 
-function restoreOriginalText() {
-  const container = document.getElementById("button-container");
-  const languageSelector = document.getElementById("languageSelector");
-  const restoreButton = document.getElementById("restoreButton");
-
-  // استعادة النصوص الأصلية
-  container.innerHTML = originalHTML;
-  isTranslated = false; // إعادة الحالة إلى غير مترجم
-
-  // إظهار قائمة اختيار اللغة وإخفاء زر "الرجوع إلى النص الأصلي"
-  languageSelector.style.display = "inline-block";
-  restoreButton.style.display = "none";
-}
-
-
-
-
-
-
-
 
 function restoreOriginalText() {
   const container = document.getElementById("button-container");
@@ -115,6 +95,7 @@ function restoreOriginalText() {
   // إعادة تعيين الخيار الافتراضي للقائمة المنسدلة
   languageSelector.value = ""; // ضبط القائمة على الخيار الافتراضي
 }
+
 
 
 
