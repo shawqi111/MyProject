@@ -84,17 +84,19 @@ function restoreOriginalText() {
   const languageSelector = document.getElementById("languageSelector");
   const restoreButton = document.getElementById("restoreButton");
 
-  // استعادة النص الأصلي الذي تم حفظه قبل الترجمة
-  container.innerHTML = originalHTML;
-  isTranslated = false; // إعادة الحالة إلى غير مترجم
+  // إعادة تحميل النصوص من المصدر استنادًا إلى الفهرس الحالي
+  displayRow(currentRow); // أو استخدم updatePageElements(currentRow)
 
-  // إظهار قائمة اختيار اللغة وإخفاء زر "الرجوع إلى النص الأصلي"
+  // تحديث الحالة لإظهار قائمة اختيار اللغة وإخفاء زر "الرجوع إلى النص الأصلي"
+  isTranslated = false; // إعادة الحالة إلى غير مترجم
   languageSelector.style.display = "inline-block";
   restoreButton.style.display = "none";
 
   // إعادة تعيين الخيار الافتراضي للقائمة المنسدلة
   languageSelector.value = ""; // ضبط القائمة على الخيار الافتراضي
 }
+
+
 
 
 
