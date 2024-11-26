@@ -55,46 +55,94 @@ for (const label of labels) {
   } else {
     label.style.direction = "ltr";
     label.style.textAlign = "left";
-  }
-}
-  // ترجمة النصوص داخل الأزرار
-  for (const button of buttons) {
-    const textToTranslate = button.textContent.trim();
-    const translatedText = await translateNode(textToTranslate);
+let originalTexts = []; // تخزين النصوص الأصلية
 
-    // تحديث نص الزر
-    button.textContent = translatedText;
-
-    // إذا كانت اللغة عربية، اجعل النص على اليمين
-    if (targetLanguage === "ar") {
-      button.style.direction = "rtl"; // النص يبدأ من اليمين
-      button.style.textAlign = "right"; // محاذاة النص
-    } else {
-      button.style.direction = "ltr";
-      button.style.textAlign = "left";
-    }
-  }
-
-  
-}
-
-
-function restoreOriginalText() {
+async function translateText() {
   const container = document.getElementById("button-container");
   const languageSelector = document.getElementById("languageSelector");
   const restoreButton = document.getElementById("restoreButton");
+  const buttons = container.querySelectorAll("button"); // الأزرار
+  const labels = container.querySelectorAll("label:first-child"); // النصوص داخل label:first-child
+  const targetLanguage = languageSelector.value;
 
-  // استعادة النص الأصلي الذي تم حفظه قبل الترجمة
-  container.innerHTML = originalHTML;
-  isTranslated = false; // إعادة الحالة إلى غير مترجم
+  // حفظ النصوص الأصلية فقط عند أول ترجمة
+  if (!isTranslated) {
+    originalTexts = []; // تفريغ النصوص الأصلية
+    labels.forEach((label) => originalTexts.push(label.textContent.trim()));
+    buttons.forEach((button) => originalTexts.push(button.textContent.trim()));
+    isTranslated = true; // تحديث الحالة
+  }
 
-  // إظهار قائمة اختيار اللغة وإخفاء زر "الرجوع إلى النص الأصلي"
+  if (targetLanguage === "de") {
+    restoreOriginalText(labels, buttons);
+    return;
+  }
+
+  languageSelector.style.display = "none";
+  restoreButton.style.display = "inline-block";
+
+  const translateNode = async (textToTranslate) => {
+    const apiUrl = `https://translate.googleapis.com/translate_a/single?client=gtx&sl=auto&tl=${targetLanguage}&dt=t&q=${encodeURIComponent(
+      textToTranslate
+    )}`;
+    try {
+      const response = await fetch(apiUrl);
+      const result = await response.json();
+      return result[0][0][0];
+    } catch (error) {
+      console.error("خطأ أثناء الترجمة:", error);
+      return textToTranslate;
+    }
+  };
+
+  for (let i = 0; i < labels.length; i++) {
+    const translatedText = await translateNode(labels[i].textContent.trim());
+    labels[i].textContent = translatedText;
+
+    if (targetLanguage === "ar") {
+      labels[i].style.direction = "rtl";
+      labels[i].style.textAlign = "right";
+    } else {
+      labels[i].style.direction = "ltr";
+      labels[i].style.textAlign = "left";
+    }
+  }
+
+  for (let i = 0; i < buttons.length; i++) {
+    const translatedText = await translateNode(buttons[i].textContent.trim());
+    buttons[i].textContent = translatedText;
+
+    if (targetLanguage === "ar") {
+      buttons[i].style.direction = "rtl";
+      buttons[i].style.textAlign = "right";
+    } else {
+      buttons[i].style.direction = "ltr";
+      buttons[i].style.textAlign = "left";
+    }
+  }
+}
+
+function restoreOriginalText(labels, buttons) {
+  for (let i = 0; i < labels.length; i++) {
+    labels[i].textContent = originalTexts[i];
+    labels[i].style.direction = "ltr";
+    labels[i].style.textAlign = "left";
+  }
+
+  for (let i = 0; i < buttons.length; i++) {
+    buttons[i].textContent = originalTexts[labels.length + i];
+    buttons[i].style.direction = "ltr";
+    buttons[i].style.textAlign = "left";
+  }
+
+  const languageSelector = document.getElementById("languageSelector");
+  const restoreButton = document.getElementById("restoreButton");
   languageSelector.style.display = "inline-block";
   restoreButton.style.display = "none";
-
-  // إعادة تعيين الخيار الافتراضي للقائمة المنسدلة
   languageSelector.value = ""; // ضبط القائمة على الخيار الافتراضي
+  isTranslated = false; // إعادة الحالة إلى غير مترجم
 }
+
 
 
 
