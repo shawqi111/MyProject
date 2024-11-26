@@ -25,8 +25,24 @@
     </header>
     <div class="list-left">
         <div class="continar ">
-            <div id="google_translate_element" class="google"></div>
-            <div class="label">
+ <div id="control-panel">
+            
+            <select id="languageSelector" class="language-selector" onchange="translateText()">
+                <option value="">-- Sprache auswählen --</option>
+                <option value="ar">Arabisch</option> <!-- العربية -->
+    <option value="en">Englisch</option> <!-- الإنجليزية -->
+    <option value="it">Italienisch</option> <!-- الإيطالية -->
+    <option value="ru">Russisch</option> <!-- الروسية -->
+    <option value="pt">Portugiesisch</option> <!-- البرتغالية -->
+    <option value="fa">Persisch</option> <!-- الفارسية -->
+    <option value="ps">Paschtu</option> <!-- الأفغانية (بشتو) -->
+    <option value="af">Afrikaans</option> <!-- الأفريقية -->
+    <option value="pl">Polnisch</option> <!-- البولندية -->
+              </select>
+              <button class="restoreButton" id="restoreButton" onclick="restoreOriginalText()" style="display: none;">
+                Deutsch
+              </button>
+            </div>            <div class="label">
                 <label id="Punkte" class="translate-exclude">Punkte</label>
             </div>
         </div>
