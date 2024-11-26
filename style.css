@@ -10,6 +10,19 @@
   touch-action: manipulation;
 }
 
+.language-selector {
+  margin: 2px;
+  font-size: 13px;
+  padding: 2px;
+}
+.restoreButton {
+  margin: 2px;
+  font-size: 13px;
+  padding: 2px;
+  color: #ffffff;
+
+}
+
 button {
   cursor: pointer;
   touch-action: manipulation;
@@ -19,7 +32,7 @@ button {
   user-select: none;
   -webkit-appearance: none;
   background-color: #007bff;
-  color: rgb(0, 0, 0);
+  color: rgb(50, 42, 42);
   border: none;
   outline: none;
   padding: 12px;
@@ -36,7 +49,7 @@ button {
 /* Continar */
 .continar {
   max-width: 1600px; /* الحد الأقصى لعرض الحاوية */
-  padding: 10px;
+  padding: 5px;
   margin-left: auto;
   margin-right: auto;
   display: flex;
@@ -138,6 +151,7 @@ body {
   font-weight: bold;
   font-size: 15px;
   color: #2e3b4e !important;
+  padding: 4px;
 }
 .table-container {
   position: fixed;
@@ -161,15 +175,17 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin: auto; /* توسيط أفقي */
+  margin: -1%; /* توسيط أفقي */
   margin-top: -40px;
   font-size: 15px;
+  
+  
 }
 
 #button-container {
   display: flex;
   flex-direction: column;
-  gap: 4px; /* المسافة بين الأزرار داخل button-container */
+  gap: 3px; /* المسافة بين الأزرار داخل button-container */
   padding: 25px;
   width: 100%;
   margin: auto;
@@ -186,6 +202,8 @@ body {
   color: #ffffff;
   font-size: 16px;
   height: 150%;
+  font-weight: bold;
+
 }
 
 #button-container button:hover {
@@ -376,7 +394,7 @@ table {
   cursor: pointer;
   outline: none;
   border: none;
-
+  
 
 }
 #next:hover {
@@ -396,7 +414,7 @@ table {
   cursor: pointer;
   outline: none;
   border: none;
- 
+  
  
 }
 #back:hover {
@@ -416,7 +434,7 @@ table {
   cursor: pointer;
   outline: none;
   border: none;
- 
+  
  
 }
 
