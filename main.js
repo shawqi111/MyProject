@@ -1,33 +1,6 @@
 
-let originalHTML = ""; // متغير لحفظ النص الأصلي بالتنسيق
-let isTranslated = false; // حالة لمعرفة ما إذا كان النص مترجماً
-
-async function translateText() {
-  const container = document.getElementById("button-container");
-  const languageSelector = document.getElementById("languageSelector");
-  const restoreButton = document.getElementById("restoreButton");
-  const buttons = container.querySelectorAll("button"); // الأزرار
-  const labels = container.querySelectorAll("label:first-child"); // النصوص داخل label:first-child
-
-  const targetLanguage = languageSelector.value;
-
-  // حفظ النص الأصلي فقط عند أول ترجمة
-  if (!isTranslated) {
-    originalHTML = container.innerHTML; // حفظ النص الأصلي بالتنسيقات
-    isTranslated = true; // تحديث الحالة
-  }
-
-  // إذا كانت اللغة المختارة هي اللغة الافتراضية (الأصلية)، قم بإرجاع النص الأصلي
-  if (targetLanguage === "de") {
-    restoreOriginalText();
-    return;
-  }
-
-  // إخفاء قائمة اختيار اللغة وإظهار زر "الرجوع إلى النص الأصلي"
-  languageSelector.style.display = "none";
-  restoreButton.style.display = "inline-block";
-
-  // دالة لترجمة النصوص
+// ترجمة النصوص داخل `label:first-child` وعناصر الأزرار
+async function translateElements(labels, buttons, targetLanguage) {
   const translateNode = async (textToTranslate) => {
     const apiUrl = `https://translate.googleapis.com/translate_a/single?client=gtx&sl=auto&tl=${targetLanguage}&dt=t&q=${encodeURIComponent(
       textToTranslate
@@ -35,7 +8,7 @@ async function translateText() {
     try {
       const response = await fetch(apiUrl);
       const result = await response.json();
-      return result[0][0][0]; // النص المترجم
+      return result[0]?.[0]?.[0] || textToTranslate; // النص المترجم أو النص الأصلي عند الخطأ
     } catch (error) {
       console.error("خطأ أثناء الترجمة:", error);
       return textToTranslate; // إذا حدث خطأ، أعد النص الأصلي
@@ -50,14 +23,9 @@ async function translateText() {
     // تحديث نص الـ label
     label.textContent = translatedText;
 
-    // إذا كانت اللغة عربية، اجعل النص على اليمين
-    if (targetLanguage === "ar") {
-      label.style.direction = "rtl"; // النص يبدأ من اليمين
-      label.style.textAlign = "right"; // محاذاة النص
-    } else {
-      label.style.direction = "ltr";
-      label.style.textAlign = "left";
-    }
+    // ضبط الاتجاه للنصوص إذا كانت اللغة عربية
+    label.style.direction = targetLanguage === "ar" ? "rtl" : "ltr";
+    label.style.textAlign = targetLanguage === "ar" ? "right" : "left";
   }
 
   // ترجمة النصوص داخل الأزرار
@@ -68,24 +36,20 @@ async function translateText() {
     // تحديث نص الزر
     button.textContent = translatedText;
 
-    // إذا كانت اللغة عربية، اجعل النص على اليمين
-    if (targetLanguage === "ar") {
-      button.style.direction = "rtl"; // النص يبدأ من اليمين
-      button.style.textAlign = "right"; // محاذاة النص
-    } else {
-      button.style.direction = "ltr";
-      button.style.textAlign = "left";
-    }
+    // ضبط الاتجاه للنصوص إذا كانت اللغة عربية
+    button.style.direction = targetLanguage === "ar" ? "rtl" : "ltr";
+    button.style.textAlign = targetLanguage === "ar" ? "right" : "left";
   }
 }
 
+// وظيفة استعادة النصوص الأصلية
 function restoreOriginalText() {
   const container = document.getElementById("button-container");
   const languageSelector = document.getElementById("languageSelector");
   const restoreButton = document.getElementById("restoreButton");
 
-  // إعادة تحميل النصوص من المصدر استنادًا إلى الفهرس الحالي
-  displayRow(currentRow); // أو استخدم updatePageElements(currentRow)
+  // إعادة تحميل النصوص من المصدر بناءً على الفهرس الحالي
+  displayRow(currentRow); // استعادة النصوص الأصلية بناءً على الفهرس
 
   // تحديث الحالة لإظهار قائمة اختيار اللغة وإخفاء زر "الرجوع إلى النص الأصلي"
   isTranslated = false; // إعادة الحالة إلى غير مترجم
@@ -93,9 +57,8 @@ function restoreOriginalText() {
   restoreButton.style.display = "none";
 
   // إعادة تعيين الخيار الافتراضي للقائمة المنسدلة
-  languageSelector.value = ""; // ضبط القائمة على الخيار الافتراضي
+  languageSelector.value = ""; // إعادة ضبط القائمة على الخيار الافتراضي
 }
-
 
 
 
