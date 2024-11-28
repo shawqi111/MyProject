@@ -1,4 +1,3 @@
-
 let originalHTML = ""; // متغير لحفظ النص الأصلي بالتنسيق
 let isTranslated = false; // حالة لمعرفة ما إذا كان النص مترجماً
 
@@ -27,10 +26,16 @@ async function translateText() {
   languageSelector.style.display = "none";
   restoreButton.style.display = "inline-block";
 
+  // دالة لتنظيف النصوص من النقاط مع الفراغات والفراغات الزائدة
+  const cleanText = (text) => {
+    return text.replace(/\. /g, ".").replace(/\s+/g, " ").trim();
+  };
+
   // دالة لترجمة النصوص
   const translateNode = async (textToTranslate) => {
+    const cleanedText = cleanText(textToTranslate); // تنظيف النص قبل الترجمة
     const apiUrl = `https://translate.googleapis.com/translate_a/single?client=gtx&sl=auto&tl=${targetLanguage}&dt=t&q=${encodeURIComponent(
-      textToTranslate
+      cleanedText
     )}`;
     try {
       const response = await fetch(apiUrl);
@@ -85,7 +90,7 @@ function restoreOriginalText() {
   const restoreButton = document.getElementById("restoreButton");
 
   // إعادة تحميل النصوص من المصدر استنادًا إلى الفهرس الحالي
-  container.innerHTML = originalHTML;
+  displayRow(currentRow); // أو استخدم updatePageElements(currentRow)
 
   // تحديث الحالة لإظهار قائمة اختيار اللغة وإخفاء زر "الرجوع إلى النص الأصلي"
   isTranslated = false; // إعادة الحالة إلى غير مترجم
@@ -95,7 +100,6 @@ function restoreOriginalText() {
   // إعادة تعيين الخيار الافتراضي للقائمة المنسدلة
   languageSelector.value = ""; // ضبط القائمة على الخيار الافتراضي
 }
-
 
 var tableContainer = document.querySelector(".table-container");
 var body = document.body;
