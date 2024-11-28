@@ -1,5 +1,3 @@
-
-// ترجمة النصوص داخل `label:first-child` وعناصر الأزرار
 async function translateElements(labels, buttons, targetLanguage) {
   const translateNode = async (textToTranslate) => {
     const apiUrl = `https://translate.googleapis.com/translate_a/single?client=gtx&sl=auto&tl=${targetLanguage}&dt=t&q=${encodeURIComponent(
@@ -9,11 +7,15 @@ async function translateElements(labels, buttons, targetLanguage) {
       const response = await fetch(apiUrl);
       const result = await response.json();
 
-      // دمج النصوص المترجمة عند وجود تقسيم بسبب النقاط
-      return result[0].map((item) => item[0]).join("") || textToTranslate;
+      // معالجة الاستجابة لتجنب مشاكل النقاط
+      if (result && result[0]) {
+        return result[0].map((segment) => segment[0]).join(" "); // دمج النصوص المترجمة بفراغ
+      } else {
+        return textToTranslate; // إذا لم تكن الاستجابة صحيحة
+      }
     } catch (error) {
       console.error("خطأ أثناء الترجمة:", error);
-      return textToTranslate; // في حال وجود خطأ، أعد النص الأصلي
+      return textToTranslate; // إذا حدث خطأ، أعد النص الأصلي
     }
   };
 
@@ -28,6 +30,9 @@ async function translateElements(labels, buttons, targetLanguage) {
     // إذا كانت اللغة عربية، اجعل النص على اليمين
     label.style.direction = targetLanguage === "ar" ? "rtl" : "ltr";
     label.style.textAlign = targetLanguage === "ar" ? "right" : "left";
+
+    // تأخير لمنع تجاوز الحد الأقصى لـ API
+    await new Promise((resolve) => setTimeout(resolve, 200));
   }
 
   // ترجمة النصوص داخل الأزرار
@@ -41,6 +46,9 @@ async function translateElements(labels, buttons, targetLanguage) {
     // إذا كانت اللغة عربية، اجعل النص على اليمين
     button.style.direction = targetLanguage === "ar" ? "rtl" : "ltr";
     button.style.textAlign = targetLanguage === "ar" ? "right" : "left";
+
+    // تأخير لمنع تجاوز الحد الأقصى لـ API
+    await new Promise((resolve) => setTimeout(resolve, 200));
   }
 }
 
