@@ -8,10 +8,12 @@ async function translateElements(labels, buttons, targetLanguage) {
     try {
       const response = await fetch(apiUrl);
       const result = await response.json();
-      return result[0]?.[0]?.[0] || textToTranslate; // النص المترجم أو النص الأصلي عند الخطأ
+
+      // دمج النصوص المترجمة عند وجود تقسيم بسبب النقاط
+      return result[0].map((item) => item[0]).join("") || textToTranslate;
     } catch (error) {
       console.error("خطأ أثناء الترجمة:", error);
-      return textToTranslate; // إذا حدث خطأ، أعد النص الأصلي
+      return textToTranslate; // في حال وجود خطأ، أعد النص الأصلي
     }
   };
 
@@ -23,7 +25,7 @@ async function translateElements(labels, buttons, targetLanguage) {
     // تحديث نص الـ label
     label.textContent = translatedText;
 
-    // ضبط الاتجاه للنصوص إذا كانت اللغة عربية
+    // إذا كانت اللغة عربية، اجعل النص على اليمين
     label.style.direction = targetLanguage === "ar" ? "rtl" : "ltr";
     label.style.textAlign = targetLanguage === "ar" ? "right" : "left";
   }
@@ -36,7 +38,7 @@ async function translateElements(labels, buttons, targetLanguage) {
     // تحديث نص الزر
     button.textContent = translatedText;
 
-    // ضبط الاتجاه للنصوص إذا كانت اللغة عربية
+    // إذا كانت اللغة عربية، اجعل النص على اليمين
     button.style.direction = targetLanguage === "ar" ? "rtl" : "ltr";
     button.style.textAlign = targetLanguage === "ar" ? "right" : "left";
   }
@@ -48,8 +50,8 @@ function restoreOriginalText() {
   const languageSelector = document.getElementById("languageSelector");
   const restoreButton = document.getElementById("restoreButton");
 
-  // إعادة تحميل النصوص من المصدر بناءً على الفهرس الحالي
-  displayRow(currentRow); // استعادة النصوص الأصلية بناءً على الفهرس
+  // إعادة تحميل النصوص من المصدر استنادًا إلى الفهرس الحالي
+  displayRow(currentRow); // أو استخدم updatePageElements(currentRow)
 
   // تحديث الحالة لإظهار قائمة اختيار اللغة وإخفاء زر "الرجوع إلى النص الأصلي"
   isTranslated = false; // إعادة الحالة إلى غير مترجم
@@ -57,18 +59,8 @@ function restoreOriginalText() {
   restoreButton.style.display = "none";
 
   // إعادة تعيين الخيار الافتراضي للقائمة المنسدلة
-  languageSelector.value = ""; // إعادة ضبط القائمة على الخيار الافتراضي
+  languageSelector.value = ""; // ضبط القائمة على الخيار الافتراضي
 }
-
-
-
-
-
-
-
-
-
-
 
 
 
