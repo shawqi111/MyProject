@@ -1,225 +1,1069 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="de">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="./style.css">
-    <title>Sachkunde 34a Übungen</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
-        integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
-        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Shta Startseite</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        body {
+            width: auto;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f2f2f2;
+
+            #loginForm label {
+    color: white;
+    display: block;
+    margin-top: 4px;
+    font-size: 17px;
+}
+
+#loginForm h2 {
+    color: white;
+    font-size: 30px;
+    margin-bottom: 30px;
+}
+#loginForm input[type="email"],
+#loginForm input[type="password"] {
+    font-size: 16px; /* يمكن تعديل قيمة حجم الخط حسب الحاجة */
+    padding: 10px;   /* يمكن تعديل قيمة التبديل حسب الحاجة */
+    margin: 5px 0;
+    width: 50%;
+
+    
+       /* يمكن تعديل قيمة الهوامش حسب الحاجة */
+}
+
+        }
+
+        header {
+            background-color: #333;
+            color: white;
+            padding: 10px;
+            text-align: center;
+            font-size: 24px;
+        }
+
+        nav {
+            width: auto;
+
+            
+            background-color: #3ea741;
+            overflow: hidden;
+            padding: 0px;
+            width: 100%;
+        }
+
+        nav a {
+            width: auto;
+
+            float: left;
+            display: block;
+            color: white;
+            text-align: center;
+            padding: 14px 16px;
+            text-decoration: none;
+            transition: background-color 0.3s;
+
+        }
+
+        nav a:hover {
+            background-color: #ffffff;
+            color: black;
+           
+
+
+        }
+
+        main {
+            padding: 20px;
+            text-align: center;
+        }
+
+        button {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            margin-top: 10px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        #loginContainer {
+            width: auto;
+            margin: 50px auto;
+            text-align: center;
+            padding: 60px;
+            background-color: #294fb9;
+           
+            display: block;
+        }
+
+        #tazButton,
+        #whatsappButton,
+        #groupButton,
+        #hauptmenuButton,
+        #emailButton {
+            background-color: #4caf50;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            margin-top: 10px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            border-radius: 5px;
+            font-size: 16px;
+            display: inline-block;
+        }
+
+        #hauptmenuButton {
+            display: none;
+        }
+
+        #contactPage {
+            display: none;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+
+        #contactPage h2 {
+            color: #0f0101;
+
+        }
+
+        #contactPage p {
+            color: #0c0101;
+        }
+
+        #contactPage a {
+            color: #2a532d;
+            text-decoration: none;
+        }
+
+        .contactPage li strong {
+
+            color: #000;
+        }
+
+        #youtubeFrame {
+            padding: 20px;
+        }
+
+        .videoContainer {
+            width: auto;
+
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+            
+        }
+
+        .videoContainer iframe {
+            width: 560px;
+            height: 315px;
+            padding: 20px;
+            display: flex;
+            flex-wrap: wrap;
+        }
+        
+        #Haupt1, 
+        #Haupt2,
+        #Haupt3
+        {
+             
+
+            font-size: 2.5em; /* زيادة حجم الزر */
+            padding: 15px 25px; /* تضبيط المساحة داخل الزر */
+            background-color: #4c5baf; /* لون الزر */
+            color: white; /* لون النص */
+            border: none; /* إزالة حدود الزر */
+            border-radius: 2px; /* إضافة زوايا مستديرة */
+            cursor: pointer;
+            display: block; /* جعل الزر عنصرًا مرنًا ليسهل وضع الأيقونة */
+            align-items: center; /* توسيع الزر ليحتوي على الأيقونة بشكل جيد */
+        }
+        #BottonContainer {
+                display: flex;
+                
+               flex-direction: column; 
+               align-items: center; 
+               gap: 7px;
+        }
+
+        .container-wrapper {
+        display: none;
+        flex-direction: column; /* وضع العناصر في عمود واحد */
+        align-items: center; /* وضع العناصر في وسط الصفحة رأسيًا */
+        gap: 20px; /* إضافة مسافة بين العناصر */
+        width: auto;
+    }
+    #Begriffe{
+        font-weight: bold;
+        background-color: #4c5baf;
+
+
+    }        
+    .container {
+        box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.5); /* تضليل العنصر */
+        padding: 20px; /* تباعد داخلي للعنصر */
+        border-radius: 10px; /* تقويس حواف العنصر */
+    }
+
+
+ #Haupt1,   #Haupt2, #Haupt3 {
+        display: inline-block;
+        vertical-align: top; /* تحديد الطريقة التي يتم فيها توضيف العنصر والقائمة المنسدلة */
+        font-size: 21px; /* زيادة حجم النص */
+        font-weight: bold;
+
+    }
+
+    #spinner {
+        font-size: auto; /* زيادة حجم النص */
+        width: auto;
+
+
+    }
+
+            #hauptseite{
+display: none;
+color: #12a30d;
+            }
+
+            #footer {
+        background-color: black;
+        color: white;
+        text-align: center;
+        padding: 10px 0;
+        left: 0;
+        bottom: 0;
+        width: 100%;
+    }
+
+    #blackDiv {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%; 
+            background-color: black;
+        }
+        /* تنسيق الزر */
+#Unterrichtung\ 34a {
+  background-color: #4CAF50; /* لون الخلفية الأخضر العصري */
+  color: white; /* لون النص */
+  font-size: 18px; /* حجم النص */
+  font-weight: bold; /* جعله بالخط العريض */
+  padding: 14px 30px; /* المسافات الداخلية */
+  border: none; /* إزالة الحدود */
+  border-radius: 50px; /* حواف مدورة بشكل كبير */
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15); /* ظل الزر لجعل الزر يبدو مرتفعًا */
+  transition: all 0.3s ease; /* تأثيرات الحركة عند التفاعل */
+}
+
+/* تنسيق الأيقونة */
+#Unterrichtung\ 34a .icon {
+  margin-left: 12px; /* المسافة بين النص والأيقونة */
+  font-size: 22px; /* حجم الأيقونة */
+  transition: transform 0.3s ease; /* تأثير الحركة للأيقونة */
+}
+
+/* تأثير عند التمرير فوق الزر */
+#Unterrichtung\ 34a:hover {
+  background-color: #1e2b1e; /* تغيير اللون عند التمرير */
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2); /* زيادة الظل عند التمرير */
+  transform: translateY(-4px); /* تحريك الزر للأعلى لإظهار تأثير التفاعل */
+}
+
+/* تأثير عند الضغط على الزر */
+#Unterrichtung\ 34a:active {
+  background-color: #264128; /* تغيير اللون عند الضغط */
+  transform: translateY(2px); /* جعل الزر يبدو كأنه مضغوط */
+  box-shadow: none; /* إزالة الظل عند الضغط */
+}
+
+/* تأثيرات عند التمرير على الأيقونة */
+#Unterrichtung\ 34a:hover .icon {
+  transform: translateX(8px); /* تحريك الأيقونة لليمين عند التمرير */
+}
+
+
+    </style>
+
 </head>
 
 <body>
+
+    <header>
+        <h2> Sachkunde 34a.Shta </h2>
+    </header>
+
+   <!-- تأكد من إضافة مكتبة Font Awesome للأيقونات -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+<button type="button" id="Unterrichtung 34a" onclick="window.location.href='2UnrerrIndex.html'">
+    <span class="button-text">Unterrichtung 34a</span>
+    <i class="fas fa-arrow-right icon"></i>
+  </button>
+      
+
+    <main>
+        <h2>Willkommen auf unserer Webseite</h2>
+        <h4>هنا يوجد جميع ما تحتاجة من مصادر تعليمية مترجمة بالكامل للعربية للمساعدة في النجاح في أمتحان الحراسة الأمنية.</h4>
+
+        <nav>
+            
+            <a href="#" id="Home1" onclick="Home1()">Home</a>
+            <a href="#" onclick="showYoutube()">Mein Youtube </a>
+            <a href="#" id="ÜberPrüfung34a" onclick="toggleText()">Über Prüfung 34a</a>
+            <a href="#" id="ÜberApp" onclick="ÜberApp()">Über App</a>
+            <a href="#" id="Kontakt" onclick="Kontakt()">Kontakt</a>
+        </nav>
+       
+          
+
+        <div id="textToToggle2" style="display:none;">
+            <p><p dir="rtl" style="margin-bottom: 0cm;font-weight: normal;line-height: 100%;text-align: right;"><strong>هذا التطبيق يعتبر الحل المثالي لجميع الأشخاص العازمين على التقديم على شهادة الزاخكوندي وخاصة للغير متمكنين من اللغة بشكل جيد. يحتوي هذا التطبيق على مواضيع مترجمة، وكذلك على نماذج ما يقارب&nbsp;500 سؤال مترجمة ومشروحة موزعة على سبع تايلات مع شرح لكل سؤال ليتسنى للشخص فهم طبيعة الأسئلة وصياغتها. كذلك يحتوي على أمتحانات تدريبية حتى يمتحن الشخص نفسه قبل الذهاب للأمتحان ليعرف مستواه التعليمي ودرجة تمكنة من المنهاج.</strong></p>
+            <p dir="rtl" style="margin-bottom: 0.25cm;line-height: 120%;font-weight: normal;text-align: right;"><strong><br></strong></p>
+            <p dir="rtl" style="margin-bottom: 0.25cm;line-height: 120%;font-weight: normal;text-align: right;"><strong>تعتبر المادة التعليمية التي تم جمعها في هذا التطبيق كافية بشكل كامل لانجاز الأمتحان دون اي صعوبة ودون الحاجة لأي مصدر أخر.<br>&nbsp;</strong></p>
+            <p dir="rtl" style="margin-bottom: 0.25cm;line-height: 120%;font-weight: normal;text-align: right;"><strong>النصائح التي يجب أبتباعها لكيفية تعلم هذه المادة:</strong></p>
+            <p dir="rtl" style="margin-bottom: 0.25cm;line-height: 120%;font-weight: normal;text-align: right;"><strong>أولا: أحرص على أن تبدأ بالمواضيع المترجمة وتحاول تدرسها كلها وتعيدها&nbsp;. لأن بها مصطلحات قانونية لربما سوف تمر عليك أول مره&nbsp;.</strong></p>
+            <p dir="rtl" style="margin-bottom: 0.25cm;line-height: 120%;font-weight: normal;text-align: right;"><strong>ثانيا: أبدأ بعد ذلك بالنماذج المترجمة وأفهم كل سؤال بها&nbsp;. وحتى تفهم السؤال يعتمد ذلك على فهمك السابق للمواضيع وعلى الشرح المبسط الموجود تحت كل سؤال.</strong></p>
+            <p dir="rtl" style="margin-bottom: 0.25cm;line-height: 120%;font-weight: normal;text-align: right;"><strong>ثالثا: أبدأ بالتطبيق العملي لما درسته وفهمته بأن تبدأ بالامتحانات التدريبية الذي يتكون كل أمتحان منها من&nbsp;72 سؤال من جميع الموضيع ، ويجب أن تنتهي منها في مدة اقصاها ساعتين. وحتى تتمكن من النجاح يجب أن تصل علامتك حد&nbsp;50 بالمئة.</strong></p>
+            <p dir="rtl" style="margin-bottom: 0.25cm;line-height: 120%;font-weight: normal;text-align: right;"><strong><br></strong></p>
+            <p dir="rtl" style="margin-bottom: 0.25cm;line-height: 120%;font-weight: normal;text-align: right;"><strong>أخيرا أتمنى للجميع النجاح والتوفيق. لأي سؤال بأمكانك مراسلتي عبر وسائل الأتصال المتاحة.</strong></p></p>
+        </div>
+        <div id="textToToggle" style="display:none;">
+            <!-- النص الذي تريد عرضه -->
+            <p> 
+                <p><p dir="rtl" style="margin-bottom: 0cm;line-height: 138%;text-decoration: none;text-align: right;"><span style="font-size: 18px;"><br></span></p>
+                            <p dir="rtl" style="margin-bottom: 0cm;line-height: 138%;text-decoration: none;text-align: right;"><span style="font-size: 18px;"><strong>أمتحان شهادة الكفاءة للحراسة الأمنية<br></strong></span></p>
+                            <p dir="rtl" style="margin-bottom: 0cm;line-height: 138%;text-decoration: none;text-align: right;"><span style="color: rgb(0, 0, 0);"><span style="background: transparent;"><span lang="ar-EG"><span style="font-style: normal; font-size: 18px;"><span style="font-weight: normal;">امتحان الحراسة الأمنية المسمى&nbsp;</span></span></span><span style="font-style: normal; font-size: 18px;"><span style="font-weight: normal;">(</span></span><span lang="ar-EG"><span style="font-style: normal; font-size: 18px;"><span style="font-weight: normal;">زاخكوندي المنصوص عليه في المادة&nbsp;</span></span></span><span style="font-style: normal; font-size: 18px;"><span style="font-weight: normal;">34&nbsp;</span></span><span lang="ar-EG"><span style="font-style: normal; font-size: 18px;"><span style="font-weight: normal;">من القانون التجاري</span></span></span><span style="font-style: normal; font-size: 18px;"><span style="font-weight: normal;">)&nbsp;</span></span><span lang="ar-EG"><span style="font-style: normal; font-size: 18px;"><span style="font-weight: normal;">هو امتحان يجب على الذين يرغبون في مزاولة أحد المهن التالية الحصول عليه&nbsp;</span></span></span><span style="font-style: normal; font-size: 18px;"><span style="font-weight: normal;">:&nbsp;</span></span><span lang="ar-EG"><span style="background: #ffff00;"><span style="font-style: normal; font-size: 18px;"><span style="font-weight: normal;">أولا</span></span></span></span></span><span style="background: transparent; font-size: 18px;">:</span><span style="font-size: 18px;"> </span><span lang="ar-EG"><span style="font-style: normal; font-size: 18px;"><span style="font-weight: normal;">العمل في أماكن إقامة اللاجئين كدور قيادي</span></span></span><span style="font-size: 18px;">. </span><span style="background: rgb(255, 255, 0); font-size: 18px;">&nbsp;</span><span style="background: #ffff00;"><span lang="ar-EG"><span style="font-style: normal; font-size: 18px;"><span style="font-weight: normal;">ثانيا</span></span></span></span><span style="background: rgb(255, 255, 0); font-size: 18px;">:</span><span style="font-size: 18px;"> </span><span lang="ar-EG"><span style="font-style: normal; font-size: 18px;"><span style="font-weight: normal;">العمل في المهرجانات الكبرى كدور قيادي</span></span></span><span style="font-style: normal; font-size: 18px;"><span style="font-weight: normal;">.&nbsp;</span></span><span lang="ar-EG"><span style="background: #ffff00;"><span style="font-style: normal; font-size: 18px;"><span style="font-weight: normal;">ثالثا</span></span></span></span><span style="font-size: 18px;">: </span><span lang="ar-EG"><span style="font-style: normal; font-size: 18px;"><span style="font-weight: normal;">العمل على أبواب النوادي الليلة كوظيفة حارس أمن</span></span></span><span style="font-style: normal; font-size: 18px;"><span style="font-weight: normal;">.&nbsp;</span></span><span lang="ar-EG"><span style="background: #ffff00;"><span style="font-style: normal; font-size: 18px;"><span style="font-weight: normal;">رابعا</span></span></span></span><span style="background: rgb(255, 255, 0); font-size: 18px;">:&nbsp;</span><span style="font-size: 18px;"> </span><span lang="ar-EG"><span style="font-style: normal; font-size: 18px;"><span style="font-weight: normal;">العمل كحارس أمن متخفي في المتاجر للكشف عن السرقات&nbsp;</span></span></span><span style="font-style: normal; font-size: 18px;"><span style="font-weight: normal;">.</span></span><span style="font-style: normal;"><span style="font-weight: normal; font-size: 18px;"><span style="background: rgb(255, 255, 0);">&nbsp;</span></span></span><span lang="ar-EG"><span style="background: #ffff00;"><span style="font-style: normal; font-size: 18px;"><span style="font-weight: normal;">خامسا&nbsp;</span></span></span></span><span style="font-style: normal; font-size: 18px;"><span style="font-weight: normal;">:&nbsp;</span></span><span lang="ar-EG"><span style="font-style: normal; font-size: 18px;"><span style="font-weight: normal;">العمل في حركات المرور العامه مثل مفتش تذاكر في القطارات</span></span></span><span style="font-style: normal; font-size: 18px;"><span style="font-weight: normal;">.&nbsp;</span></span><span lang="ar-EG"><span style="background: #ffff00;"><span style="font-style: normal; font-size: 18px;"><span style="font-weight: normal;">سادسا</span></span></span></span><span style="font-style: normal;"><span style="font-weight: normal; font-size: 18px;"><span style="background: rgb(255, 255, 0);">:</span></span></span><span style="font-style: normal; font-size: 18px;"><span style="font-weight: normal;">&nbsp;</span></span><span lang="ar-EG"><span style="font-style: normal; font-size: 18px;"><span style="font-weight: normal;">فتح شركة حراسة أمنية مستقلة</span></span></span><span style="font-style: normal; font-size: 18px;"><span style="font-weight: normal;">.</span></span></span></p>
+                            <p style="margin-bottom: 0.25cm;line-height: 120%;"><span style="font-size: 18px;"><br></span></p>
+                            <p dir="rtl" style="margin-bottom: 0cm;line-height: 138%;text-decoration: none;text-align: right;"><span style="color: rgb(0, 0, 0);"><span style="background: transparent;"><span lang="ar-EG"><span style="font-style: normal; font-size: 18px;"><span style="font-weight: normal;">تأتي شهادة الزاخكوندي بعد شهادة ال</span></span></span><span style="font-style: normal; font-size: 18px;"><span style="font-weight: normal;">40&nbsp;</span></span><span lang="ar-EG"><span style="font-style: normal; font-size: 18px;"><span style="font-weight: normal;">ساعة المسماه الشهادة الصغيره والتي تؤهل للعمل أيضا في مهن الحراسة الأمنية ولكنها تقتصر فقط للعمل في بعض المهن المحدودة</span></span></span><span style="font-style: normal; font-size: 18px;"><span style="font-weight: normal;">.&nbsp;</span></span></span></span></p>
+                            <p dir="rtl" style="margin-bottom: 0cm;line-height: 138%;text-decoration: none;text-align: right;"><span style="color: rgb(0, 0, 0);"><span style="background: transparent;"><span lang="ar-EG"><span style="font-style: normal; font-size: 18px;"><span style="font-weight: normal;">تعتبر شهادة الزاخكوندي هي أقل شهادة يجب الحصول عليها للعمل في المهن سابقة الذكر</span></span></span><span style="font-style: normal; font-size: 18px;"><span style="font-weight: normal;">.&nbsp;</span></span><span lang="ar-EG"><span style="font-style: normal; font-size: 18px;"><span style="font-weight: normal;">يأتي بعد هذه الشهادة شهادات ال</span></span></span><span style="font-style: normal; font-size: 18px;"><span style="font-weight: normal;">Ausbildung&nbsp;</span></span><span lang="ar-EG"><span style="font-style: normal; font-size: 18px;"><span style="font-weight: normal;">التي يعتبر فيها الراتب أعلى من راتب من &nbsp;حصل فقط على شهادة الزاخكوندي</span></span></span><span style="font-style: normal; font-size: 18px;"><span style="font-weight: normal;">.&nbsp;</span></span></span></span></p>
+                            <p dir="rtl" style="margin-bottom: 0cm;line-height: 138%;text-decoration: none;text-align: right;"><span style="color: rgb(0, 0, 0);"><span style="background: transparent;"><span style="font-style: normal; font-size: 18px;"><span style="font-weight: normal;">يتكون منهاج الزاخكوندي من تسعة مواضيع أهم هذه المواضيع هي المواضيع الملونة باللون الأخضر والتي تشكل&nbsp;</span></span><span size="2" style="font-size:15px;"><span style="font-style: normal; font-size: 18px;"><span style="font-weight: normal;">64&nbsp;</span></span></span><span style="font-style: normal; font-size: 18px;"><span style="font-weight: normal;">من مجموعة علامات الفحص الكتابي&nbsp;</span><span style="font-weight: normal;">:&nbsp;</span></span></span></span></p>
+                            <p style="margin-bottom: 0.25cm;line-height: 120%;"><span style="font-size: 18px;"><br>&nbsp;</span></p>
+                            <table style="width: 480pt; margin-left: auto; margin-right: auto;" cellpadding="4">
+                                <tbody>
+                                    <tr>
+                                        <td style="border-top: 1px solid #000000;border-bottom: 1px solid #000000;border-left: 1px solid #000000;border-right: none;padding-top: 0.1cm;padding-bottom: 0.1cm;padding-left: 0.1cm;padding-right: 0cm;">
+                                            <p style="margin-bottom: 0.25cm;line-height: 120%;"><span style="font-size: 18px;">1.</span><span style="color: rgb(31, 31, 31);"><span style="font-style: normal; font-size: 18px;"><span style="font-weight: normal;">Recht der &ouml;ffentlichen Sicherheit und Ordnung</span></span></span></p>
+                                        </td>
+                                        <td style="border-top: 1px solid #000000;border-bottom: 1px solid #000000;border-left: 1px solid #000000;border-right: none;padding-top: 0.1cm;padding-bottom: 0.1cm;padding-left: 0.1cm;padding-right: 0cm;">
+                                            <p style="margin-bottom: 0.25cm;line-height: 120%;"><span style="font-size: 18px;">8 Punkte</span></p>
+                                        </td>
+                                        <td style="border: 1px solid #000000;padding: 0.1cm;">
+                                            <p dir="rtl" style="margin-bottom: 0.25cm;line-height: 120%;text-align: right;"><span style="font-size: 18px;">1.</span><span lang="ar-EG" style="font-size: 18px;">قانون الأمن والنظام العام</span></p>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="border-top: none;border-bottom: 1px solid #000000;border-left: 1px solid #000000;border-right: none;padding-top: 0cm;padding-bottom: 0.1cm;padding-left: 0.1cm;padding-right: 0cm;">
+                                            <p style="margin-bottom: 0.25cm;line-height: 120%;"><span style="color: rgb(31, 31, 31);"><span lang="en-US"><span style="font-style: normal; font-size: 18px;"><span style="font-weight: normal;">2.</span></span></span><span style="font-style: normal; font-size: 18px;"><span style="font-weight: normal;">Gewerberecht</span></span></span></p>
+                                        </td>
+                                        <td style="border-top: none;border-bottom: 1px solid #000000;border-left: 1px solid #000000;border-right: none;padding-top: 0cm;padding-bottom: 0.1cm;padding-left: 0.1cm;padding-right: 0cm;">
+                                            <p style="margin-bottom: 0.25cm;line-height: 120%;"><span style="font-size: 18px;">4 Punkte</span></p>
+                                        </td>
+                                        <td style="border-top: none;border-bottom: 1px solid #000000;border-left: 1px solid #000000;border-right: 1px solid #000000;padding-top: 0cm;padding-bottom: 0.1cm;padding-left: 0.1cm;padding-right: 0.1cm;">
+                                            <p dir="rtl" style="margin-bottom: 0.25cm;line-height: 120%;text-align: right;"><span style="font-size: 18px;">2.</span><span lang="ar-EG" style="font-size: 18px;">القانون التجاري</span></p>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="border-top: none;border-bottom: 1px solid #000000;border-left: 1px solid #000000;border-right: none;padding-top: 0cm;padding-bottom: 0.1cm;padding-left: 0.1cm;padding-right: 0cm;">
+                                            <p style="margin-bottom: 0.25cm;line-height: 120%;"><span style="color: rgb(31, 31, 31);"><span lang="en-US"><span style="font-style: normal; font-size: 18px;"><span style="font-weight: normal;">3.</span></span></span><span style="font-style: normal; font-size: 18px;"><span style="font-weight: normal;">Datenschutz</span></span></span></p>
+                                        </td>
+                                        <td style="border-top: none;border-bottom: 1px solid #000000;border-left: 1px solid #000000;border-right: none;padding-top: 0cm;padding-bottom: 0.1cm;padding-left: 0.1cm;padding-right: 0cm;">
+                                            <p style="margin-bottom: 0.25cm;line-height: 120%;"><span style="font-size: 18px;">4 Punkte</span></p>
+                                        </td>
+                                        <td style="border-top: none;border-bottom: 1px solid #000000;border-left: 1px solid #000000;border-right: 1px solid #000000;padding-top: 0cm;padding-bottom: 0.1cm;padding-left: 0.1cm;padding-right: 0.1cm;">
+                                            <p dir="rtl" style="margin-bottom: 0.25cm;line-height: 120%;text-align: right;"><span style="font-size: 18px;">3.</span><span lang="ar-EG" style="font-size: 18px;">حماية البيانات</span></p>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="border-top: none;border-bottom: 1px solid #000000;border-left: 1px solid #000000;border-right: none;padding-top: 0cm;padding-bottom: 0.1cm;padding-left: 0.1cm;padding-right: 0cm;">
+                                            <p style="margin-bottom: 0.25cm;line-height: 120%;"><span style="background: #00ff7f;"><span style="color: rgb(31, 31, 31);"><span lang="en-US"><span style="font-style: normal; font-size: 18px;"><span style="font-weight: normal;">4.</span></span></span><span style="font-style: normal; font-size: 18px;"><span style="font-weight: normal;">B&uuml;rgerliches Gesetzbuch</span></span></span><span style="font-size: 18px;">&nbsp;</span></span></p>
+                                        </td>
+                                        <td style="border-top: none;border-bottom: 1px solid #000000;border-left: 1px solid #000000;border-right: none;padding-top: 0cm;padding-bottom: 0.1cm;padding-left: 0.1cm;padding-right: 0cm;">
+                                            <p style="margin-bottom: 0.25cm;line-height: 120%;"><span style="font-size: 18px;">16 Punkte</span></p>
+                                        </td>
+                                        <td style="border-top: none;border-bottom: 1px solid #000000;border-left: 1px solid #000000;border-right: 1px solid #000000;padding-top: 0cm;padding-bottom: 0.1cm;padding-left: 0.1cm;padding-right: 0.1cm;">
+                                            <p dir="rtl" style="margin-bottom: 0.25cm;line-height: 120%;text-align: right;"><span style="background: #00ff7f;"><span style="font-size: 18px;">4.</span><span lang="ar-EG" style="font-size: 18px;">القانون المدني</span></span></p>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="border-top: none;border-bottom: 1px solid #000000;border-left: 1px solid #000000;border-right: none;padding-top: 0cm;padding-bottom: 0.1cm;padding-left: 0.1cm;padding-right: 0cm;">
+                                            <p style="margin-bottom: 0.25cm;line-height: 120%;"><span style="background: #00ff7f;"><span style="color: rgb(31, 31, 31);"><span lang="en-US"><span style="font-style: normal; font-size: 18px;"><span style="font-weight: normal;">5.</span></span></span><span style="font-style: normal; font-size: 18px;"><span style="font-weight: normal;">Strafgesetzbuch</span></span></span></span></p>
+                                        </td>
+                                        <td style="border-top: none;border-bottom: 1px solid #000000;border-left: 1px solid #000000;border-right: none;padding-top: 0cm;padding-bottom: 0.1cm;padding-left: 0.1cm;padding-right: 0cm;">
+                                            <p style="margin-bottom: 0.25cm;line-height: 120%;"><span style="font-size: 18px;">16 Punkte</span></p>
+                                        </td>
+                                        <td style="border-top: none;border-bottom: 1px solid #000000;border-left: 1px solid #000000;border-right: 1px solid #000000;padding-top: 0cm;padding-bottom: 0.1cm;padding-left: 0.1cm;padding-right: 0.1cm;">
+                                            <p dir="rtl" style="margin-bottom: 0.25cm;line-height: 120%;text-align: right;"><span style="background: #00ff7f;"><span style="font-size: 18px;">5.</span><span lang="ar-EG" style="font-size: 18px;">قانون العقوبات</span></span></p>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="border-top: none;border-bottom: 1px solid #000000;border-left: 1px solid #000000;border-right: none;padding-top: 0cm;padding-bottom: 0.1cm;padding-left: 0.1cm;padding-right: 0cm;">
+                                            <p style="margin-bottom: 0.25cm;line-height: 120%;"><span style="color: rgb(31, 31, 31);"><span lang="en-US"><span style="font-style: normal; font-size: 18px;"><span style="font-weight: normal;">6.</span></span></span><span style="font-style: normal; font-size: 18px;"><span style="font-weight: normal;">Unfallverh&uuml;tungsvorschriften</span></span></span></p>
+                                        </td>
+                                        <td style="border-top: none;border-bottom: 1px solid #000000;border-left: 1px solid #000000;border-right: none;padding-top: 0cm;padding-bottom: 0.1cm;padding-left: 0.1cm;padding-right: 0cm;">
+                                            <p style="margin-bottom: 0.25cm;line-height: 120%;"><span style="font-size: 18px;">8 Punkte</span></p>
+                                        </td>
+                                        <td style="border-top: none;border-bottom: 1px solid #000000;border-left: 1px solid #000000;border-right: 1px solid #000000;padding-top: 0cm;padding-bottom: 0.1cm;padding-left: 0.1cm;padding-right: 0.1cm;">
+                                            <p dir="rtl" style="margin-bottom: 0.25cm;line-height: 120%;text-align: right;"><span style="font-size: 18px;">6.</span><span lang="ar-EG" style="font-size: 18px;">لوائح الوقاية من الحوادث&nbsp;</span></p>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="border-top: none;border-bottom: 1px solid #000000;border-left: 1px solid #000000;border-right: none;padding-top: 0cm;padding-bottom: 0.1cm;padding-left: 0.1cm;padding-right: 0cm;">
+                                            <p style="margin-bottom: 0.25cm;line-height: 120%;"><span style="color: rgb(31, 31, 31);"><span lang="en-US"><span style="font-style: normal; font-size: 18px;"><span style="font-weight: normal;">7.</span></span></span><span style="font-style: normal; font-size: 18px;"><span style="font-weight: normal;">Waffenrecht</span></span></span></p>
+                                        </td>
+                                        <td style="border-top: none;border-bottom: 1px solid #000000;border-left: 1px solid #000000;border-right: none;padding-top: 0cm;padding-bottom: 0.1cm;padding-left: 0.1cm;padding-right: 0cm;">
+                                            <p style="margin-bottom: 0.25cm;line-height: 120%;"><span style="font-size: 18px;">4 Punkte</span></p>
+                                        </td>
+                                        <td style="border-top: none;border-bottom: 1px solid #000000;border-left: 1px solid #000000;border-right: 1px solid #000000;padding-top: 0cm;padding-bottom: 0.1cm;padding-left: 0.1cm;padding-right: 0.1cm;">
+                                            <p dir="rtl" style="margin-bottom: 0.25cm;line-height: 120%;text-align: right;"><span style="font-size: 18px;">7.</span><span lang="ar-EG" style="font-size: 18px;">قانون الأسلحة</span></p>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="border-top: none;border-bottom: 1px solid #000000;border-left: 1px solid #000000;border-right: none;padding-top: 0cm;padding-bottom: 0.1cm;padding-left: 0.1cm;padding-right: 0cm;">
+                                            <p style="margin-bottom: 0.25cm;line-height: 120%;"><span style="background: #00ff7f;"><span style="color: rgb(31, 31, 31);"><span lang="en-US"><span style="font-style: normal; font-size: 18px;"><span style="font-weight: normal;">8.</span></span></span><span style="font-style: normal; font-size: 18px;"><span style="font-weight: normal;">Umgang mit Menschen</span></span></span></span></p>
+                                        </td>
+                                        <td style="border-top: none;border-bottom: 1px solid #000000;border-left: 1px solid #000000;border-right: none;padding-top: 0cm;padding-bottom: 0.1cm;padding-left: 0.1cm;padding-right: 0cm;">
+                                            <p style="margin-bottom: 0.25cm;line-height: 120%;"><span style="font-size: 18px;">16 Punkte</span></p>
+                                        </td>
+                                        <td style="border-top: none;border-bottom: 1px solid #000000;border-left: 1px solid #000000;border-right: 1px solid #000000;padding-top: 0cm;padding-bottom: 0.1cm;padding-left: 0.1cm;padding-right: 0.1cm;">
+                                            <p dir="rtl" style="margin-bottom: 0.25cm;line-height: 120%;text-align: right;"><span style="background: #00ff7f;"><span style="font-size: 18px;">8.</span><span lang="ar-EG" style="font-size: 18px;">التعامل مع الناس</span></span></p>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="border-top: none;border-bottom: 1px solid #000000;border-left: 1px solid #000000;border-right: none;padding-top: 0cm;padding-bottom: 0.1cm;padding-left: 0.1cm;padding-right: 0cm;">
+                                            <p style="margin-bottom: 0.25cm;line-height: 120%;"><span style="color: rgb(31, 31, 31);"><span style="font-style: normal; font-size: 18px;"><span style="font-weight: normal;">Sicherheitstechnik</span></span></span></p>
+                                        </td>
+                                        <td style="border-top: none;border-bottom: 1px solid #000000;border-left: 1px solid #000000;border-right: none;padding-top: 0cm;padding-bottom: 0.1cm;padding-left: 0.1cm;padding-right: 0cm;">
+                                            <p style="margin-bottom: 0.25cm;line-height: 120%;"><span style="font-size: 18px;">8 Punkte</span></p>
+                                        </td>
+                                        <td style="border-top: none;border-bottom: 1px solid #000000;border-left: 1px solid #000000;border-right: 1px solid #000000;padding-top: 0cm;padding-bottom: 0.1cm;padding-left: 0.1cm;padding-right: 0.1cm;">
+                                            <p dir="rtl" style="margin-bottom: 0.25cm;line-height: 120%;text-align: right;"><span style="font-size: 18px;">9.</span><span lang="ar-EG" style="font-size: 18px;">تقنيات الأمان</span></p>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <p style="margin-bottom: 0.25cm;line-height: 120%;"><span style="font-size: 18px;"><br> </span></p></p> </p>
+        </div>
+
+        <div id="videoContainer" style="display: flex; flex-direction: column; align-items: center; gap: 20px;">
+            <!-- الفيديو الحالي -->
+            <iframe id="youtubeFrame" width="560" height="315" style="display:none;" frameborder="0" allowfullscreen></iframe>
+        
+            <!-- فيديو إضافي 1 -->
+            <iframe id="additionalVideo1" width="560" height="315" style="display:none; margin-top: 20px;" frameborder="0" allowfullscreen></iframe>
+        
+            <!-- فيديو إضافي 2 -->
+            <iframe id="additionalVideo2" width="560" height="315" style="display:none; margin-top: 20px;" frameborder="0" allowfullscreen></iframe>
+            
+            <!-- وهكذا يمكنك إضافة المزيد من الفيديوهات -->
+            <iframe id="additionalVideo3" width="560" height="315" style="display:none; margin-top: 20px;" frameborder="0" allowfullscreen></iframe>
+            <iframe id="additionalVideo4" width="560" height="315" style="display:none; margin-top: 20px;" frameborder="0" allowfullscreen></iframe>
+            <iframe id="additionalVideo5" width="560" height="315" style="display:none; margin-top: 20px;" frameborder="0" allowfullscreen></iframe>
+            <iframe id="additionalVideo6" width="560" height="315" style="display:none; margin-top: 20px;" frameborder="0" allowfullscreen></iframe>
+            <iframe id="additionalVideo7" width="560" height="315" style="display:none; margin-top: 20px;" frameborder="0" allowfullscreen></iframe>
+            <iframe id="additionalVideo8" width="560" height="315" style="display:none; margin-top: 20px;" frameborder="0" allowfullscreen></iframe>
+            <iframe id="additionalVideo9" width="560" height="315" style="display:none; margin-top: 20px;" frameborder="0" allowfullscreen></iframe>
+            <iframe id="additionalVideo10" width="560" height="315" style="display:none; margin-top: 20px;" frameborder="0" allowfullscreen></iframe>
+        
+        
+        <div id="moreVideosText" style="display:none; text-align: center; margin-top: 20px;">
+            <h3>لمزيد من الفيديوهات، يمكنك زيارة قناتنا على YouTube:</h3>
+            <p><a href="https://www.youtube.com/@shyou2914/videos" target="_blank">YouTube Channel</a></p>
+        </div>
+    </div>
+
+        <div id="loginContainer">
+            <form id="loginForm">
+                <h2>Anmeldung erforderlich</h2>
+                <label for="email">E-Mail:</label>
+                <input type="email" id="email" name="email" required><br>
+
+                <label for="password">Passwort:</label>
+                <input type="password" id="password" name="password" required><br>
+
+                <button type="button" id="loginButton" onclick="signIn()">Anmelden</button>
+                <label for="rememberMeCheckbox">
+                    <input type="checkbox" id="rememberMeCheckbox"> تذكرني
+                </label>
+            </form>
+
+            <div id="message"></div>
+
+            <button id="tazButton" onclick="showTazMessage()">Info</button>
+        </div>
+        <div id="hauptseite">Du bist angemeldet!</div>
+
+          
+        <div class="container-wrapper">
+            <div class="container">
+                <label id="Haupt1" onclick="toggleDropdown()">Lernkartei</label>
+                <select id="spinner" onchange="redirectToScreen1(this.value)">
+                    <option value="0"> ------ </option>
+
+                    <option value="1">Recht der öffentlichen Sicherheit und Ordnung</option>
+                    <option value="2">Gewerberecht</option>
+                    <option value="3">Datenschutuz</option>
+                    <option value="4">Bürgliches Gesetzbuch</option>
+                    <option value="5">Strafgesetzbuch (AT)</option>
+                    <option value="6">Strafgesetzbuch (BT)</option>
+                    <option value="7">Unfallverhütungsvorschriften</option>
+                    <option value="8">Waffenrecht</option>
+                    <option value="9">Umgang mit Menschen</option>
+                    <option value="10">Sicherheitstechnik</option>
+
+
+
+                </select>
+            </div>
+           
+         
+        <div class="container">
+            <label id="Haupt2" onclick="toggleDropdown()">Fragen mit Übersetzung</label>
+            <select id="spinner" onchange="redirectToScreen3(this.value)">
+                <option value="0"> ------ </option>
+
+                <option value="1">Teil 1</option>
+                <option value="2">Teil 2</option>
+                <option value="3">Teil 3</option>
+                <option value="4">Teil 4</option>
+                <option value="5">Teil 5</option>
+                <option value="6">Teil 6</option>
+                <option value="7">Teil 7</option>
+                <option value="8">Mündliche Fragen</option>
+
+
+
+
+            </select>
+        </div>
+        
+        
+            <div class="container">
+                <label id="Haupt3" onclick="toggleDropdown()">Übungsteste</label>
+                <select id="spinner" onchange="redirectToScreen2(this.value)">
+                    <option value="0"> ------ </option>
+
+            <option value="1">Test 1</option>
+            <option value="2">Test 2</option>
+            <option value="3">Test 3</option>
+            <option value="4">Test 4</option>
+            <option value="5">Test 5</option>
+            <option value="6">Test 6</option>
+            <option value="7">Test 7</option>
+            <option value="8">Test 8</option>
+
+            <option value="9">Test 9</option>
+            <option value="10">Test 10</option>
+            <option value="11">Test 11</option>
+            <option value="12">Test 12</option>
+            <option value="13">Test 13</option>
+
+           
+        </select>
+        
+            </div>
+            <button id="Begriffe" onclick="myFunction()">Begriffe</button>
+        </div>
+        <label for="">.</label>
+        
+            <div id="footer">
+                All rights reserved 2024
+            </div>
+        </div>
+        <div id="contactPage">
+            <div id="contactInfo" style="margin-top: 20px; display: flex; flex-direction: column; align-items: lift;">
+<h1> <p>Kontaktinformationen </p> </h1
+               <h1> <p style="margin-bottom: 5px;">
+                    <strong>E-Mail Adresse:</strong> shawqi876@hotmail.com
+                </p>
+            
+                <p style="margin-bottom: 5px;">
+                    <strong>WhatsApp:</strong> <a href="https://wa.me/491601416392" target="_blank"><i class="fab fa-whatsapp"></i> +49 160 1416392</a>
+                </p>
+            
+                <p style="margin-bottom: 20px;">
+                    <strong>Gruppe-WhatsApp:</strong> <a href="https://chat.whatsapp.com/Hhx6TyKLf917EQQBw7Ao9P" target="_blank"><i class="fab fa-whatsapp"></i> Beitreten</a>
+                </p>
+                
+                <p style="margin-bottom: 5px;">
+                    <strong>App für Android:</strong> <a href="https://play.google.com/store/apps/details?id=com.samer&pli=1" target="_blank"><i class="fab fa-android"></i> Download</a>
+                    <p style="margin-bottom: 10px;">
+                        <strong>App für IPhone:</strong> <a href="https://apps.apple.com/de/app/sachkunde-34a-shta/id6443675339" target="_blank"><i class="fab fa-apple"></i> Download</a>
+                </div>
+            </h1>
+
+
+
+        <main>
+            <button id="whatsappButton" onclick="joinWhatsappGroup()">
+                <i class="fab fa-whatsapp"></i> WhatsApp
+            </button>
+            <button id="groupButton">Gruppe</button>
+            <button id="hauptmenuButton" onclick="showHauptmenu()">Hauptmenu</button>
+        </main>
+
+        
+
+        <script src="https://www.gstatic.com/firebasejs/8.0.0/firebase-app.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/8.0.0/firebase-auth.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/8.0.0/firebase-database.js"></script>
+            <script src="https://www.gstatic.com/firebasejs/9.4.2/firebase-firestore.js"></script>
+
+        
+            
+            <div id="footer">
+                All rights reserved 2024
+            </div>
+            <div id="blackDiv"></div>
+            <label for="">.</label>
+
+       
+  <script>
+    // تشفير الرابط
+    var url = 'https://shta34a.de/index.html';
+
+// تشفير الرابط
+var encodedUrl = btoa(url);
+console.log('الرابط المشفر:', encodedUrl);
+
+
+
+document.getElementById("hauptseite").style.color = "green";
+
+function redirectToScreen1(value) {
+    if (value === "6") {
+        window.location.href = 'Stgb.html?value=' + value;
+    } else {
+        window.location.href = 'Themen.html?value=' + value;
+    }
+}
+function redirectToScreen2(value) {
+        window.location.href = 'tabele.html?value=' + value;
+    }
+   
+    function redirectToScreen3(value) {
+        window.location.href = 'FragenPDF.html?value=' + value;
+    }
+
+    function myFunction() {
+    window.location.href = 'FragenPDF.html?value=9';
+}
+
+
+
+    document.addEventListener("DOMContentLoaded", function() {
+    if (localStorage.getItem('userId')) {
+       
+        
+        changeDisplay();
+    }
+
+});
+
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyA0NHjqLDv2uS3mA4Dko8-WdqksuVDXSTo",
+      authDomain: "html-sach.firebaseapp.com",
+      projectId: "html-sach",
+      storageBucket: "html-sach.appspot.com",
+      messagingSenderId: "204375526473",
+      appId: "1:204375526473:web:565803336cf08ec01d4398"
+    };
+
+    firebase.initializeApp(firebaseConfig);
+
+function disableUserAccount(uid) {
+    // يجب تنفيذ وظيفة تعطيل الحساب هنا
+    // يمكنك إرجاع Promise.resolve() للأغراض التوضيحية
+    return Promise.resolve();
+}
+
+function disableUserAccount(uid) {
+ 
+  return Promise.resolve(); // للأغراض التوضيحية فقط
+}
+function checkAccountStatusAndPerformAction() {
+    var user = firebase.auth().currentUser;
+
+    if (user) {
+        var userId = user.uid;
+
+        // استعلام عن حالة الحساب من قاعدة البيانات
+        firebase.firestore().collection('users').doc(userId).get().then((doc) => {
+            if (doc.exists) {
+                var accountStatus = doc.data().accountStatus;
+
+                if (accountStatus === 'enabled') {
+                    console.log('تنفيذ عمل...');
+
+                } else if (accountStatus === 'disabled') {
+                    // الحساب معطل، يجب تسجيل الخروج وعرض logincontainer
+                    logoutUser();
+                    document.getElementById('loginContainer').style.display = 'block';
+                }
+            } else {
+                console.error('لا يوجد مستخدم بهذا الهوية');
+            }
+        }).catch((error) => {
+            console.error('حدث خطأ أثناء استعلام حالة الحساب:', error);
+        });
+    } else {
+        console.log('المستخدم غير مسجل دخول');
+    }
+}
+
+// تسجيل الخروج من Firebase
+function logoutUser() {
+    firebase.auth().signOut().then(() => {
+        // تم تسجيل الخروج بنجاح
+        console.log('تم تسجيل الخروج بنجاح');
+    }).catch((error) => {
+        console.error('حدث خطأ أثناء تسجيل الخروج:', error);
+    });
+
+}
+
+// استدعاء الدالة عند الضغط على أي زر
+document.getElementById('anyButton').addEventListener('click', checkAccountStatusAndPerformAction);
+   
+function signInSuccessful(userId) {
+    var currentTime = new Date().getTime(); // الحصول على الوقت الحالي بتنسيق الـ Unix
+
+    // تسجيل معرف المستخدم ووقت تسجيل الدخول في قاعدة البيانات
+    firebase.database().ref('logged_users/' + userId).set({
+        login_time: currentTime
+    });
+}
+
+function signIn() {
+    var email = document.getElementById("email").value;
+    var password = document.getElementById("password").value;
+    var messageDiv = document.getElementById("message");
+    var rememberMe = document.getElementById("rememberMeCheckbox").checked;
+
+    // تسجيل الدخول باستخدام Firebase مع تمكين خاصية التذكري
+    firebase.auth().signInWithEmailAndPassword(email, password)
+        .then((userCredential) => {
+            var user = userCredential.user;
+            var userId = user.uid;
+            localStorage.setItem('userId', userId);
+
+            signInSuccessful(userId);
+            changeDisplay();
+        
+            // حفظ بيانات تسجيل الدخول في التخزين المحلي إذا تم تمكين زر التذكري
+            if (rememberMe) {
+                localStorage.setItem("rememberedEmail", email);
+                localStorage.setItem("rememberedPassword", password);
+            }
+
+            // بعد نجاح تسجيل الدخول، قم بتغيير عرض القائمة
+        })
+        .catch((error) => {
+            localStorage.removeItem('userId');
+
+            var errorMessage = error.message;
+            messageDiv.innerHTML = "<span style='color: red; font-size: 1.2em;'> Fehlgeschlagen: " + errorMessage + "</span>";
+            console.error("Fehlgeschlagen:", errorMessage);
+        });
+}
+
+// تغيير عرض القائمة بعد تسجيل الدخول
+function changeDisplay() {
+    
+    firebase.auth().onAuthStateChanged(function(user) {
+        if (user) {
+            console.log(user.uid);
+            var containerWrapper = document.querySelector(".container-wrapper");
+            containerWrapper.style.display = "flex";
+            document.getElementById("loginContainer").style.display = "none"; // إخفاء نافذة تسجيل الدخول
+            localStorage.setItem('userId', user.uid);
+        } else {
+            // المستخدم غير مسجل الدخول، يمكن عرض نافذة تسجيل الدخول
+            console.log("المستخدم غير مسجل الدخول");
+            document.getElementById("loginContainer").style.display = "block";
+            var containerWrapper = document.querySelector(".container-wrapper");
+            containerWrapper.style.display = "none"; // إخفاء القائمة
+            localStorage.removeItem('userId');
+        }
+
+        // استرجاع بيانات تسجيل الدخول من التخزين المحلي إذا توفرت
+        document.addEventListener("DOMContentLoaded", function () {
+            var rememberedEmail = localStorage.getItem("rememberedEmail");
+            var rememberedPassword = localStorage.getItem("rememberedPassword");
+            if (rememberedEmail && rememberedPassword) {
+                document.getElementById("email").value = rememberedEmail;
+                document.getElementById("password").value = rememberedPassword;
+            }
+        });
+    });
+}
+
+
+
+
+
+
+
+
+
+
+function generateDeviceId() {
+  // يمكنك استخدام مكتبة توليد معرف فريد مثل uuid أو أي طريقة أخرى
+  // في هذا المثال، سأفترض استخدام تاريخ الآن كمعرف
+  return new Date().toISOString();
+}
+
+function saveUserUidToDatabase(uid, deviceId) {
+  // حفظ معرف المستخدم ومعرف الجهاز في قاعدة البيانات
+  firebase.database().ref('users/' + uid).set({
+    deviceId: deviceId
+  });
+}
+
+            // ... (الجزء الخاص بتكوين Firebase)
+            // تحديث الدوال لتظهر عشر فيديوهات إضافية
+            function showYoutube() {
+                document.getElementById("loginContainer").style.display = "none"; // إخفاء جدول تسجيل الدخول
+                var containerWrapper = document.querySelector(".container-wrapper");
+    containerWrapper.style.display = "none"; 
+
+                if (textToToggle.style.display === "block") {
+            textToToggle.style.display = "none";
+    } 
+
+        if (textToToggle2.style.display === "block") {
+            textToToggle2.style.display = "none";
+        }
+
+        if (videoContainer.style.display === "none") {
+            videoContainer.style.display = "flex";
+}
+if (contactPage.style.display === "block") {
+                contactPage.style.display = "none";
+        }
+       
+
+
+                // إخفاء الفيديو الحالي والفيديوهات الإضافية
+                document.getElementById("youtubeFrame").style.display = "none";
+                document.getElementById("additionalVideo1").style.display = "block";
+                document.getElementById("additionalVideo2").style.display = "block";
+                document.getElementById("additionalVideo3").style.display = "block";
+                document.getElementById("additionalVideo4").style.display = "block";
+                document.getElementById("additionalVideo5").style.display = "block";
+                document.getElementById("additionalVideo6").style.display = "block";
+                document.getElementById("additionalVideo7").style.display = "block";
+                document.getElementById("additionalVideo8").style.display = "block";
+                document.getElementById("additionalVideo9").style.display = "block";
+                document.getElementById("additionalVideo10").style.display = "block";
+
+                // تحديث src للفيديو الإضافي 1
+                document.getElementById("additionalVideo1").src = "https://www.youtube.com/embed/yQ6s3toBN7I";
+
+                // تحديث src للفيديو الإضافي 2 بعد فترة زمنية قصيرة (300 مللي ثانية)
+                setTimeout(function () {
+                    document.getElementById("additionalVideo2").src = "https://www.youtube.com/embed/LH68LkfMuss";
+                }, 300);
+
+                // تحديث src للفيديو الإضافي 3 بعد فترة زمنية قصيرة (600 مللي ثانية)
+                setTimeout(function () {
+                    document.getElementById("additionalVideo3").src = "https://www.youtube.com/embed/6_Il8i4frEY";
+                }, 600);
+
+                // تحديث src للفيديو الإضافي 4 بعد فترة زمنية قصيرة (900 مللي ثانية)
+                setTimeout(function () {
+                    document.getElementById("additionalVideo4").src = "https://www.youtube.com/embed/mQIFTvvghbk";
+                }, 900);
+                setTimeout(function () {
+                    document.getElementById("additionalVideo5").src = "https://www.youtube.com/embed/XdofEnbkbm8";
+                }, 1200);
+                // وهكذا يمكنك تكرار هذا النمط للمزيد من الفيديوهات
+            
+                setTimeout(function () {
+                    document.getElementById("additionalVideo6").src = "https://www.youtube.com/embed/NOU47C8tOEU";
+                }, 1500);
+
+                // تحديث src للفيديو الإضافي 3 بعد فترة زمنية قصيرة (600 مللي ثانية)
+                setTimeout(function () {
+                    document.getElementById("additionalVideo7").src = "https://www.youtube.com/embed/e-O6W4hoIw";
+                }, 1800);
+
+                // تحديث src للفيديو الإضافي 4 بعد فترة زمنية قصيرة (900 مللي ثانية)
+                setTimeout(function () {
+                    document.getElementById("additionalVideo8").src = "https://www.youtube.com/embed/FKtITtwnMF8";
+                }, 2100);
+                setTimeout(function () {
+                    document.getElementById("additionalVideo9").src = "https://www.youtube.com/embed/1EfSjeSp2sw";
+                }, 2400);
+
+                setTimeout(function () {
+                    document.getElementById("additionalVideo10").src = "https://www.youtube.com/embed/Q-q2MoA-Lg";
+                }, 2700);
+
+               
+                 setTimeout(function () {
+                    document.getElementById("additionalVideo11").src = "https://www.youtube.com/embed/862r58sGrPU";
+                }, 3000);
+                function showMoreVideosText() {
+        var moreVideosText = document.getElementById("moreVideosText");
+        moreVideosText.style.display = "block";
+    }
+
+    // يمكنك استدعاء هذه الدالة في أي مكان من الشيفرة حيث ترغب في إظهار الرسالة
+    showMoreVideosText();
+    var containerWrapper = document.querySelector(".container-wrapper");
+    containerWrapper.style.display = "none";
+            }
+            function toggleText() {
+                document.getElementById("loginContainer").style.display = "none"; // إخفاء جدول تسجيل الدخول
+
+        var textToToggle = document.getElementById("textToToggle");
+        if (textToToggle.style.display === "none") {
+            textToToggle.style.display = "block";
+        } 
+        if (textToToggle2.style.display === "block") {
+            textToToggle2.style.display = "none";
+        }
+        if (videoContainer.style.display === "flex") {
+            videoContainer.style.display = "none";
+}
+if (contactPage.style.display === "block") {
+                contactPage.style.display = "none";
+        }
+        var containerWrapper = document.querySelector(".container-wrapper");
+    containerWrapper.style.display = "none";
+    }
+
+    function ÜberApp() {
+                document.getElementById("loginContainer").style.display = "none"; // إخفاء جدول تسجيل الدخول
+
+        var textToToggle2 = document.getElementById("textToToggle2");
+        if (textToToggle2.style.display === "none") {
+            textToToggle2.style.display = "block";
+        } 
+        
+        if (textToToggle.style.display === "block") {
+            textToToggle.style.display = "none";
+    } 
+    if (videoContainer.style.display === "flex") {
+            videoContainer.style.display = "none";
+}
+if (contactPage.style.display === "block") {
+                contactPage.style.display = "none";
+        }
+
+        var containerWrapper = document.querySelector(".container-wrapper");
+    containerWrapper.style.display = "none";
+}
+    function Kontakt() {
+        document.getElementById("loginContainer").style.display = "none";
+
+            document.getElementById("contactPage").style.display = "block";
+            if (textToToggle2.style.display === "block") {
+            textToToggle2.style.display = "none";
+            }
+            if (textToToggle.style.display === "block") {
+            textToToggle.style.display = "none";
+          
+        }
+        if (videoContainer.style.display === "flex") {
+            videoContainer.style.display = "none";
+        }
+        if (contactPage.style.display === "none") {
+                contactPage.style.display = "block";
+            }
+            var containerWrapper = document.querySelector(".container-wrapper");
+    containerWrapper.style.display = "none";
+    }
+    
+        function joinWhatsappGroup() {
+          window.open("https://chat.whatsapp.com/Hhx6TyKLf917EQQBw7Ao9P");
+        }
+        function Home1() {
+
+            if (contactPage.style.display === "block") {
+                contactPage.style.display = "none";
+        }
+            changeDisplay();
+            if (textToToggle2.style.display === "block") {
+            textToToggle2.style.display = "none";
+            }
+            if (textToToggle.style.display === "block") {
+            textToToggle.style.display = "none";
+        }
+        if (videoContainer.style.display === "flex") {
+            videoContainer.style.display = "none";
+}
+
+
+
+
+        if (message.innerHTML === "Du bist angemeldet!") {
+            
+            // تم تسجيل الدخول بنجاح، قم بإخفاء loginContainer
+            if (loginContainer.style.display === "block") {
+                loginContainer.style.display = "none";
+                
+            }
+            else if (message.innerHTML === "" || message.innerHTML === "Fehlgeschlagen!") {
+         if (loginContainer.style.display === "none") {
+             loginContainer.style.display = "block";   
+            }  
+ }  
+} 
+
+if (loginContainer.style.display === "none") {
     
 
-    <header id="Button-bar title-bar" class="translate-exclude1 header">
-        <h1 id="title-bar" class="head-nav" style="font-size: 15px;"></h1>
-        <div class="right-nav">
-            <button id="listenButton" class="btn1">Hören</button>
-            <button id="showResults" class="btn1"
-                style="display: flex; justify-content: center; align-items: center;">Prüfung abgeben</button>
-            <div class="icon"><i class="fa-solid fa-bars"></i></div>
-        </div>
-    </header>
-    <div class="list-left">
-        <div class="continar ">
+    var containerWrapper = document.querySelector(".container-wrapper");
+    containerWrapper.style.display = "flex";} 
 
-            <div id="control-panel">
-            
-            <select id="languageSelector" class="language-selector" onchange="translateText()">
-                <option value="">-- Sprache auswählen --</option>
-                <option value="ar">Arabisch</option> <!-- العربية -->
-    <option value="en">Englisch</option> <!-- الإنجليزية -->
-    <option value="it">Italienisch</option> <!-- الإيطالية -->
-    <option value="ru">Russisch</option> <!-- الروسية -->
-    <option value="pt">Portugiesisch</option> <!-- البرتغالية -->
-    <option value="fa">Persisch</option> <!-- الفارسية -->
-    <option value="ps">Paschtu</option> <!-- الأفغانية (بشتو) -->
-    <option value="af">Afrikaans</option> <!-- الأفريقية -->
-    <option value="pl">Polnisch</option> <!-- البولندية -->
-              </select>
-              <button class="restoreButton" id="restoreButton" onclick="restoreOriginalText()" style="display: none;">
-                Deutsch
-              </button>
-            </div>
-            
-            <div class="label">
-                <label id="Punkte" class="translate-exclude">Punkte</label>
-            </div>
-        </div>
-    </div>
-    <div id="finalResultText" class="translate-exclude"></div>
-    <div id="countdown-timer" class="translate-exclude timer"></div>
-    <div class="continar">
-        <div class="container" id="resultsContainer">
-            <div class="subject">
-                <h3 id="subjectTitle">الموضوع الأول (0 من 8)</h3>
-                <div class="bar-container">
-                    <div id="progressBar" class="bar green" style="width: 80%;">
-                        <span id="percentage" class="percentage">0%</span>
-                    </div>
-                </div>
-            </div>
-        </div>
+}
+        function showTazMessage() {
+            alert(" يجب التواصل معي للحصول على حساب. الحساب مدفوع وليس مجاني.  ");
+        }
+        function saveUserUidToDatabase(uid) {
+  // استخدم مسارًا في قاعدة البيانات حسب احتياجاتك
+  var userRef = firebase.database().ref('users/' + uid);
+  userRef.set({
+    uid: uid
+  });
+}
+function showHaup1() {
+            // الكود الخاص بعرض الأقسام (التوبيكات)
+            console.log("عرض الأقسام (التوبيكات)");
+        }
+        function showHaup1() {
+        // تحديد العنوان URL للصفحة الجديدة التي تريد التنقل إليها (في نفس المجلد)
+        let newPageURL = '2SeiteUnterindex';
+        // التنقل إلى الصفحة الجديدة
+        window.location.href = newPageURL;
+    }
+    
+     </script>
 
-        <div class="container" id="resultsContainer2">
-            <div class="subject">
-                <h3 id="subjectTitle2">الموضوع الثاني (0 من 4)</h3>
-                <div class="bar-container">
-                    <div id="progressBar2" class="bar green" style="width: 80%;">
-                        <span id="percentage2" class="percentage">0%</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+    </body>
 
-    <div class="container" id="resultsContainer3">
-        <div class="subject">
-            <h3 id="subjectTitle3">الموضوع الثالث (0 من 4)</h3>
-            <div class="bar-container">
-                <div id="progressBar3" class="bar green" style="width: 80%;">
-                    <span id="percentage3" class="percentage">0%</span>
-                </div>
-            </div>
-        </div>
-    </div>
-    </div>
-
-    <div class="container" id="resultsContainer4">
-        <div class="subject">
-            <h3 id="subjectTitle4">الموضوع الرايع (0 من 24)</h3>
-            <div class="bar-container">
-                <div id="progressBar4" class="bar green" style="width: 80%;">
-                    <span id="percentage4" class="percentage">0%</span>
-                </div>
-            </div>
-        </div>
-    </div>
-    </div>
-
-    <div class="container" id="resultsContainer5">
-        <div class="subject">
-            <h3 id="subjectTitle5">الموضوع الرايع (0 من 24)</h3>
-            <div class="bar-container">
-                <div id="progressBar5" class="bar green" style="width: 80%;">
-                    <span id="percentage5" class="percentage">0%</span>
-                </div>
-            </div>
-        </div>
-    </div>
-    </div>
-
-    <!-- Resul6 Unfallverhütungsvorschrift -->
-    <div class="container" id="resultsContainer6">
-        <div class="subject">
-            <h3 id="subjectTitle6">الموضوع الرايع (0 من 24)</h3>
-            <div class="bar-container">
-                <div id="progressBar6" class="bar green" style="width: 0%;">
-                    <span id="percentage6" class="percentage">0%</span>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Waffenrecht -->
-    <div class="container" id="resultsContainer7">
-        <div class="subject">
-            <h3 id="subjectTitle7">الموضوع الرايع (0 من 24)</h3>
-            <div class="bar-container">
-                <div id="progressBar7" class="bar green" style="width: 0%;">
-                    <span id="percentage7" class="percentage">0%</span>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Umgang mit Menschen -->
-    <div class="container" id="resultsContainer8">
-        <div class="subject">
-            <h3 id="subjectTitle8">الموضوع الرايع (0 من 24)</h3>
-            <div class="bar-container">
-                <div id="progressBar8" class="bar green" style="width: 0%;">
-                    <span id="percentage8" class="percentage">0%</span>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Sicherheitstechnik -->
-    <div class="container" id="resultsContainer9">
-        <div class="subject">
-            <h3 id="subjectTitle9">الموضوع الرايع (0 من 24)</h3>
-            <div class="bar-container">
-                <div id="progressBar9" class="bar green" style="width: 0%;">
-                    <span id="percentage9" class="percentage">0%</span>
-                </div>
-            </div>
-        </div>
-    </div>
-    </div>
-    <div>
-        <ul id="list2"></ul>
-
-        <div class="button-box">
-            <div id="button-container"></div>
-        </div>
-        <div>
-            <label id="label1"></label>
-            <label id="labelIndex">Index</label>
-
-
-        </div>
-        <div>
-            <label id="label5"></label>
-            <div id="next-buttons">
-                <button id="back">Zurück</button>
-                <button id="checkAnswers">Beantworten</button>
-
-                <button id="next">Weiter</button>
-            </div>
-
-
-            <button id="Pro">Pro</button>
-
-
-            <div>
-                <ul id="list"></ul>
-            </div>
-            <div class="table-container">
-                <table class="first-table">
-                    <thead>
-                        <tr class="tr">
-                            <th class="tr">عنصر</th>
-                        </tr>
-                    </thead>
-                    <tbody id="table-body" class="tbody">
-                        <!-- بيانات الجدول ستتم إضافتها هنا باستخدام JavaScript -->
-                    </tbody>
-                </table>
-            </div>
+    </html>
 
 
 
-            <label id="label40">label40</label>
-
-            <label id="label50">Iabel50</label>
-
-            <label id="label60">Iabel60</label>
-
-            <label id="label70">Iabel70</label>
-
-            <label id="label80">Iabel80</label>
-
-            <footer style="text-align: center; margin-top: 20px; font-size: 14px; color: #666;">
-                All rights reserved 2024/2025
-            </footer>
-           
-            
-            <script src="main.js"></script>
-</body>
-
-</html>
