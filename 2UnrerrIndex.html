@@ -1,0 +1,726 @@
+<!DOCTYPE html>
+<html lang="de">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Shta Startseite</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        body {
+            width: auto;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f2f2f2;
+
+
+            #loginForm label {
+    color: white;
+    display: block;
+    margin-top: 4px;
+    font-size: 17px;
+}
+
+#loginForm h2 {
+    color: white;
+    font-size: 30px;
+    margin-bottom: 30px;
+
+    
+}
+#loginForm input[type="email"],
+#loginForm input[type="password"] {
+    font-size: 16px; /* يمكن تعديل قيمة حجم الخط حسب الحاجة */
+    padding: 10px;   /* يمكن تعديل قيمة التبديل حسب الحاجة */
+    margin: 5px 0;
+    width: 50%;
+
+    
+       /* يمكن تعديل قيمة الهوامش حسب الحاجة */
+}
+
+       
+
+        header {
+            background-color: #333;
+            color: white;
+            padding: 10px;
+            text-align: center;
+            font-size: 24px;
+
+        }
+
+        nav {
+            width: auto;
+
+            
+            overflow: hidden;
+            padding: 0px;
+            width: 100%;
+        }
+
+        nav a {
+            width: auto;
+
+            float: left;
+            display: block;
+            color: white;
+            text-align: center;
+            padding: 14px 16px;
+            text-decoration: none;
+            transition: background-color 0.3s;
+
+        }
+
+        nav a:hover {
+            background-color: #ffffff;
+            color: black;
+           
+
+
+        }
+
+        main {
+            padding: 20px;
+            text-align: center;
+        }
+
+        button {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            margin-top: 10px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        #loginContainer {
+            width: auto;
+            margin: 50px auto;
+            text-align: center;
+            padding: 60px;
+            background-color: #294fb9;
+           
+            display: block;
+        }
+
+        #tazButton,
+        #whatsappButton,
+        #groupButton,
+        #hauptmenuButton,
+        #emailButton {
+            background-color: #4caf50;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            margin-top: 10px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            border-radius: 5px;
+            font-size: 16px;
+            display: inline-block;
+        }
+
+        #hauptmenuButton {
+            display: none;
+        }
+
+        
+        #Haupt1, 
+        #Haupt2,
+        #Haupt3
+        {
+             
+
+            font-size: 2.5em; /* زيادة حجم الزر */
+            padding: 15px 25px; /* تضبيط المساحة داخل الزر */
+            background-color: #aabb0e; /* لون الزر */
+            color: white; /* لون النص */
+            border: none; /* إزالة حدود الزر */
+            border-radius: 2px; /* إضافة زوايا مستديرة */
+            cursor: pointer;
+            display: block; /* جعل الزر عنصرًا مرنًا ليسهل وضع الأيقونة */
+            align-items: center; /* توسيع الزر ليحتوي على الأيقونة بشكل جيد */
+        }
+        #BottonContainer {
+                display: flex;
+                
+               flex-direction: column; 
+               align-items: center; 
+               gap: 7px;
+
+        }
+
+        .container-wrapper {
+        display: none;
+        flex-direction: column; /* وضع العناصر في عمود واحد */
+        align-items: center; /* وضع العناصر في وسط الصفحة رأسيًا */
+        gap: 20px; /* إضافة مسافة بين العناصر */
+        width: auto;
+    }
+    #Begriffe{
+        font-weight: bold;
+        background-color: #aabb0e;
+
+
+    }        
+    .container {
+        box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.5); /* تضليل العنصر */
+        padding: 20px; /* تباعد داخلي للعنصر */
+        border-radius: 10px; /* تقويس حواف العنصر */
+
+    }
+
+
+ #Haupt1,   #Haupt2, #Haupt3 {
+        display: inline-block;
+        vertical-align: top; /* تحديد الطريقة التي يتم فيها توضيف العنصر والقائمة المنسدلة */
+        font-size: 21px; /* زيادة حجم النص */
+        font-weight: bold;
+
+    }
+
+    #spinner {
+        font-size: auto; /* زيادة حجم النص */
+        width: auto;
+
+
+    }
+
+            #hauptseite{
+display: none;
+color: #12a30d;
+
+
+            }
+
+            #footer {
+        background-color: black;
+        color: white;
+        text-align: center;
+        padding: 10px 0;
+        left: 0;
+        bottom: 0;
+        width: 100%;
+    }
+
+    #blackDiv {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%; 
+            background-color: black;
+        }
+        /* تنسيق الزر */
+#Unterrichtung\ 34a {
+  background-color: #4CAF50; /* لون الخلفية الأخضر العصري */
+  color: white; /* لون النص */
+  font-size: 18px; /* حجم النص */
+  font-weight: bold; /* جعله بالخط العريض */
+  padding: 14px 30px; /* المسافات الداخلية */
+  border: none; /* إزالة الحدود */
+  border-radius: 50px; /* حواف مدورة بشكل كبير */
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15); /* ظل الزر لجعل الزر يبدو مرتفعًا */
+  transition: all 0.3s ease; /* تأثيرات الحركة عند التفاعل */
+}
+
+/* تنسيق الأيقونة */
+#Unterrichtung\ 34a .icon {
+  margin-left: 12px; /* المسافة بين النص والأيقونة */
+  font-size: 22px; /* حجم الأيقونة */
+  transition: transform 0.3s ease; /* تأثير الحركة للأيقونة */
+}
+
+/* تأثير عند التمرير فوق الزر */
+#Unterrichtung\ 34a:hover {
+  background-color: #1e2b1e; /* تغيير اللون عند التمرير */
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2); /* زيادة الظل عند التمرير */
+  transform: translateY(-4px); /* تحريك الزر للأعلى لإظهار تأثير التفاعل */
+}
+
+/* تأثير عند الضغط على الزر */
+#Unterrichtung\ 34a:active {
+  background-color: #264128; /* تغيير اللون عند الضغط */
+  transform: translateY(2px); /* جعل الزر يبدو كأنه مضغوط */
+  box-shadow: none; /* إزالة الظل عند الضغط */
+}
+
+/* تأثيرات عند التمرير على الأيقونة */
+#Unterrichtung\ 34a:hover .icon {
+  transform: translateX(8px); /* تحريك الأيقونة لليمين عند التمرير */
+}
+h4 {
+    font-size: 1.5em; /* تكبير الخط */
+    font-weight: bold; /* جعل الخط عريض */
+    color: #2c3e50; /* لون النص */
+    text-align: center; /* توسيط النص */
+    line-height: 1.5; /* زيادة المسافة بين السطور */
+    margin-top: 20px; /* إضافة مسافة من الأعلى */
+  }
+}
+    </style>
+ 
+</head>
+
+<body>
+
+    <header>
+        <h2> Unterrichtung 34a </h2>
+    </header>
+
+   <!-- تأكد من إضافة مكتبة Font Awesome للأيقونات -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+<button type="button" id="Unterrichtung 34a" onclick="window.location.href='index.html'">
+    <span class="button-text">Zurück zu Hauptseite</span>
+    <i class="fas fa-arrow-right icon"></i>
+  </button>
+  
+      
+
+    <main>
+        <h4>Unterrichtung 34a هنا تجد كل الأسئلة الخاصة بامتحان</h4>
+
+   
+        <div id="loginContainer">
+            <form id="loginForm">
+                <h2>Anmeldung erforderlich</h2>
+                <label for="email">E-Mail:</label>
+                <input type="email" id="email" name="email" required><br>
+
+                <label for="password">Passwort:</label>
+                <input type="password" id="password" name="password" required><br>
+
+                <button type="button" id="loginButton" onclick="signIn()">Anmelden</button>
+                <label for="rememberMeCheckbox">
+                    <input type="checkbox" id="rememberMeCheckbox"> تذكرني
+                </label>
+           
+          
+            <div id="message"></div>
+
+            <button id="tazButton" onclick="showTazMessage()">Info</button>
+        </div>
+        <div id="hauptseite">Du bist angemeldet!</div>
+   
+          
+        <div class="container-wrapper">
+            <div class="container">
+                <label id="Haupt1" onclick="toggleDropdown()">Lernkartei</label>
+                <select id="spinner" onchange="redirectToScreen1(this.value)">
+                    <option value="0"> ------ </option>
+
+                    <option value="1">Recht der öffentlichen Sicherheit und Ordnung</option>
+                    <option value="2">Gewerberecht</option>
+                    <option value="3">Datenschutuz</option>
+                    <option value="4">Bürgliches Gesetzbuch</option>
+                    <option value="5">Strafgesetzbuch (AT)</option>
+                    <option value="6">Strafgesetzbuch (BT)</option>
+                    <option value="7">Unfallverhütungsvorschriften</option>
+                    <option value="8">Waffenrecht</option>
+                    <option value="9">Umgang mit Menschen</option>
+                    <option value="10">Sicherheitstechnik</option>
+
+
+
+                </select>
+            </div>
+           
+         
+        <!-- <div class="container">
+            <label id="Haupt2" onclick="toggleDropdown()">Fragen mit Übersetzung</label>
+            <select id="spinner" onchange="redirectToScreen3(this.value)">
+                <option value="0"> ------ </option>
+
+                <option value="1">Teil 1</option>
+                <option value="2">Teil 2</option>
+                <option value="3">Teil 3</option>
+                <option value="4">Teil 4</option>
+                <option value="5">Teil 5</option>
+                <option value="6">Teil 6</option>
+                <option value="7">Teil 7</option>
+                <option value="8">Mündliche Fragen</option>
+
+            </select>
+        </div> -->
+        
+        
+            <div class="container">
+                <label id="Haupt3" onclick="toggleDropdown()">Fragen </label>
+                <select id="spinner" onchange="redirectToScreen2(this.value)">
+                    <option value="0"> ------ </option>
+
+                    <option value="14">Recht der öffentlichen Sicherheit und Ordnung</option>
+                    <option value="15">Gewerberecht</option>
+                    <option value="16">Datenschutuz</option>
+                    <option value="17">Bürgliches Gesetzbuch</option>
+                    <option value="18">Strafgesetzbuch (BT)</option>
+                    <option value="19">Unfallverhütungsvorschriften</option>
+                    <option value="20">Waffenrecht</option>
+                    <option value="21">Umgang mit Menschen</option>
+                    <option value="22">Sicherheitstechnik</option>
+
+           
+        </select>
+        
+            </div>
+            <button id="Begriffe" onclick="myFunction()">Begriffe</button>
+        </div>
+        <label for="">.</label>
+        
+
+        <script src="https://www.gstatic.com/firebasejs/8.0.0/firebase-app.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/8.0.0/firebase-auth.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/8.0.0/firebase-database.js"></script>
+            <script src="https://www.gstatic.com/firebasejs/9.4.2/firebase-firestore.js"></script>
+
+        
+            
+            <div id="footer">
+                All rights reserved 2025
+            </div>
+            <div id="blackDiv"></div>
+            <label for="">.</label>
+
+       
+  <script>
+    // تشفير الرابط
+    var url = 'https://shta34a.de/index.html';
+
+// تشفير الرابط
+var encodedUrl = btoa(url);
+console.log('الرابط المشفر:', encodedUrl);
+
+
+
+document.getElementById("hauptseite").style.color = "green";
+
+function redirectToScreen1(value) {
+    if (value === "6") {
+        window.location.href = 'Stgb.html?value=' + value;
+    } else {
+        window.location.href = 'Themen.html?value=' + value;
+    }
+}
+function redirectToScreen2(value) {
+        window.location.href = '3SeiteUnterindex.html?value=' + value;
+    }
+   
+    function redirectToScreen3(value) {
+        window.location.href = 'FragenPDF.html?value=' + value;
+    }
+
+    function myFunction() {
+    window.location.href = 'FragenPDF.html?value=9';
+}
+
+
+
+    document.addEventListener("DOMContentLoaded", function() {
+    if (localStorage.getItem('userId')) {
+       
+        
+        changeDisplay();
+    }
+
+});
+
+
+    const firebaseConfig = {
+        apiKey: "AIzaSyDvB1XxgU5sTeT2bQzQvzkW_iu35Xi5TsA",
+  authDomain: "unterrichtung.firebaseapp.com",
+  projectId: "unterrichtung",
+  storageBucket: "unterrichtung.firebasestorage.app",
+  messagingSenderId: "1029075474386",
+  appId: "1:1029075474386:web:471c32f35dd29be1f45a0b",
+  measurementId: "G-NFGTVKMCFY"
+    };
+
+    firebase.initializeApp(firebaseConfig);
+
+function disableUserAccount(uid) {
+    // يجب تنفيذ وظيفة تعطيل الحساب هنا
+    // يمكنك إرجاع Promise.resolve() للأغراض التوضيحية
+    return Promise.resolve();
+}
+
+function disableUserAccount(uid) {
+ 
+  return Promise.resolve(); // للأغراض التوضيحية فقط
+}
+function checkAccountStatusAndPerformAction() {
+    var user = firebase.auth().currentUser;
+
+    if (user) {
+        var userId = user.uid;
+
+        // استعلام عن حالة الحساب من قاعدة البيانات
+        firebase.firestore().collection('users').doc(userId).get().then((doc) => {
+            if (doc.exists) {
+                var accountStatus = doc.data().accountStatus;
+
+                if (accountStatus === 'enabled') {
+                    console.log('تنفيذ عمل...');
+
+                } else if (accountStatus === 'disabled') {
+                    // الحساب معطل، يجب تسجيل الخروج وعرض logincontainer
+                    logoutUser();
+                    document.getElementById('loginContainer').style.display = 'block';
+                }
+            } else {
+                console.error('لا يوجد مستخدم بهذا الهوية');
+            }
+        }).catch((error) => {
+            console.error('حدث خطأ أثناء استعلام حالة الحساب:', error);
+        });
+    } else {
+        console.log('المستخدم غير مسجل دخول');
+    }
+}
+
+// تسجيل الخروج من Firebase
+function logoutUser() {
+    firebase.auth().signOut().then(() => {
+        // تم تسجيل الخروج بنجاح
+        console.log('تم تسجيل الخروج بنجاح');
+    }).catch((error) => {
+        console.error('حدث خطأ أثناء تسجيل الخروج:', error);
+    });
+
+}
+
+// استدعاء الدالة عند الضغط على أي زر
+document.getElementById('anyButton').addEventListener('click', checkAccountStatusAndPerformAction);
+   
+function signInSuccessful(userId) {
+    var currentTime = new Date().getTime(); // الحصول على الوقت الحالي بتنسيق الـ Unix
+
+    // تسجيل معرف المستخدم ووقت تسجيل الدخول في قاعدة البيانات
+    firebase.database().ref('logged_users/' + userId).set({
+        login_time: currentTime
+    });
+}
+
+function signIn() {
+    var email = document.getElementById("email").value;
+    var password = document.getElementById("password").value;
+    var messageDiv = document.getElementById("message");
+    var rememberMe = document.getElementById("rememberMeCheckbox").checked;
+
+    // تسجيل الدخول باستخدام Firebase مع تمكين خاصية التذكري
+    firebase.auth().signInWithEmailAndPassword(email, password)
+        .then((userCredential) => {
+            var user = userCredential.user;
+            var userId = user.uid;
+            localStorage.setItem('userId_standard', userId);
+
+            signInSuccessful(userId);
+            changeDisplay();
+        
+            // حفظ بيانات تسجيل الدخول في التخزين المحلي إذا تم تمكين زر التذكري
+            if (rememberMe) {
+                localStorage.setItem("rememberedEmail", email);
+                localStorage.setItem("rememberedPassword", password);
+            }
+
+            // بعد نجاح تسجيل الدخول، قم بتغيير عرض القائمة
+        })
+        .catch((error) => {
+            localStorage.removeItem('userId');
+
+            var errorMessage = error.message;
+            messageDiv.innerHTML = "<span style='color: red; font-size: 1.2em;'> Fehlgeschlagen: " + errorMessage + "</span>";
+            console.error("Fehlgeschlagen:", errorMessage);
+        });
+}
+
+// تغيير عرض القائمة بعد تسجيل الدخول
+function changeDisplay() {
+    
+    firebase.auth().onAuthStateChanged(function(user) {
+        if (user) {
+            console.log(user.uid);
+            var containerWrapper = document.querySelector(".container-wrapper");
+            containerWrapper.style.display = "flex";
+            document.getElementById("loginContainer").style.display = "none"; // إخفاء نافذة تسجيل الدخول
+            localStorage.setItem('userId', user.uid);
+        } else {
+            // المستخدم غير مسجل الدخول، يمكن عرض نافذة تسجيل الدخول
+            console.log("المستخدم غير مسجل الدخول");
+            document.getElementById("loginContainer").style.display = "block";
+            var containerWrapper = document.querySelector(".container-wrapper");
+            containerWrapper.style.display = "none"; // إخفاء القائمة
+            localStorage.removeItem('userId');
+        }
+
+        // استرجاع بيانات تسجيل الدخول من التخزين المحلي إذا توفرت
+        document.addEventListener("DOMContentLoaded", function () {
+            var rememberedEmail = localStorage.getItem("rememberedEmail");
+            var rememberedPassword = localStorage.getItem("rememberedPassword");
+            if (rememberedEmail && rememberedPassword) {
+                document.getElementById("email").value = rememberedEmail;
+                document.getElementById("password").value = rememberedPassword;
+            }
+        });
+    });
+}
+
+
+function generateDeviceId() {
+  // يمكنك استخدام مكتبة توليد معرف فريد مثل uuid أو أي طريقة أخرى
+  // في هذا المثال، سأفترض استخدام تاريخ الآن كمعرف
+  return new Date().toISOString();
+}
+
+function saveUserUidToDatabase(uid, deviceId) {
+  // حفظ معرف المستخدم ومعرف الجهاز في قاعدة البيانات
+  firebase.database().ref('users/' + uid).set({
+    deviceId: deviceId
+  });
+}
+
+    // يمكنك استدعاء هذه الدالة في أي مكان من الشيفرة حيث ترغب في إظهار الرسالة
+    showMoreVideosText();
+    var containerWrapper = document.querySelector(".container-wrapper");
+    containerWrapper.style.display = "none";
+            
+            function toggleText() {
+                document.getElementById("loginContainer").style.display = "none"; // إخفاء جدول تسجيل الدخول
+
+        var textToToggle = document.getElementById("textToToggle");
+        if (textToToggle.style.display === "none") {
+            textToToggle.style.display = "block";
+        } 
+        if (textToToggle2.style.display === "block") {
+            textToToggle2.style.display = "none";
+        }
+        if (videoContainer.style.display === "flex") {
+            videoContainer.style.display = "none";
+}
+if (contactPage.style.display === "block") {
+                contactPage.style.display = "none";
+        }
+        var containerWrapper = document.querySelector(".container-wrapper");
+    containerWrapper.style.display = "none";
+    }
+
+    function ÜberApp() {
+                document.getElementById("loginContainer").style.display = "none"; // إخفاء جدول تسجيل الدخول
+
+        var textToToggle2 = document.getElementById("textToToggle2");
+        if (textToToggle2.style.display === "none") {
+            textToToggle2.style.display = "block";
+        } 
+        
+        if (textToToggle.style.display === "block") {
+            textToToggle.style.display = "none";
+    } 
+    if (videoContainer.style.display === "flex") {
+            videoContainer.style.display = "none";
+}
+if (contactPage.style.display === "block") {
+                contactPage.style.display = "none";
+        }
+
+        var containerWrapper = document.querySelector(".container-wrapper");
+    containerWrapper.style.display = "none";
+}
+    function Kontakt() {
+        document.getElementById("loginContainer").style.display = "none";
+
+            document.getElementById("contactPage").style.display = "block";
+            if (textToToggle2.style.display === "block") {
+            textToToggle2.style.display = "none";
+            }
+            if (textToToggle.style.display === "block") {
+            textToToggle.style.display = "none";
+          
+        }
+        if (videoContainer.style.display === "flex") {
+            videoContainer.style.display = "none";
+        }
+        if (contactPage.style.display === "none") {
+                contactPage.style.display = "block";
+            }
+            var containerWrapper = document.querySelector(".container-wrapper");
+    containerWrapper.style.display = "none";
+    }
+    
+        function joinWhatsappGroup() {
+          window.open("https://chat.whatsapp.com/Hhx6TyKLf917EQQBw7Ao9P");
+        }
+        function Home1() {
+
+            if (contactPage.style.display === "block") {
+                contactPage.style.display = "none";
+        }
+            changeDisplay();
+            if (textToToggle2.style.display === "block") {
+            textToToggle2.style.display = "none";
+            }
+            if (textToToggle.style.display === "block") {
+            textToToggle.style.display = "none";
+        }
+        if (videoContainer.style.display === "flex") {
+            videoContainer.style.display = "none";
+}
+
+        if (message.innerHTML === "Du bist angemeldet!") {
+            
+            // تم تسجيل الدخول بنجاح، قم بإخفاء loginContainer
+            if (loginContainer.style.display === "block") {
+                loginContainer.style.display = "none";
+                
+            }
+            else if (message.innerHTML === "" || message.innerHTML === "Fehlgeschlagen!") {
+         if (loginContainer.style.display === "none") {
+             loginContainer.style.display = "block";   
+            }  
+ }  
+} 
+
+if (loginContainer.style.display === "none") {
+    
+
+    var containerWrapper = document.querySelector(".container-wrapper");
+    containerWrapper.style.display = "flex";} 
+
+}
+        function showTazMessage() {
+            alert(" يجب التواصل معي للحصول على حساب. الحساب مدفوع وليس مجاني.  ");
+        }
+        function saveUserUidToDatabase(uid) {
+  // استخدم مسارًا في قاعدة البيانات حسب احتياجاتك
+  var userRef = firebase.database().ref('users/' + uid);
+  userRef.set({
+    uid: uid
+  });
+}
+function showHaup1() {
+            // الكود الخاص بعرض الأقسام (التوبيكات)
+            console.log("عرض الأقسام (التوبيكات)");
+        }
+        function showHaup1() {
+        // تحديد العنوان URL للصفحة الجديدة التي تريد التنقل إليها (في نفس المجلد)
+        let newPageURL = 'main.js';
+        // التنقل إلى الصفحة الجديدة
+        window.location.href = newPageURL;
+    }
+    
+     </script>
+
+    </body>
+
+    </html>
+
+
+
