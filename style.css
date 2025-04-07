@@ -186,13 +186,23 @@ body {
   display: flex;
   flex-direction: column;
   gap: 3px; /* المسافة بين الأزرار داخل button-container */
+  padding: 7px;
+  width: 95%;
+  margin: auto;
+  position: relative; /* تحديد العنصر كموضع نسبي */
+  margin: 0; /* إزالة المسافة الخارجية */
+
+}
+button-container {
+  display: flex;
+  flex-direction: column;
+  gap: 3px; /* المسافة بين الأزرار داخل button-container */
   padding: 10px; /* قلل الحشو لتقليل المسافة الداخلية */
   margin: 0; /* إزالة المسافة الخارجية */
   width: 98%; /* اجعل العرض قريبًا من الحواف */
   margin: 0 auto; /* حافظ على التمركز الأفقي */
   position: relative; /* تحديد العنصر كموضع نسبي */
 }
-
 #button-container button {
   text-align: left;
   padding: 15px;
@@ -202,7 +212,7 @@ body {
   width: 100%;
   background-color: #007bff;
   color: #ffffff;
-  font-size: 16px;
+  font-size: 17px;
   height: 150%;
   font-weight: bold;
 
@@ -244,11 +254,12 @@ table {
   margin-top: -20px; /* رفع العنصر الأول إلى الأعلى بقيمة سالبة */
 }
 
+
 #label1 {
   display: none;
 
-  margin-top: -10px;
-  font-size: 16px;
+  margin-top: 20px;
+  font-size: 20px;
   font-weight: bold;
   display: flex;
   align-items: center;
@@ -310,18 +321,38 @@ table {
   border-radius: 5px;
   position: relative;
 }
-.percentage {
+.percentage,
+.percentage2,
+.percentage3,
+.percentage4,
+.percentage5,
+.percentage6,
+.percentage7,
+.percentage8,
+.percentage9 {
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  color: white;
   font-weight: bold;
+ color: #ffffff;
+
 }
-#resultsContainer {
+#resultsContainer,
+#resultsContainer2,
+#resultsContainer3,
+#resultsContainer4,
+#resultsContainer5,
+#resultsContainer6,
+#resultsContainer7,
+#resultsContainer8,
+#resultsContainer9 {
   flex-direction: column;
-  gap: 0px; /* تثليل التباعد بين العناصر بمقدار 10 بيكسل */
+  gap: 0px; /* تقليل التباعد بين العناصر */
+  background-color: #5c91f3;
+
 }
+
 
 .table-container table {
   border-collapse: collapse;
@@ -351,6 +382,8 @@ table {
   text-align: center; /* توسيط النص داخل العنصر */
   gap: 20px;
   margin-top: 10px;
+  font-weight: bold;
+
 }
 
 #label40,
@@ -366,7 +399,7 @@ table {
   align-items: center;
   justify-content: center;
   text-align: center; /* توسيط النص داخل العنصر */
-  gap: 20px;
+  gap: 10px;
   margin-top: 10px;
   color: #007bff; /* تغيير لون النص */
 }
@@ -443,9 +476,20 @@ table {
 
 #Punkte {
   display: flex;
-  flex-grow: 1; /* يمتد لملء المساحة المتبقية */
-  text-align: left; /* محاذاة النص إلى اليسار */
+  flex-grow: 1;
+  text-align: left;
+  padding: 10px 20px;
+  font-size: 1.1em; /* حجم الخط مثل العناوين */
+  font-weight: bold; /* جعل الخط عريض */
+  color: #333; /* لون أنيق للنص */
+  background-color: #f0f0f0; /* خلفية خفيفة */
+  border-left: 5px solid #4caf50; /* شريط جانبي أخضر مثل عنوان */
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* ظل خفيف */
+  align-items: center; /* محاذاة المحتوى عمودياً */
+  margin-bottom: 15px; /* مسافة أسفل العنصر */
 }
+
 
 /* تحسين أداء النقر في WebView */
 button:active {
@@ -519,3 +563,12 @@ button {
     opacity: 0;
   }
 }
+.center-container {
+  display: flex;
+  flex-direction: column; /* جعل العناصر تحت بعض */
+  align-items: center;     /* توسيط أفقي */
+  justify-content: center; /* توسيط عمودي */
+  gap: 10px;
+  margin-top: 50px;
+}
+
