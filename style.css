@@ -1,241 +1,578 @@
-<!DOCTYPE html>
-<html lang="en">
+* {
+  /* هنا اساسيات للصفحه  */
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  user-select: none;
+  touch-action: manipulation;
+}
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="./style.css">
-    <title>Sachkunde 34a Übungen</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
-        integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
-        crossorigin="anonymous" referrerpolicy="no-referrer" />
-</head>
+.language-selector {
+  margin: 2px;
+  font-size: 13px;
+  padding: 2px;
+}
+.restoreButton {
+  margin: 1px;
+  font-size: 11px;
+  padding: 2px;
+  color: #ffffff;
 
-<body>
-    
+}
 
-    <header id="Button-bar title-bar" class="translate-exclude1 header">
-        <h1 id="title-bar" class="head-nav" style="font-size: 15px;"></h1>
-        <div class="right-nav">
-            <button id="listenButton" class="btn1">Hören</button>
-            <button id="showResults" class="btn1"
-                style="display: flex; justify-content: center; align-items: center;">Prüfung abgeben</button>
-            <div class="icon"><i class="fa-solid fa-bars"></i></div>
-        </div>
-    </header>
-    <div class="list-left">
-        <div class="continar ">
-
-            <div id="control-panel">
-            
-            <select id="languageSelector" class="language-selector" onchange="translateText()">
-                <option value="">-- Sprache auswählen --</option>
-                <option value="ar">Arabisch</option> <!-- العربية -->
-    <option value="en">Englisch</option> <!-- الإنجليزية -->
-    <option value="it">Italienisch</option> <!-- الإيطالية -->
-    <option value="ru">Russisch</option> <!-- الروسية -->
-    <option value="pt">Portugiesisch</option> <!-- البرتغالية -->
-    <option value="fa">Persisch</option> <!-- الفارسية -->
-    <option value="ps">Paschtu</option> <!-- الأفغانية (بشتو) -->
-    <option value="af">Afrikaans</option> <!-- الأفريقية -->
-    <option value="pl">Polnisch</option> <!-- البولندية -->
-    <option value="tr">Türkisch</option> <!-- التركية -->
-    <option value="fr">Französisch</option> <!-- الفرنسية -->
-    <option value="ur">Urdu</option> <!-- الأردية -->
-    <option value="ku">Kurdisch</option> <!-- الكردية -->
-    <option value="sq">Albanisch</option> <!-- الألبانية -->
-
- </select>
-              <button class="restoreButton" id="restoreButton" onclick="restoreOriginalText()" style="display: none;">
-                Deutsch
-              </button>
-            </div>
-            
-            <div class="label">
-                <label id="Punkte" class="translate-exclude">Punkte</label>
-            </div>
-        </div>
-        
-    </div>
-    <div id="finalResultText" class="translate-exclude"></div>
-    <div id="countdown-timer" class="translate-exclude timer"></div>
-    <div class="continar"></div>
-        <div class="container" id="resultsContainer">
-            <div class="subject">
-                <h3 id="subjectTitle">الموضوع الأول (0 من 8)</h3>
-                <div class="bar-container">
-                    <div id="progressBar" class="bar green" style="width: 100%;">
-                        <span id="percentage" class="percentage">0%</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-        <div class="container" id="resultsContainer2">
-            <div class="subject">
-                <h3 id="subjectTitle2">الموضوع الثاني (0 من 4)</h3>
-                <div class="bar-container">
-                    <div id="progressBar2" class="bar green" style="width: 100%;">
-                        <span id="percentage2" class="percentage">0%</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-
-    <div class="container" id="resultsContainer3">
-        <div class="subject">
-            <h3 id="subjectTitle3">الموضوع الثالث (0 من 4)</h3>
-            <div class="bar-container">
-                <div id="progressBar3" class="bar green" style="width: 100%;">
-                    <span id="percentage3" class="percentage">0%</span>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-
-    <div class="container" id="resultsContainer4">
-        <div class="subject">
-            <h3 id="subjectTitle4">الموضوع الرايع (0 من 24)</h3>
-            <div class="bar-container">
-                <div id="progressBar4" class="bar green" style="width: 100%;">
-                    <span id="percentage4" class="percentage">0%</span>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-
-    <div class="container" id="resultsContainer5">
-        <div class="subject">
-            <h3 id="subjectTitle5">الموضوع الرايع (0 من 24)</h3>
-            <div class="bar-container">
-                <div id="progressBar5" class="bar green" style="width: 100%;">
-                    <span id="percentage5" class="percentage">0%</span>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-
-    <!-- Resul6 Unfallverhütungsvorschrift -->
-    <div class="container" id="resultsContainer6">
-        <div class="subject">
-            <h3 id="subjectTitle6">الموضوع الرايع (0 من 24)</h3>
-            <div class="bar-container">
-                <div id="progressBar6" class="bar green" style="width: 100%;">
-                    <span id="percentage6" class="percentage">0%</span>
-                </div>
-            </div>
-        </div>
-    </div>
+button {
+  cursor: pointer;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-appearance: none;
+  background-color: #007bff;
+  color: rgb(50, 42, 42);
+  border: none;
+  outline: none;
+  padding: 12px;
+  border-radius: 8px;
+  font-size: 16px;
+  min-height: 44px;
+  margin: 5px 0;
+  position: relative;
+  overflow: hidden;
+}
 
 
 
-    <!-- Waffenrecht -->
-    <div class="container" id="resultsContainer7">
-        <div class="subject">
-            <h3 id="subjectTitle7">الموضوع الرايع (0 من 24)</h3>
-            <div class="bar-container">
-                <div id="progressBar7" class="bar green" style="width: 100%;">
-                    <span id="percentage7" class="percentage">0%</span>
-                </div>
-            </div>
-        </div>
-    </div>
+/* Continar */
+.continar {
+  max-width: 1600px; /* الحد الأقصى لعرض الحاوية */
+  padding: 5px;
+  margin-left: auto;
+  margin-right: auto;
+  display: flex;
+  flex-wrap: wrap; /* لضبط المحتويات بشكل تلقائي */
+  gap: 20px;
+}
+@media (max-width: 768px) {
+  .continar {
+    /* العناصر تكون عمودية على الشاشات الصغيرة */
+    padding: 15px;
+  }
+}
+body {
+  /* هنا تنسيق الصفحه  */
+  width: 100%;
+  min-height: 100vh;
+  background-color: #f7f7f7;
+  font-family: Arial, sans-serif;
+  position: relative;
+}
+/* هنا ال navigttion */
+.header {
+  width: 100%;
+  height: 5.2rem;
+  padding: 2rem 4rem;
+  background-color: #2e3b4e;
+  color: #ffffff;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom-left-radius: 25px;
+  border-bottom-right-radius: 25px;
+}
+
+.header .head-nav {
+  font-size: 1.5rem !important;
+  font-weight: bold;
+}
+
+@media (max-width: 790px) {
+  .header {
+    padding: 2rem 1rem;
+  }
+  .header .head-nav {
+    font-size: 1rem;
+  }
+}
+
+.header .right-nav {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 2rem;
+}
+
+.header .right-nav .btn1 {
+  width: 4rem;
+  height: 0.5rem;
+  cursor: pointer;
+  outline: none;
+  background-color: #0080f0;
+  color: #ffffff;
+  border: none;
+  border-radius: 4px;
+  transition: all 0.3s ease;
+  font-size: 11px;
+}
 
 
-    <!-- Umgang mit Menschen -->
-    <div class="container" id="resultsContainer8">
-        <div class="subject">
-            <h3 id="subjectTitle8">الموضوع الرايع (0 من 24)</h3>
-            <div class="bar-container">
-                <div id="progressBar8" class="bar green" style="width: 100%;">
-                    <span id="percentage8" class="percentage">0%</span>
-                </div>
-            </div>
-        </div>
-    </div>
+.header .right-nav .btn1:hover {
+  background-color: #5a6268;
+}
+.header .right-nav .icon {
+  font-size: 25px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+.header .right-nav .icon:hover {
+  font-size: 27px;
+}
+@media (max-width: 570px) {
+  .header .right-nav .btn1 {
+    width: 4rem;
+    height: 3rem;
+    font-size: 11px;
+  }
+  .header .right-nav {
+    gap: 1rem;
+  }
+}
+/* List Left Item */
+.list-left {
+  width: 100%;
+}
+
+.list-left .continar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.timer {
+  margin-top: 0rem !important;
+  font-weight: bold;
+  font-size: 15px;
+  color: #2e3b4e !important;
+  padding: 4px;
+}
+.table-container {
+  position: fixed;
+  top: 0; /* تحديد الارتفاع الجديد من الأعلى */
+  right: 0;
+  bottom: 0;
+  width: 0px;
+  margin-left: auto; /* دفع الجدول إلى اليمين */
+  overflow-y: auto; /* تمكين التمرير العمودي */
+  max-height: calc(
+    100vh - 70px
+  ); /* تحديد ارتفاع أقصى للجدول بعد التقليل من الأعلى */
+  transition: all 0.4s ease-in-out;
+  -webkit-overflow-scrolling: touch;
+  scroll-behavior: smooth;
+}
+.tableAdd {
+  width: 250px;
+}
+.button-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: -1%; /* توسيط أفقي */
+  margin-top: -40px;
+  font-size: 15px;
+  
+  
+}
+
+#button-container {
+  display: flex;
+  flex-direction: column;
+  gap: 3px; /* المسافة بين الأزرار داخل button-container */
+  padding: 7px;
+  width: 95%;
+  margin: auto;
+  position: relative; /* تحديد العنصر كموضع نسبي */
+  margin: 0; /* إزالة المسافة الخارجية */
+
+}
+button-container {
+  display: flex;
+  flex-direction: column;
+  gap: 3px; /* المسافة بين الأزرار داخل button-container */
+  padding: 10px; /* قلل الحشو لتقليل المسافة الداخلية */
+  margin: 0; /* إزالة المسافة الخارجية */
+  width: 98%; /* اجعل العرض قريبًا من الحواف */
+  margin: 0 auto; /* حافظ على التمركز الأفقي */
+  position: relative; /* تحديد العنصر كموضع نسبي */
+}
+#button-container button {
+  text-align: left;
+  padding: 15px;
+  outline: none;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+  background-color: #007bff;
+  color: #ffffff;
+  font-size: 17px;
+  height: 150%;
+  font-weight: bold;
+
+}
+
+#button-container button:hover {
+  transform: translateX(10px);
+  background-color: #0056b3;
+}
+#button-container label {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  font-size: 13px;
+  line-height: 1.3;
+  font-weight: bold;
+  height: 150%;
+}
+
+table {
+  width: auto;
+  background-color: #000003;
+  gap: 50px;
+  font-size: 16px !important;
+}
+
+#button-container label:first-child {
+  background-color: #2e3b4e;
+  padding: 10px;
+  /* تغيير لون الخلفية */
+  color: #fff; /* تغيير لون النص */
+  font-weight: bold; /* تغيير الوزن */
+  justify-content: center;
+  display: flex;
+  font-size: 18px;
+}
+
+.first-item-wrapper {
+  margin-top: -20px; /* رفع العنصر الأول إلى الأعلى بقيمة سالبة */
+}
 
 
-    <!-- Sicherheitstechnik -->
-    <div class="container" id="resultsContainer9">
-        <div class="subject">
-            <h3 id="subjectTitle9">الموضوع الرايع (0 من 24)</h3>
-            <div class="bar-container">
-                <div id="progressBar9" class="bar green" style="width: 100%;">
-                    <span id="percentage9" class="percentage">0%</span>
-                </div>
-            </div>
-        </div>
-    </div>
-    </div>
-    <div>
-        <ul id="list2"></ul>
+#label1 {
+  display: none;
 
-        <div class="button-box">
-            <div id="button-container"></div>
-        </div>
-        <div>
-            <label id="label1"></label>
-            <label id="labelIndex">Index</label>
-
-
-        </div>
-        <div>
-            <label id="label5"></label>
-            <div id="next-buttons">
-                <button id="back">Zurück</button>
-                <button id="checkAnswers">Beantworten</button>
-
-                <button id="next">Weiter</button>
-            </div>
-
-
-            <button id="Pro">Pro</button>
+  margin-top: 20px;
+  font-size: 20px;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.tr {
+  font-size: 13px !important;
+}
+#label5 {
+  margin-top: 40px;
+  font-size: 16px;
+  font-weight: bold;
+}
+#list {
+  display: none;
+}
+#next-buttons {
+  width: 100%;
+  padding: 0 3rem;
+  display: flex;
+  gap: 20px;
+  margin-top: 10px; /* إضافة مسافة بادئة من أعلى الأزرار */
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 0rem;
+}
 
 
-            <div>
-                <ul id="list"></ul>
-            </div>
-            <div class="table-container">
-                <table class="first-table">
-                    <thead>
-                        <tr class="tr">
-                            <th class="tr">عنصر</th>
-                        </tr>
-                    </thead>
-                    <tbody id="table-body" class="tbody">
-                        <!-- بيانات الجدول ستتم إضافتها هنا باستخدام JavaScript -->
-                    </tbody>
-                </table>
-            </div>
+#check-button {
+  margin-top: 10px; /* إضافة مسافة بادئة من أعلى الأزرار */
+}
+
+.container {
+  margin-bottom: 3rem;
+  margin: 10px auto 20px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  width: 80%;
+  gap: 0px;
+  display: none; /* تحديد العنصر كعنصر Flexbox */
+}
+
+.subject {
+  margin-top: 10px; /* تحديد هامش علوي لتجنب تغطية العنوان */
+}
+
+.subject h3 {
+  margin-bottom: 5px;
+}
+.bar-container {
+  background-color: #f0f0f0;
+  border-radius: 5px;
+  padding: 5px;
+  position: relative;
+}
+.bar {
+  background-color: #4caf50;
+  height: 20px;
+  border-radius: 5px;
+  position: relative;
+}
+.percentage,
+.percentage2,
+.percentage3,
+.percentage4,
+.percentage5,
+.percentage6,
+.percentage7,
+.percentage8,
+.percentage9 {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-weight: bold;
+ color: #ffffff;
+
+}
+#resultsContainer,
+#resultsContainer2,
+#resultsContainer3,
+#resultsContainer4,
+#resultsContainer5,
+#resultsContainer6,
+#resultsContainer7,
+#resultsContainer8,
+#resultsContainer9 {
+  flex-direction: column;
+  gap: 0px; /* تقليل التباعد بين العناصر */
+  background-color: #5c91f3;
+
+}
 
 
+.table-container table {
+  border-collapse: collapse;
+  width: 100%;
+}
+.table-container th,
+.table-container td {
+  border: 1px solid black;
+  padding: 0; /* تخفيض التباعد داخل الخلية */
+}
+.table-container button {
+  height: 50px;
+  width: 100%;
+  padding: 10px 20px;
+  overflow: hidden;
+  text-overflow: ellipsis; /* لوضع نقط الانقطاع في حال تم قص النص */
+  display: -webkit-box;
+  -webkit-line-clamp: 2; /* عدد الأسطر التي يتم عرضها */
+  -webkit-box-orient: vertical;
+}
 
-            <label id="label40">label40</label>
+#finalResultText {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center; /* توسيط النص داخل العنصر */
+  gap: 20px;
+  margin-top: 10px;
+  font-weight: bold;
 
-            <label id="label50">Iabel50</label>
+}
 
-            <label id="label60">Iabel60</label>
+#label40,
+#label50,
+#label60,
+#label70,
+#label80 {
+  display: none;
+}
+#countdown-timer {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center; /* توسيط النص داخل العنصر */
+  gap: 10px;
+  margin-top: 10px;
+  color: #007bff; /* تغيير لون النص */
+}
+#Pro {
+  display: none;
+}
 
-            <label id="label70">Iabel70</label>
+#labelIndex {
+  display: none;
+}
+#list2 {
+  display: none;
+}
 
-            <label id="label80">Iabel80</label>
+#next {
+  display: flex;
+  justify-content: center; /* توسيط العناصر */
+  align-items: center; /* توسيط العناصر */
+  background-color: #1e88e5; /* لون خلفية العنصر */
+  border-radius: 10px; /* زوايا مستديرة */
+  padding: 10px; /* هامش داخلي */
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); /* ظل */
+  color: #fffdfd; /* لون النص */
+  font-size: 15px; /* حجم الخط */
+  width: 50%;
+  height: auto;
+  cursor: pointer;
+  outline: none;
+  border: none;
+  
 
-            <footer style="text-align: center; margin-top: 20px; font-size: 14px; color: #666;">
-                All rights reserved 2024/2025
-            </footer>
-           
-            
-            <script src="main.js"></script>
-</body>
+}
+#next:hover {
+  background-color: #0056b3;
+}
+#back {
+  display: flex;
+  justify-content: center; /* توسيط العناصر */
+  align-items: center; /* توسيط العناصر */
+  background-color: #1e88e5; /* لون خلفية العنصر */
+  border-radius: 10px; /* زوايا مستديرة */
+  padding: 10px; /* هامش داخلي */
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); /* ظل */
+  color: #fffdfd; /* لون النص */
+  font-size: 15px; /* حجم الخط */
+  width: 50%;
+  cursor: pointer;
+  outline: none;
+  border: none;
+  
+ 
+}
+#back:hover {
+  background-color: #0056b3;
+}
+#checkAnswers {
+  display: flex;
+  justify-content: center; /* توسيط العناصر */
+  align-items: center; /* توسيط العناصر */
+  background-color: #4caf50; /* لون خلفية العنصر */
+  border-radius: 10px; /* زوايا مستديرة */
+  padding: 10px; /* هامش داخلي */
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); /* ظل */
+  color: #fff; /* لون النص */
+  font-size: 13px; /* حجم الخط */
+  width: 50%;
+  cursor: pointer;
+  outline: none;
+  border: none;
+  
+ 
+}
 
-</html>
+
+#Punkte {
+  display: flex;
+  flex-grow: 1;
+  text-align: left;
+  padding: 6px 15px;
+  font-size: 0.5; /* حجم الخط مثل العناوين */
+  font-weight: bold; /* جعل الخط عريض */
+  color: #333; /* لون أنيق للنص */
+  background-color: #f0f0f0; /* خلفية خفيفة */
+  border-left: 5px solid #4caf50; /* شريط جانبي أخضر مثل عنوان */
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* ظل خفيف */
+  align-items: center; /* محاذاة المحتوى عمودياً */
+  margin-bottom: 14px; /* مسافة أسفل العنصر */
+}
+
+
+/* تحسين أداء النقر في WebView */
+button:active {
+  transform: scale(0.95);
+  transition: transform 0.1s;
+}
+
+/* تحسين عرض الأزرار على الأجهزة المحمولة */
+@media (max-width: 768px) {
+  button {
+    min-height: 44px;
+    padding: 12px;
+    font-size: 16px;
+  }
+
+  #button-container button {
+    margin: 5px 0;
+  }
+}
+
+/* إضافة تأثير الـ ripple */
+.ripple {
+  position: absolute;
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  pointer-events: none;
+  width: 100px;
+  height: 100px;
+  transform: translate(-50%, -50%) scale(0);
+  animation: ripple 0.6s linear;
+}
+
+@keyframes ripple {
+  to {
+    transform: translate(-50%, -50%) scale(4);
+    opacity: 0;
+  }
+}
+
+/* تحسينات WebView */
+* {
+  -webkit-tap-highlight-color: transparent !important;
+  -webkit-touch-callout: none !important;
+  -webkit-user-select: none !important;
+  user-select: none !important;
+  touch-action: manipulation !important;
+}
+
+button {
+  transform: translateZ(0) !important;
+  backface-visibility: hidden !important;
+  perspective: 1000px !important;
+  will-change: transform !important;
+  transition: transform 0.1s ease-out !important;
+}
+
+.ripple {
+  position: absolute;
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  pointer-events: none;
+  width: 100px;
+  height: 100px;
+  transform: translate(-50%, -50%) scale(0);
+  animation: ripple 0.6s linear;
+}
+
+@keyframes ripple {
+  to {
+    transform: translate(-50%, -50%) scale(4);
+    opacity: 0;
+  }
+}
+.center-container {
+  display: flex;
+  flex-direction: column; /* جعل العناصر تحت بعض */
+  align-items: center;     /* توسيط أفقي */
+  justify-content: center; /* توسيط عمودي */
+  gap: 10px;
+  margin-top: 50px;
+}
+
