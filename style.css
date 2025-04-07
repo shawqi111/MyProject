@@ -85,26 +85,30 @@ body {
 }
 
 .header .head-nav {
-  font-size: 0.9rem !important;
+  font-size: 4vw; /* استخدام نسبة عرض الشاشة لتغيير حجم الخط */
   font-weight: bold;
+  /* يمكن تحديد حجم الخط بشكل مرن بحيث يتغير بناءً على العرض */
 }
+
 @media (max-width: 790px) {
   .header {
     padding: 2rem 1rem;
   }
   .header .head-nav {
-    font-size: 1rem;
+    font-size: 5vw; /* زيادة الحجم قليلاً على الشاشات الصغيرة */
   }
 }
+
 .header .right-nav {
   display: flex;
   justify-content: center;
   align-items: center;
   gap: 2rem;
 }
+
 .header .right-nav .btn1 {
-  width: 4rem; /* تقليل العرض */
-  height: 0.5rem; /* تقليل الارتفاع */
+  width: 4rem;
+  height: 0.5rem;
   cursor: pointer;
   outline: none;
   background-color: #0080f0;
@@ -112,8 +116,9 @@ body {
   border: none;
   border-radius: 4px;
   transition: all 0.3s ease;
-  font-size: 11px; /* تصغير حجم الخط */
+  font-size: 11px;
 }
+
 
 .header .right-nav .btn1:hover {
   background-color: #5a6268;
