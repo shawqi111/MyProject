@@ -466,6 +466,13 @@ function displayRow(rowNumber) {
               const table = document.createElement("table");
               const tr = document.createElement("tr");
               const td = document.createElement("td");
+
+              const td = document.createElement("td");
+
+// ✅ عنصر وهمي يحجز الـ first-child
+const placeholder = document.createElement("span");
+placeholder.style.display = "none";
+td.appendChild(placeholder);
               if (index === 0) {
                 const label = document.createElement("label");
                 label.textContent = column.trim();
