@@ -464,11 +464,41 @@ function displayRow(rowNumber) {
               const td = document.createElement("td");
 
 const td = document.createElement("td");
+if (column.trim() !== "." && column.trim() !== "") {
+  const table = document.createElement("table");
+  const tr = document.createElement("tr");
+  const td = document.createElement("td");
 
-// ✅ عنصر وهمي يحجز الـ first-child
-const placeholder = document.createElement("span");
-placeholder.style.display = "none";
-td.appendChild(placeholder);
+  // ✅ أضف العنصر الوهمي لحجز الـ first-child
+  const placeholder = document.createElement("span");
+  placeholder.style.display = "none";
+  td.appendChild(placeholder);
+
+  if (index === 0) {
+    const label = document.createElement("label");
+    label.textContent = column.trim();
+    td.appendChild(label);
+  } else {
+    const button = document.createElement("button");
+    button.textContent = column.trim();
+    const letter = String.fromCharCode(64 + index); // 65 = A → A, B, C...
+    button.id = "btn" + letter;
+
+    button.addEventListener("click", () => {
+      toggleButtonColor(button);
+    });
+
+    td.appendChild(button);
+  }
+
+  tr.appendChild(td);
+  table.appendChild(tr);
+  buttonContainer.appendChild(table);
+
+  const emptyRow = document.createElement("div");
+  emptyRow.style.height = "0px";
+  buttonContainer.appendChild(emptyRow);
+};
 
               
               if (index === 0) {
