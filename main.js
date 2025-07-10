@@ -467,12 +467,17 @@ function displayRow(rowNumber) {
               const tr = document.createElement("tr");
               const td = document.createElement("td");
 
-              const td = document.createElement("td");
+              
 
-// ✅ عنصر وهمي يحجز الـ first-child
+// ✅ أضف عنصر وهمي غير مرئي لحجز الـ first-child
 const placeholder = document.createElement("span");
-placeholder.style.display = "none";
-td.appendChild(placeholder);
+placeholder.textContent = " "; // لتفادي أن يكون فارغًا تمامًا
+placeholder.style.opacity = "0";
+placeholder.style.height = "0";
+placeholder.style.fontSize = "0";
+td.appendChild(placeholder); // ← أضفه هنا
+
+              
               if (index === 0) {
                 const label = document.createElement("label");
                 label.textContent = column.trim();
