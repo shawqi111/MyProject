@@ -498,10 +498,10 @@ function displayRow(rowNumber) {
               const emptyRow = document.createElement("div");
               emptyRow.style.height = "0px";
               buttonContainer.appendChild(emptyRow);
-              if (index === 0) {
-                table.style.backgroundColor = "#ccc";
+              //if (index === 0) {
+               // table.style.backgroundColor = "#ccc";
                 
-              }
+             //}
             }
 
             if (index === 4) {
