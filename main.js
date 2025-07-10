@@ -266,6 +266,10 @@ function FarbeinTable() {
 // استدعاء الدالة عند تحميل الصفحة
 document.addEventListener("DOMContentLoaded", FarbeinTable);
 
+function displayRow(rowNumber) {
+  // اكتب هنا السلوك المطلوب عند النقر على الزر
+  console.log("تم النقر على الصف رقم:", rowNumber);
+}
 
 function displayRow(rowNumber) {
   // تنفيذ السلوك المطلوب عند النقر على الزر
@@ -462,36 +466,6 @@ function displayRow(rowNumber) {
               const table = document.createElement("table");
               const tr = document.createElement("tr");
               const td = document.createElement("td");
-
-
-
-  if (index === 0) {
-    const label = document.createElement("label");
-    label.textContent = column.trim();
-    td.appendChild(label);
-  } else {
-    const button = document.createElement("button");
-    button.textContent = column.trim();
-    const letter = String.fromCharCode(64 + index); // 65 = A → A, B, C...
-    button.id = "btn" + letter;
-
-    button.addEventListener("click", () => {
-      toggleButtonColor(button);
-    });
-
-    td.appendChild(button);
-  }
-
-  tr.appendChild(td);
-  table.appendChild(tr);
-  buttonContainer.appendChild(table);
-
-  const emptyRow = document.createElement("div");
-  emptyRow.style.height = "0px";
-  buttonContainer.appendChild(emptyRow);
-};
-
-              
               if (index === 0) {
                 const label = document.createElement("label");
                 label.textContent = column.trim();
@@ -527,7 +501,7 @@ function displayRow(rowNumber) {
               if (index === 0) {
                 table.style.backgroundColor = "#ccc";
                 
-             }
+              }
             }
 
             if (index === 4) {
