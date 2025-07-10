@@ -266,10 +266,6 @@ function FarbeinTable() {
 // استدعاء الدالة عند تحميل الصفحة
 document.addEventListener("DOMContentLoaded", FarbeinTable);
 
-function displayRow(rowNumber) {
-  // اكتب هنا السلوك المطلوب عند النقر على الزر
-  console.log("تم النقر على الصف رقم:", rowNumber);
-}
 
 function displayRow(rowNumber) {
   // تنفيذ السلوك المطلوب عند النقر على الزر
