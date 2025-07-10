@@ -355,7 +355,7 @@ if (url) {
         quoteChar: '"',
         header: false,
       });
-      correctAnswers = parsedData.data.slice(1);
+      correctAnswers = parsedData.data.slice(2);
     })
     .catch((error) =>
       console.error("Error fetching correct answers CSV file:", error)
