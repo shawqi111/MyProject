@@ -1988,4 +1988,28 @@ function iconeHeder() {
   });
 }
 
+// ✅ أنشئ العنصر مرة واحدة فقط
+if (!document.getElementById("answer-debug")) {
+  const debugDiv = document.createElement("div");
+  debugDiv.id = "answer-debug";
+  debugDiv.style.position = "fixed";
+  debugDiv.style.bottom = "0";
+  debugDiv.style.left = "0";
+  debugDiv.style.right = "0";
+  debugDiv.style.backgroundColor = "#222";
+  debugDiv.style.color = "#0f0";
+  debugDiv.style.padding = "10px";
+  debugDiv.style.fontFamily = "monospace";
+  debugDiv.style.fontSize = "14px";
+  debugDiv.style.zIndex = "9999";
+  debugDiv.style.textAlign = "center";
+  debugDiv.textContent = "Debug Info: Waiting...";
+  document.body.appendChild(debugDiv);
+}
 
+// ✅ داخل دالة displayRow(rowNumber) بعد هذا السطر مباشرة:
+const correctRow = correctAnswers[rowNumber] || [];
+
+// ✅ ثم أضف هذا السطر لعرض ما تم قراءته
+document.getElementById("answer-debug").textContent =
+  `✅ Frage ${rowNumber} → Lösungen geladen: [${correctRow.filter(cell => cell.trim() !== "").join(", ")}]`;
