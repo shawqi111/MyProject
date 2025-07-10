@@ -1,13 +1,6 @@
 let originalHTML = ""; // متغير لحفظ النص الأصلي بالتنسيق
 let isTranslated = false; // حالة لمعرفة ما إذا كان النص مترجماً
-
-if (!localStorage.getItem('userId_standard')) {
-  window.location.href = '2UnrerrIndex.html';
-}
-
-
-
-
+const comboOptionsMap = {};
 
 async function translateText() {
   const container = document.getElementById("button-container");
@@ -160,7 +153,7 @@ function FarbeinTable() {
     } else if (value === 26) {
       url = "Pr5.csv";
     } else {
-      url = "Unterrichtung.csv";
+      url = "NeuePrJuli.csv";
     }
     if (url) {
       fetch(url)
@@ -212,7 +205,7 @@ function FarbeinTable() {
               });
 
               if (
-                window.getComputedStyle(resultsContainer9).display === "flex" &&
+                window.getComputedStyle(resultsContainer5).display === "flex" &&
                 window.getComputedStyle(buttonContainer).display === "none"
               ) {
                 resultsContainer5.style.display = "none";
@@ -221,21 +214,19 @@ function FarbeinTable() {
 
                 finalResultText.style.display = "none";
 
-                
+                resultsContainer2.style.display = "none";
+                resultsContainer3.style.display = "none";
+                resultsContainer4.style.display = "none";
+                resultsContainer6.style.display = "none";
+                resultsContainer7.style.display = "none";
+                resultsContainer8.style.display = "none";
                 resultsContainer9.style.display = "none";
-                var richtige = document.getElementById("Richtige Antworten Zahl");
-                var falsche = document.getElementById("Falsche Antworten Zahl");
-                richtige.style.display = "none";
-                falsche.style.display = "none";
-                
+
                 document.getElementById("showResults").style.display = "flex";
                 document.getElementById("showResults").style.width = "100px";
 
-
-               
-                
-                
-
+                document.getElementById("showResults").innerText =
+                  "Ergebnisse ansehen";
               }
             });
 
@@ -312,7 +303,6 @@ const buttonContainer = document.getElementById("button-container");
 let correctAnswers = [];
 let list2 = [];
 let currentRowIndex = 0;
-let totalRows = 0;
 
 // تعريف دالة لإضافة الفهرس إلى list2
 function addIndexToList2(index) {
@@ -352,9 +342,8 @@ if (value === 14) {
   url = "LösungPr5.csv";
 } 
 else {
-  url = "Lösung203.csv";
+  url = "NeuPrJuliLösung.csv";
 } 
- 
  
 if (url) {
   fetch(url)
@@ -372,58 +361,81 @@ if (url) {
     );
 }
 
-// دالة لعرض صف الجدول المحدد
-function displayRow(rowNumber) {
-  const urlParams = new URLSearchParams(window.location.search);
-  const value = parseInt(urlParams.get("value"));
-  let url, pageTitle;
+function getCorrectComboFromRow(rowData) {
+  const letters = ['A', 'B', 'C', 'D', 'E']; // الأعمدة
+  let combo = '';
 
-  if (value === 14) {
-    url = "eins203.csv";
-    pageTitle = "Recht der öffentlichen Sicherheit und Ordnung";
-  } else if (value === 15) {
-    url = "Zwei204.csv";
-    pageTitle = "Gewerberecht";
-  } else if (value === 16) {
-    url = "Drei211.csv";
-    pageTitle = "Datenschutz";
-  } else if (value === 17) {
-    url = "vier213.csv";
-    pageTitle = "Bürgerliches Gesetzbuch";
-  } else if (value === 18) {
-    url = "funf217.csv";
-    pageTitle = "Strafgesetzbuch";
-  } else if (value === 19) {
-    url = "sechs219.csv";
-    pageTitle = "Unfallverhütungsvorschriften";
-  } else if (value === 20) {
-    url = "sieben221.csv";
-    pageTitle = "Waffenrecht";
-  } else if (value === 21) {
-    url = "MP18.csv";
-    pageTitle = "Umgang mit Menschen";
-  } else if (value === 22) {
-    url = "Prüfung 1.csv";
-    pageTitle = "Sicherheitstechnik";
-  } else if (value === 23) {
-    url = "Prüfung 2.csv";
-    pageTitle = "Ergebnisse";
-  } else if (value === 24) {
-    url = "Prüfung 3.csv";
-    pageTitle = "Weitere Themen";
-  } else if (value === 25) {
-    url = "Pr4.csv";
-    pageTitle = "Zusätzliche Informationen";
-  } else if (value === 26) {
-    url = "Pr5.csv";
-    pageTitle = "Vertiefung";
-  } else {
-    url = "Unterrichtung.csv";
-    pageTitle = "Standard Titel";
+  rowData.forEach((cell, index) => {
+    if (cell.trim() !== '') {
+      combo += letters[index]; // اجمع الحروف غير الفارغة
+    }
+  });
+
+  return combo;
+}
+
+function generateSmartCombos(correct, count = 4) {
+  const letters = ['A', 'B', 'C', 'D', 'E'];
+  const allCombos = [];
+
+  for (let i = 0; i < letters.length; i++) {
+    for (let j = i + 1; j < letters.length; j++) {
+      const combo = letters[i] + letters[j];
+      allCombos.push(combo);
+    }
   }
 
-  document.title = pageTitle;
- document.getElementById('title-bar').innerHTML = `<h1>${pageTitle}</h1>`;
+  const correctSet = new Set(correct);
+  const similar = allCombos.filter(combo => {
+    return combo !== correct &&
+           (correctSet.has(combo[0]) || correctSet.has(combo[1]));
+  });
+
+  const random = similar.sort(() => 0.5 - Math.random()).slice(0, count - 1);
+  return [...random, correct].sort(() => 0.5 - Math.random());
+}
+
+
+// دالة لعرض صف الجدول المحدد
+function displayRow(rowNumber) {
+
+  const comboQuestions = [2, 3]; // الأسئلة التي تريد أن تكون مركبة
+  const isComboQuestion = comboQuestions.includes(rowNumber);
+
+ 
+
+  const urlParams = new URLSearchParams(window.location.search);
+  const value = parseInt(urlParams.get("value"));
+  let url;
+  if (value === 14) {
+    url = "eins203.csv";
+  } else if (value === 15) {
+    url = "Zwei204.csv";
+  } else if (value === 16) {
+    url = "Drei211.csv";
+  } else if (value === 17) {
+    url = "vier213.csv";
+  } else if (value === 18) {
+    url = "funf217.csv";
+  } else if (value === 19) {
+    url = "sechs219.csv";
+  } else if (value === 20) {
+    url = "sieben221.csv";
+  } else if (value === 21) {
+    url = "MP18.csv";
+  } else if (value === 22) {
+    url = "Prüfung 1.csv";
+  } else if (value === 23) {
+    url = "Prüfung 2.csv";
+  } else if (value === 24) {
+    url = "Prüfung 3.csv";
+  } else if (value === 25) {
+    url = "Pr4.csv";
+  } else if (value === 26) {
+    url = "Pr5.csv";
+  } else {
+    url = "NeuePrJuli.csv";
+  }
 
   if (url) {
     fetch(url)
@@ -436,8 +448,7 @@ function displayRow(rowNumber) {
         });
 
         const rows = parsedData.data;
-        const currentRowData = rows[rowNumber - 0];
-         totalRows = rows.length - 1;
+        const currentRowData = rows[rowNumber - 0]; // لأن الصفوف تبدأ من 0
         buttonContainer.innerHTML = "";
 
         currentRowData.forEach((column, index) => {
@@ -462,10 +473,21 @@ function displayRow(rowNumber) {
               } else {
                 const button = document.createElement("button");
                 button.textContent = column.trim();
+                
+                // 🟡 أضف هذا السطر لتعيين الـ ID مباشرة عند الإنشاء
+                const letter = String.fromCharCode(64 + index); // 65 = A → A, B, C...
+                
                 button.addEventListener("click", () => {
                   toggleButtonColor(button);
                 });
+                
+                button.id = "btn" + letter;
+
+
+
                 td.appendChild(button);
+                
+                
 
                 // Hier wird überprüft, ob die Hintergrundfarbe des Buttons in FarbeinTable geändert werden soll
               }
@@ -478,8 +500,114 @@ function displayRow(rowNumber) {
               buttonContainer.appendChild(emptyRow);
               if (index === 0) {
                 table.style.backgroundColor = "#ccc";
+                
               }
             }
+
+            if (index === 4) {
+              const checkboxRow = document.createElement("div");
+              checkboxRow.style.display = "flex";
+              checkboxRow.style.justifyContent = "space-evenly";
+              checkboxRow.style.alignItems = "center";
+              checkboxRow.style.marginTop = "10px";
+              checkboxRow.style.marginBottom = "10px";
+              checkboxRow.style.width = "100%";
+              checkboxRow.classList.add("checkbox-row");
+            
+
+
+              
+              if (isComboQuestion) {
+                const correctCombo = getCorrectComboFromRow(correctAnswers[rowNumber] || []);
+                let comboOptions = comboOptionsMap[rowNumber];
+                if (!comboOptions) {
+                  comboOptions = generateSmartCombos(correctCombo);
+                  comboOptionsMap[rowNumber] = comboOptions; // تخزين دائم
+                }
+                                comboOptions.forEach((combo) => {
+                  const label = document.createElement("label");
+                  label.style.display = "flex";
+                  label.style.alignItems = "center";
+                  label.style.fontWeight = "bold";
+                  label.innerHTML = `
+                    <input type="checkbox" value="${combo}" onchange="handleComboCheckboxChange(this)" style="margin-right: 5px;">
+                    ${combo}
+                  `;
+                  checkboxRow.appendChild(label);
+                });
+                buttonContainer.appendChild(checkboxRow);
+
+                const savedCombo = checkboxSelections[rowNumber];
+                if (savedCombo) {
+                  const savedCheckbox = checkboxRow.querySelector(`input[value="${savedCombo}"]`);
+                  if (savedCheckbox) {
+                    savedCheckbox.checked = true;
+                    savedCombo.split('').forEach(letter => {
+                      const btn = document.getElementById("btn" + letter);
+                      if (btn) toggleButtonColor(btn);
+                    });
+                  }
+                }
+              } else {
+                ['A', 'B', 'C', 'D'].forEach((letter) => {
+                  const label = document.createElement("label");
+                  label.style.display = "flex";
+                  label.style.alignItems = "center";
+                  label.style.fontWeight = "bold";
+                  label.innerHTML = `
+                    <input type="checkbox" value="${letter}" id="chk${letter}" onchange="handleCheckboxChange(this)" style="margin-right: 5px;">
+                    ${letter}
+                  `;
+                  checkboxRow.appendChild(label);
+                });
+            
+                // مزامنة التحديد مع الأزرار الصفراء
+                setTimeout(() => {
+                  ['A', 'B', 'C', 'D'].forEach((letter) => {
+                    const btn = document.getElementById("btn" + letter);
+                    const chk = document.getElementById("chk" + letter);
+                    if (btn && chk) {
+                      const computedStyle = window.getComputedStyle(btn);
+                      if (computedStyle.backgroundColor === "rgb(255, 255, 3)") {
+                        chk.checked = true;
+                      }
+                    }
+                  });
+                }, 0);
+              }
+              setTimeout(() => {
+                const yellowColor = "rgb(255, 255, 3)";
+                
+                document.querySelectorAll(".checkbox-row input[type='checkbox']").forEach((chk) => {
+                  const combo = chk.value; // مثل "AB"
+                  const letters = combo.split("");
+              
+                  // تحقق أن كل زر في الخيار لونه أصفر
+                  const allMatch = letters.every(letter => {
+                    const btn = document.getElementById("btn" + letter);
+                    return btn && window.getComputedStyle(btn).backgroundColor === yellowColor;
+                  });
+              
+                  // تحقق أنه لا يوجد زر زائد بلون أصفر
+                  const othersClear = ['A','B','C','D','E'].every(letter => {
+                    if (!letters.includes(letter)) {
+                      const btn = document.getElementById("btn" + letter);
+                      if (!btn) return true;
+                      return window.getComputedStyle(btn).backgroundColor !== yellowColor;
+                    }
+                    return true;
+                  });
+              
+                  if (allMatch && othersClear) {
+                    chk.checked = true;
+                  }
+                });
+              }, 0);
+              
+              
+              buttonContainer.appendChild(checkboxRow);
+            }
+            
         });
 
         // تحديث المتغير currentRow
@@ -491,6 +619,55 @@ function displayRow(rowNumber) {
       .catch((error) => console.error("Error fetching CSV file:", error));
   }
 }
+// متغير عالمي لحفظ اختيارات المستخدمين لكل سؤال
+const checkboxSelections = {}; // مثل: {1: 'A', 2: 'C'}
+
+function handleCheckboxChange(checkbox) {
+  // السماح فقط بـ checkbox واحد
+  
+  const letter = checkbox.value;
+  const btn = document.getElementById("btn" + letter);
+  if (!btn) return;
+
+  // 🟡 محاكاة الضغط على الزر
+  toggleButtonColor(btn);
+
+  // 📝 حفظ التحديد بناءً على رقم السؤال الحالي
+  const questionNumber = parseInt(document.getElementById("labelIndex").textContent);
+  checkboxSelections[questionNumber] = letter;
+}
+
+function handleComboCheckboxChange(checkbox) {
+  // إلغاء تحديد كل checkboxes في نفس المجموعة
+  document.querySelectorAll(".checkbox-row input[type='checkbox']").forEach(cb => {
+    cb.checked = false;
+  });
+  checkbox.checked = true;
+
+  const comboValue = checkbox.value; // مثل "AB"
+  const questionNumber = parseInt(document.getElementById("labelIndex").textContent);
+  checkboxSelections[questionNumber] = comboValue;
+
+  // 🔄 إلغاء تفعيل الأزرار المفعلّة حاليًا (أي التي لونها أصفر فقط)
+  ['A', 'B', 'C', 'D', 'E'].forEach(letter => {
+    const btn = document.getElementById("btn" + letter);
+    if (btn) {
+      const color = window.getComputedStyle(btn).backgroundColor;
+      if (color === "rgb(255, 255, 3)") {
+        toggleButtonColor(btn); // ⛔️ نلغي فقط الأزرار المفعلّة
+      }
+    }
+  });
+
+  // ✅ تفعيل الأزرار الجديدة
+  comboValue.split('').forEach(letter => {
+    const btn = document.getElementById("btn" + letter);
+    if (btn) toggleButtonColor(btn); // تفعل فقط الأزرار المطلوبة
+  });
+}
+
+
+// خارج أي دالة – هذا متغير عالمي لحفظ اختيارات المستخدم
 
 // تحديث عناصر الصفحة الأخرى
 function updatePageElements(rowNumber) {
@@ -504,19 +681,105 @@ function updatePageElements(rowNumber) {
   document.getElementById("labelIndex").textContent = ` ${questionNumber}`;
   document.getElementById("label1").textContent = ``;
 
-  // Aktualisieren und nächsten Buttons basierend auf der Frage Nummer
-  if (questionNumber === 1) {
-    document.getElementById("back").style.display = "none";
+
+  let pageTitle;
+
+  if (questionNumber >= 1 && questionNumber <= 7) {
+    pageTitle = "Recht der öffentlichen Sicherheit und Ordnung";
+    if (questionNumber >= 1 && questionNumber <= 4) {
+      document.getElementById("AntwortenZahl").style.backgroundColor = "#ff9d00";
+      document.getElementById("AntwortenZahl").innerText = "(Multiple-Choice Fragen) 2 Punkte";
+    } else {
+      document.getElementById("AntwortenZahl").style.backgroundColor = "#3453b177";
+      document.getElementById("AntwortenZahl").innerText = "(Single-Choice Fragen) 1 Punkt";
+    }
+  } else if (questionNumber >= 8 && questionNumber <= 12) {
+    pageTitle = "Gewerberecht";
+    if (questionNumber >= 8 && questionNumber <= 10) {
+      document.getElementById("AntwortenZahl").style.backgroundColor = "#ff9d00";
+      document.getElementById("AntwortenZahl").innerText = "(Multiple-Choice Fragen) 2 Punkte";
+    } else {
+      document.getElementById("AntwortenZahl").style.backgroundColor = "#3453b177";
+      document.getElementById("AntwortenZahl").innerText = "(Single-Choice Fragen) 1 Punkt";
+    }
+  } else if (questionNumber >= 13 && questionNumber <= 17) {
+    pageTitle = "Datenschutz";
+    if (questionNumber >= 13 && questionNumber <= 15) {
+      document.getElementById("AntwortenZahl").style.backgroundColor = "#ff9d00";
+      document.getElementById("AntwortenZahl").innerText = "(Multiple-Choice Fragen) 2 Punkte";
+    } else {
+      document.getElementById("AntwortenZahl").style.backgroundColor = "#3453b177";
+      document.getElementById("AntwortenZahl").innerText = "(Single-Choice Fragen) 1 Punkt";
+    }
+  } else if (questionNumber >= 18 && questionNumber <= 30) {
+    pageTitle = "Bürgerliches Recht";
+    if (questionNumber >= 18 && questionNumber <= 25) {
+      document.getElementById("AntwortenZahl").style.backgroundColor = "#ff9d00";
+      document.getElementById("AntwortenZahl").innerText = "(Multiple-Choice Fragen) 2 Punkte";
+    } else {
+      document.getElementById("AntwortenZahl").style.backgroundColor = "#3453b177";
+      document.getElementById("AntwortenZahl").innerText = "(Single-Choice Fragen) 1 Punkt";
+    }
+  } else if (questionNumber >= 31 && questionNumber <= 43) {
+    pageTitle = "Straf- und Verfahrensrecht";
+    if (questionNumber >= 31 && questionNumber <= 38) {
+      document.getElementById("AntwortenZahl").style.backgroundColor = "#ff9d00";
+      document.getElementById("AntwortenZahl").innerText = "(Multiple-Choice Fragen) 2 Punkte";
+    } else {
+      document.getElementById("AntwortenZahl").style.backgroundColor = "#3453b177";
+      document.getElementById("AntwortenZahl").innerText = "(Single-Choice Fragen) 1 Punkt";
+    }
+  } else if (questionNumber >= 44 && questionNumber <= 62) {
+    pageTitle = "Umgang mit Menschen";
+    document.getElementById("AntwortenZahl").style.backgroundColor = "#3453b177";
+    document.getElementById("AntwortenZahl").innerText = "(Single-Choice Fragen) 1 Punkt";
+  } else if (questionNumber >= 63 && questionNumber <= 67) {
+    pageTitle = "Waffenrecht";
+    if (questionNumber >= 63 && questionNumber <= 65) {
+      document.getElementById("AntwortenZahl").style.backgroundColor = "#ff9d00";
+      document.getElementById("AntwortenZahl").innerText = "(Multiple-Choice Fragen) 2 Punkte";
+    } else {
+      document.getElementById("AntwortenZahl").style.backgroundColor = "#3453b177";
+      document.getElementById("AntwortenZahl").innerText = "(Single-Choice Fragen 1 Punkt)";
+    }
+  } else if (questionNumber >= 68 && questionNumber <= 75) {
+    pageTitle = "Unfallverhütungsvorschriften";
+    if (questionNumber >= 68 && questionNumber <= 72) {
+      document.getElementById("AntwortenZahl").style.backgroundColor = "#ff9d00";
+      document.getElementById("AntwortenZahl").innerText = "(Multiple-Choice Fragen) 2 Punkte";
+    } else {
+      document.getElementById("AntwortenZahl").style.backgroundColor = "#3453b177";
+      document.getElementById("AntwortenZahl").innerText = "(Single-Choice Fragen) 1 Punkt";
+    }
+  } else if (questionNumber >= 76 && questionNumber <= 82) {
+    pageTitle = "Sicherheitstechnik";
+    if (questionNumber >= 76 && questionNumber <= 79) {
+      document.getElementById("AntwortenZahl").style.backgroundColor = "#ff9d00";
+      document.getElementById("AntwortenZahl").innerText = "(Multiple-Choice Fragen) 2 Punkte";
+    } else {
+      document.getElementById("AntwortenZahl").style.backgroundColor = "#3453b177";
+      document.getElementById("AntwortenZahl").innerText = "(Single-Choice Fragen) 1 Punkt";
+    }
   } else {
-    document.getElementById("back").style.display = "block";
+    pageTitle = "Ergebnisse";
   }
+  
 
-  if (questionNumber >= totalRows) {
-    document.getElementById("next").style.display = "none";
+  // Ändern des Seitentitels
+  document.title = pageTitle;
+
+  // Aktualisieren der title-bar mit den Buttons
+  document.getElementById("title-bar").innerHTML = `<h6>${pageTitle}</h6>`;
+
+  // Anzeigen oder Ausblenden der vorherigen und nächsten Buttons basierend auf der Frage Nummer
+  if (questionNumber === 1) {
+    document.getElementById("back").style.display = "none"; // Verstecken Sie die Zurück-Taste
+  } else if (questionNumber === 82) {
+    document.getElementById("next").style.display = "none"; // Verstecken Sie die Nächste-Taste
   } else {
+    // Wenn die Frage im Bereich von 2 bis 71 liegt, können Sie die Buttons wieder anzeigen
+    document.getElementById("back").style.display = "block";
     document.getElementById("next").style.display = "block";
-
-
   }
 
   // Nach Anzeige der neuen Frage, führen Sie die checkTextMatch Funktion aus
@@ -537,11 +800,11 @@ function updatePageElements(rowNumber) {
     `tr:nth-child(${labelIndex + 0}) button`
   );
 
-  var resultsContainer9 = document.getElementById("resultsContainer9");
+  var resultsContainer5 = document.getElementById("resultsContainer5");
   var buttonContainer = document.getElementById("button-container");
 
   if (
-    resultsContainer9.style.display === "none" ||
+    resultsContainer5.style.display === "none" ||
     buttonContainer.style.display === "flex"
   ) {
     checkAnswers(); // استدعاء الدالة checkAnswers()
@@ -910,62 +1173,275 @@ function adjustSpeechRate(gender, speed) {
   speechSynthesis.speak(utterance);
 }
 
-
-
-function showResults9() {
-  // تأكد من أن rows يحتوي فقط على الصفوف التي تحتوي على بيانات غير فارغة
-  const rows = Array.from(document.querySelectorAll("table tr"))
-                    .filter(row => row.querySelectorAll("td, th").length > 0); // تأكد من أن الصف يحتوي على خلايا
-
+function showResults() {
   const itemsFromList2 = Array.from(
     document.getElementById("list2").children
   ).map((item) => parseInt(item.textContent));
+  const selectedNumbers = itemsFromList2.filter((item) =>
+    [1, 2, 3, 4].includes(item)
+  );
+  const count = selectedNumbers.length;
+  const value = count > 4 ? 8 : count * 2;
 
-  const count = itemsFromList2.length;
+  document.getElementById(
+    "subjectTitle"
+  ).textContent = ` Recht der öffentlichen Sicherheit und Ordnung (${value} von 8)`;
+  const percentage = value > 0 ? (value / 8) * 100 : 0;
+  document.getElementById("progressBar").style.width = `${percentage}%`;
+  document.getElementById("percentage").textContent = `${percentage}%`;
+  document.getElementById("percentage").textContent = `${percentage.toFixed(
+    0
+  )}%`; // تحويل النسبة إلى صيغة عادية بدون أرقام عشرية
 
-  // تحديد الحد الأقصى (تجاهل الصف الأول)
-  const maxScore = totalRows > 1 ? totalRows : 1; // تأكد أن maxScore لا يكون أقل من 1
+  document.getElementById("progressBar").style.backgroundColor =
+    percentage < 50 ? "red" : "green"; // تغيير لون الشريط
 
-  // تحديد value9 بناءً على count و maxScore
-  const value9 = count > maxScore ? maxScore : count;
+  return value; // إرجاع القيمة لحساب المتوسط
+}
 
-  // عرض عدد الإجابات الصحيحة والخاطئة
-  const correctAnswers = value9;
-  const wrongAnswers = maxScore - value9;
+function showResults2() {
+  const itemsFromList2 = Array.from(
+    document.getElementById("list2").children
+  ).map((item) => parseInt(item.textContent));
+  const selectedNumbers = itemsFromList2.filter((item) =>
+    [5, 6, 7, 8].includes(item)
+  );
+  const count = selectedNumbers.length;
+  const value2 = count > 4 ? 8 : count * 1;
 
-  document.getElementById("Richtige Antworten Zahl").textContent =
-    `Fragen richtig beantwortet: ${correctAnswers}`;
-  document.getElementById("Falsche Antworten Zahl").textContent =
-    `Fragen falsch beantwortet: ${wrongAnswers}`;
+  document.getElementById(
+    "subjectTitle2"
+  ).textContent = ` Gewerberecht (${value2} von 4)`;
+  const percentage = (value2 / 4) * 100; // تصحيح الخطأ هنا
+  document.getElementById("progressBar2").style.width = `${percentage}%`;
+  document.getElementById("percentage2").textContent = `${percentage}%`;
+  document.getElementById("percentage2").textContent = `${percentage.toFixed(
+    0
+  )}%`; // تحويل النسبة إلى صيغة عادية بدون أرقام عشرية
+
+  document.getElementById("progressBar2").style.backgroundColor =
+    percentage < 50 ? "red" : "green"; // تغيير لون الشريط
+  return value2;
+}
+
+function showResults3() {
+  const itemsFromList2 = Array.from(
+    document.getElementById("list2").children
+  ).map((item) => parseInt(item.textContent));
+  const selectedNumbers = itemsFromList2.filter((item) =>
+    [9, 10, 11, 12].includes(item)
+  );
+  const count = selectedNumbers.length;
+  const value3 = count > 4 ? 8 : count * 1;
+
+  document.getElementById(
+    "subjectTitle3"
+  ).textContent = ` Datenschutz (${value3} von 4)`;
+  const percentage = (value3 / 4) * 100;
+  document.getElementById("progressBar3").style.width = `${percentage}%`;
+  document.getElementById("percentage3").textContent = `${percentage}%`;
+  document.getElementById("percentage3").textContent = `${percentage.toFixed(
+    0
+  )}%`; // تحويل النسبة إلى صيغة عادية بدون أرقام عشرية
+
+  document.getElementById("progressBar3").style.backgroundColor =
+    percentage < 50 ? "red" : "green"; // تغيير لون الشريط
+  return value3;
+}
+
+function showResults4() {
+  const itemsFromList2 = Array.from(
+    document.getElementById("list2").children
+  ).map((item) => parseInt(item.textContent));
+  const selectedNumbers = itemsFromList2.filter((item) =>
+    [13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24].includes(item)
+  );
+  const count = selectedNumbers.length;
+  const value4 = count > 12 ? 24 : count * 2;
+
+  document.getElementById(
+    "subjectTitle4"
+  ).textContent = `Bürgliches Gesetzbuch (${value4} von 24)`;
+  const percentage = (value4 / 24) * 100;
+  document.getElementById("progressBar4").style.width = `${percentage}%`;
+  document.getElementById("percentage4").textContent = `${percentage.toFixed(
+    0
+  )}%`; // تحويل النسبة إلى صيغة عادية بدون أرقام عشرية
+  document.getElementById("progressBar4").style.backgroundColor =
+    percentage < 50 ? "red" : "green"; // تغيير لون الشريط
+  return value4;
+}
+
+function showResults5() {
+  const itemsFromList2 = Array.from(
+    document.getElementById("list2").children
+  ).map((item) => parseInt(item.textContent));
+  const selectedNumbers = itemsFromList2.filter((item) =>
+    [25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36].includes(item)
+  );
+  const count = selectedNumbers.length;
+  const value5 = count > 12 ? 24 : count * 2;
+
+  document.getElementById(
+    "subjectTitle5"
+  ).textContent = `Strafgesetzbuch (${value5} von 24)`;
+  const percentage = (value5 / 24) * 100;
+  document.getElementById("progressBar5").style.width = `${percentage}%`;
+  document.getElementById("percentage5").textContent = `${percentage.toFixed(
+    0
+  )}%`; // تحويل النسبة إلى صيغة عادية بدون أرقام عشرية
+  document.getElementById("progressBar5").style.backgroundColor =
+    percentage < 50 ? "red" : "green"; // تغيير لون الشريط
+  return value5;
+}
+
+function showResults6() {
+  const itemsFromList2 = Array.from(
+    document.getElementById("list2").children
+  ).map((item) => parseInt(item.textContent));
+  const selectedNumbers = itemsFromList2.filter((item) =>
+    [37, 38, 39, 40, 41, 42, 43, 44].includes(item)
+  );
+  const count = selectedNumbers.length;
+  const value6 = count > 4 ? 8 : count * 1;
+
+  document.getElementById(
+    "subjectTitle6"
+  ).textContent = ` Unfallverhütungsvorschriften (${value6} von 8)`;
+  const percentage = (value6 / 8) * 100;
+  document.getElementById("progressBar6").style.width = `${percentage}%`;
+  document.getElementById("percentage6").textContent = `${percentage}%`;
+  document.getElementById("percentage6").textContent = `${percentage.toFixed(
+    0
+  )}%`; // تحويل النسبة إلى صيغة عادية بدون أرقام عشرية
+
+  document.getElementById("progressBar6").style.backgroundColor =
+    percentage < 50 ? "red" : "green"; // تغيير لون الشريط
+  return value6;
+}
+
+function showResults7() {
+  const itemsFromList2 = Array.from(
+    document.getElementById("list2").children
+  ).map((item) => parseInt(item.textContent));
+  const selectedNumbers = itemsFromList2.filter((item) =>
+    [45, 46, 47, 48].includes(item)
+  );
+  const count = selectedNumbers.length;
+  const value7 = count > 2 ? 4 : count * 1;
+
+  document.getElementById(
+    "subjectTitle7"
+  ).textContent = ` Waffenrecht (${value7} von 4)`;
+  const percentage = (value7 / 4) * 100;
+  document.getElementById("progressBar7").style.width = `${percentage}%`;
+  document.getElementById("percentage7").textContent = `${percentage}%`;
+  document.getElementById("percentage7").textContent = `${percentage.toFixed(
+    0
+  )}%`; // تحويل النسبة إلى صيغة عادية بدون أرقام عشرية
+
+  document.getElementById("progressBar7").style.backgroundColor =
+    percentage < 50 ? "red" : "green"; // تغيير لون الشريط
+  return value7;
+}
+
+function showResults8() {
+  const itemsFromList2 = Array.from(
+    document.getElementById("list2").children
+  ).map((item) => parseInt(item.textContent));
+  const selectedNumbers = itemsFromList2.filter((item) =>
+    [49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64].includes(
+      item
+    )
+  );
+  const count = selectedNumbers.length;
+  const value8 = count > 8 ? 16 : count * 1; // تعريف المتغير value8 كمتغير محلي لهذه الدالة
+
+  document.getElementById(
+    "subjectTitle8"
+  ).textContent = ` Umgang mit Menschen (${value8} von 16)`;
+  const percentage = (value8 / 16) * 100;
+  document.getElementById("progressBar8").style.width = `${percentage}%`;
+  document.getElementById("percentage8").textContent = `${percentage}%`;
+  document.getElementById("percentage8").textContent = `${percentage.toFixed(
+    0
+  )}%`; // تحويل النسبة إلى صيغة عادية بدون أر��ام عشرية
+
+  document.getElementById("progressBar8").style.backgroundColor =
+    percentage < 50 ? "red" : "green"; // تغيير لون الشريط
+
+  return value8; // إرجاع قيمة value8
+}
+
+function showResults9() {
+  const itemsFromList2 = Array.from(
+    document.getElementById("list2").children
+  ).map((item) => parseInt(item.textContent));
+  const selectedNumbers = itemsFromList2.filter((item) =>
+    [65, 66, 67, 68, 69, 70, 71, 72].includes(item)
+  );
+  const count = selectedNumbers.length;
+  const value9 = count > 4 ? 8 : count * 1; // تعريف المتغير value9 كمتغير محلي لهذه الدالة
 
   document.getElementById(
     "subjectTitle9"
-  ).textContent = `Punkte: (${value9} von ${maxScore})`;
-
-  // حساب النسبة
-  const percentage = (value9 / maxScore) * 100;
+  ).textContent = ` Sicherheitstechnik (${value9} von 8)`;
+  const percentage = (value9 / 8) * 100;
   document.getElementById("progressBar9").style.width = `${percentage}%`;
-  document.getElementById("percentage9").textContent = `${percentage.toFixed(0)}%`;
+  document.getElementById("percentage9").textContent = `${percentage}%`;
+  document.getElementById("percentage9").textContent = `${percentage.toFixed(
+    0
+  )}%`; // تحويل النسبة إلى صيغة عادية بدون أرقام عشرية
 
-  // تغيير لون الشريط بناءً على النسبة
   document.getElementById("progressBar9").style.backgroundColor =
-    percentage < 50 ? "red" : "green";
+    percentage < 50 ? "red" : "green"; // تغيير لون الشريط
 
-  return value9;
+  return value9; // إرجاع قيمة value9
 }
 
-
 const totalAverage =
-
+  showResults() +
+  showResults2() +
+  showResults3() +
+  showResults4() +
+  showResults5() +
+  showResults6() +
+  showResults7() +
+  showResults8() +
   showResults9();
-
 console.log("المتوسط العام:", totalAverage);
 
 function hideResultsDisplay() {
- var resultsContainer9 = document.getElementById("resultsContainer9");
- resultsContainer9.style.display = "flex";
+  var resultsContainer = document.getElementById("resultsContainer");
+  resultsContainer.style.display = "flex";
 
-  
+  var resultsContainer2 = document.getElementById("resultsContainer2");
+  resultsContainer2.style.display = "flex";
+
+  var resultsContainer3 = document.getElementById("resultsContainer3");
+  resultsContainer3.style.display = "flex";
+
+  var resultsContainer4 = document.getElementById("resultsContainer4");
+  resultsContainer4.style.display = "flex";
+
+  var resultsContainer5 = document.getElementById("resultsContainer5");
+  resultsContainer5.style.display = "flex";
+
+  var resultsContainer6 = document.getElementById("resultsContainer6");
+
+  resultsContainer6.style.display = "flex";
+
+  var resultsContainer7 = document.getElementById("resultsContainer7");
+
+  resultsContainer7.style.display = "flex";
+
+  var resultsContainer8 = document.getElementById("resultsContainer8");
+
+  resultsContainer8.style.display = "flex";
+
+  var resultsContainer9 = document.getElementById("resultsContainer9");
+
+  resultsContainer9.style.display = "flex";
 
   var next = document.getElementById("next");
   next.style.display = "none";
@@ -983,25 +1459,14 @@ function hideResultsDisplay() {
 
   var buttonContainer = document.getElementById("button-container");
   buttonContainer.style.display = "none"; // إظهار عنصر الأزرار
-
-  var footer = document.querySelector("footer");
-  footer.style.display = "none";
-
-  var richtige = document.getElementById("Richtige Antworten Zahl");
-  var falsche = document.getElementById("Falsche Antworten Zahl");
-  richtige.style.display = "block";
-  falsche.style.display = "block";
-  
 }
 
 document.querySelector("#showResults").addEventListener("click", () => {
   if (document.getElementById("showResults").innerText === "Prüfung abgeben") {
-    Shawqi(); // استدعاء الدالة Shawqi
+    Shawqi();
   }
-  
 
-  Punkte.style.display = "block";
-
+  Punkte.style.display = "none";
 
   var listenButton = document.getElementById("listenButton");
 
@@ -1012,12 +1477,8 @@ document.querySelector("#showResults").addEventListener("click", () => {
 
     // التحقق من رد المستخدم
     if (confirmation) {
-
       // قم بتنفيذ الأوامر
       executeResults();
-      document.getElementById("showResults").innerText = "Ergebnisse ansehen";
-
-
     }
   } else {
     // إذا كان مخفيًا، قم بتنفيذ الأوامر مباشرة
@@ -1028,9 +1489,15 @@ document.querySelector("#showResults").addEventListener("click", () => {
 // دالة لتنفيذ الأوامر المشتركة في كلتا الحالتين
 function executeResults() {
   hideResultsDisplay();
- 
+  showResults();
+  showResults2();
+  showResults3();
+  showResults4();
+  showResults5();
+  showResults6();
+  showResults7();
+  showResults8();
   showResults9();
-
   activateFinalResult();
   AlleFarben();
   pageTitle = "Ergebnisse";
@@ -1038,32 +1505,38 @@ function executeResults() {
   var label1 = document.getElementById("label1");
   label1.style.display = "none";
 
-  // const currentTime = new Date().getTime();
-  // const elapsedTime = startTime - currentTime;
-  // const totalDuration = 120 * 60 * 1000;
-  // const elapsedMinutes = Math.floor(
-  //   (elapsedTime % totalDuration) / (1000 * 60)
-  // );
-  // const elapsedSeconds = Math.floor((elapsedTime % (1000 * 60)) / 1000);
-  // document.getElementById(
-   // "countdown-timer"
-  //.innerText = `Zeit verbraucht: ${elapsedMinutes} Minuten ${elapsedSeconds} Sekunden`;
+  const currentTime = new Date().getTime();
+  const elapsedTime = startTime - currentTime;
+  const totalDuration = 120 * 60 * 1000;
+  const elapsedMinutes = Math.floor(
+    (elapsedTime % totalDuration) / (1000 * 60)
+  );
+  const elapsedSeconds = Math.floor((elapsedTime % (1000 * 60)) / 1000);
+  document.getElementById(
+    "countdown-timer"
+  ).innerText = `Zeit verbraucht: ${elapsedMinutes} Minuten ${elapsedSeconds} Sekunden`;
 }
 
 function activateFinalResult() {
   const totalPercentage =
- 
+    showResults() +
+    showResults2() +
+    showResults3() +
+    showResults4() +
+    showResults5() +
+    showResults6() +
+    showResults7() +
+    showResults8() +
     showResults9();
-
   const finalResultText = document.getElementById("finalResultText");
   if (isNaN(totalPercentage)) {
-    finalResultText.textContent = "DU SOLLTEST MEHR ÜBEN";
+    finalResultText.textContent = "Leider nicht Bestanden";
     finalResultText.style.color = "red";
     finalResultText.style.fontWeight = "bold";
   } else if (totalPercentage < 50) {
-    finalResultText.innerHTML = `<p><strong>Bewertung</strong>; <span style="color: rgb(226, 80, 65); font-size: 22px;">"DU SOLLTEST MEHR ÜBEN"</span><br><strong>Gesamtpunkte: &quot;<span style="font-size: 22px;">${totalPercentage}</span>&quot; Punkte</strong></p>`;
+    finalResultText.innerHTML = `<p><strong>Ergebnis</strong>; <span style="color: rgb(226, 80, 65); font-size: 22px;">NICHT BESTANDEN</span><br><strong>Gesamtpunkte: &quot;<span style="font-size: 22px;">${totalPercentage}</span>&quot; Punkte</strong></p>`;
   } else {
-    finalResultText.innerHTML = `<p><strong>Bewertung</strong>&nbsp; <strong><span style="font-size: 22px; color: rgb(97, 189, 109);">"GUT"</span></strong></p>
+    finalResultText.innerHTML = `<p><strong>Ergebnis:</strong>&nbsp; <strong><span style="font-size: 22px; color: rgb(97, 189, 109);">BESTANDEN</span></strong></p>
 <p><strong>Gesamtpunkte: </strong><span style="font-size: 22px;">${totalPercentage}</span> Punkte erreicht</p>`;
   }
   finalResultText.style.display = "block";
@@ -1391,10 +1864,11 @@ const endTime = startTime + duration; // تحديد وقت الانتهاء
 // دالة عرض الوقت المتبقي
 function displayCountdown(minutes, seconds) {
   if (listenButton.style.display === "") {
-    document.getElementById("countdown-timer").textContent = "";
+    document.getElementById(
+      "countdown-timer"
+    ).textContent = ` ${minutes} Minuten ${seconds} Sekunden`;
   }
 }
-
 
 // بدء العد التنازلي
 const countdownInterval = setInterval(() => {
@@ -1475,6 +1949,5 @@ function iconeHeder() {
     
   });
 }
-
 
 
