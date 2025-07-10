@@ -416,6 +416,13 @@ function isSingleChoiceQuestion(questionNumber) {
 // دالة لعرض صف الجدول المحدد
 function displayRow(rowNumber) {
   const correctRow = correctAnswers[rowNumber] || [];
+  
+
+if (document.getElementById("answer-debug")) {
+  const visibleAnswers = correctRow.filter(cell => cell.trim() !== "").join(", ");
+  document.getElementById("answer-debug").textContent =
+    `Frage ${rowNumber}: Lösungen geladen → [${visibleAnswers}]`;
+}
   const correctCombo = getCorrectComboFromRow(correctRow); // 🟢 أضف هذا مبكرًا!
   const correctCount = correctCombo.length;
 
