@@ -415,10 +415,10 @@ function isSingleChoiceQuestion(questionNumber) {
 
 // دالة لعرض صف الجدول المحدد
 function displayRow(rowNumber) {
-
   const correctRow = correctAnswers[rowNumber] || [];
-  const correctCount = correctRow.filter(cell => cell.trim() !== "").length;
-  
+  const correctCombo = getCorrectComboFromRow(correctRow); // 🟢 أضف هذا مبكرًا!
+  const correctCount = correctCombo.length;
+
   const isSingle = isSingleChoiceQuestion(rowNumber);
   const isComboQuestion = isSingle && correctCount === 2;
   
