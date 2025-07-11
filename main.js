@@ -1963,43 +1963,30 @@ function updatePageElements(rowNumber) {
       ) {
         answerCorrect = false;
       }
-      const questionNumber = parseInt(document.getElementById("labelIndex").textContent);
-      const savedValue = checkboxSelections[questionNumber];
-      
-   
-// عند عرض النتائج
-Object.entries(checkboxSelections).forEach(([questionNumber, savedValue]) => {
-  if (savedValue) {
-    // إذا كانت إجابة مركبة (مثل "AC")
-    if (
-      savedValue.length > 1 &&
-      document.querySelector(`.checkbox-row input[value="${savedValue}"]`)
-    ) {
-      const checkbox = document.querySelector(`.checkbox-row input[value="${savedValue}"]`);
-      if (checkbox) {
-        checkbox.checked = true;
-      }
-    } else {
-      // إجابة مفردة
-      savedValue.split('').forEach(letter => {
-        const cb = document.getElementById("chk" + letter);
-        if (cb) cb.checked = true;
-      });
-    }
-  }
-});
+      // عرض اختيارات المستخدم المحفوظة
+const questionNumber = parseInt(document.getElementById("labelIndex").textContent);
+const savedValue = checkboxSelections[questionNumber];
 
-// تعطيل جميع checkboxes بعد عرض النتائج
-document.querySelectorAll("input[type='checkbox']").forEach(cb => {
+if (savedValue) {
+  // إن كانت إجابة مركبة مثل "AC"
+  const isComboCheckbox = document.querySelector(`.checkbox-row input[value="${savedValue}"]`);
+  
+  if (savedValue.length > 1 && isComboCheckbox) {
+    // مركبة
+    isComboCheckbox.checked = true;
+  } else {
+    // مفردة: يمكن أن تكون A أو AC غير موجودة كمجموعة
+    savedValue.split('').forEach(letter => {
+      const cb = document.getElementById("chk" + letter);
+      if (cb) cb.checked = true;
+    });
+  }
+}
+
+// ⛔️ تعطيل جميع checkboxes بعد عرض النتائج
+document.querySelectorAll(".checkbox-row input[type='checkbox']").forEach(cb => {
   cb.disabled = true;
 });
-      
-      
-      
-      
-
-
-    });
   
     // التقييم العام وعرض النتيجة
     const list2Element = document.getElementById("list2");
