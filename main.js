@@ -1243,7 +1243,7 @@ function checkAnswers() {
       label1.style.color = "red";
     }
   }
-
+}
   
   
   document.getElementById("checkAnswers").addEventListener("click", checkAnswers);
