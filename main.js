@@ -1987,7 +1987,7 @@ if (savedValue) {
 document.querySelectorAll(".checkbox-row input[type='checkbox']").forEach(cb => {
   cb.disabled = true;
 });
-  
+  });
     // التقييم العام وعرض النتيجة
     const list2Element = document.getElementById("list2");
     const questionNumber = parseInt(document.getElementById("labelIndex").textContent.split(" ")[1]);
