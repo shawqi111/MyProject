@@ -1237,22 +1237,24 @@ function updatePageElements(rowNumber) {
       : `${questionNumber}`;
     list2Element.appendChild(li);
   
-  } else if (hasGreenAndYellow && hasGreenAndBlue) {
-    label1.innerText = "Teilweise richtig!";
-    label1.style.color = "orange";
+  } else if (
+  hasGreenAndYellow &&
+  hasGreenAndBlue &&
+  document.getElementById("AntwortenZahl").innerText !== "(Single-Choice Fragen) 1 Punkt"
+) {
+  label1.innerText = "Teilweise richtig!";
+  label1.style.color = "orange";
+}
   
     const li = document.createElement("li");
     li.textContent = `${questionNumber} (جزئية)`;
     list2Element.appendChild(li);
   
-  } else if (
-  hasGreenAndYellow &&
-  hasGreenAndBlue &&
-  !isSingleChoiceQuestion(currentRow)
-) {
-  label1.innerText = "Teilweise richtig!";
-  label1.style.color = "orange";
-}
+  } else {
+    label1.innerText = "Falsch beantwortet!";
+    label1.style.color = "red";
+    // لا يتم إضافة شيء للفهرس في حالة الخطأ
+  }
   }
   
   
