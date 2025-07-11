@@ -1967,31 +1967,32 @@ function updatePageElements(rowNumber) {
       const savedValue = checkboxSelections[questionNumber];
       
    
-      if (
-        savedValue &&
-        document.getElementById("showResults").innerText === "Ergebnisse ansehen"
-      ) {
-        if (
-          savedValue.length === 1 ||
-          (savedValue.length > 1 &&
-           !document.querySelector(`.checkbox-row input[value="${savedValue}"]`))
-        ) {
-          savedValue.split('').forEach(letter => {
-            const cb = document.getElementById("chk" + letter);
-            if (cb) cb.checked = true;
-          });
-        } else {
-          const savedCheckbox = document.querySelector(
-            `.checkbox-row input[type="checkbox"][value="${savedValue}"]`
-          );
-          if (savedCheckbox) savedCheckbox.checked = true;
-        }
-      
-        // ⛔️ تعطيل جميع checkboxes (سواء محددة أم لا)
-        document.querySelectorAll(".checkbox-row input[type='checkbox']").forEach(cb => {
-          cb.disabled = true;
-        });
+// عند عرض النتائج
+Object.entries(checkboxSelections).forEach(([questionNumber, savedValue]) => {
+  if (savedValue) {
+    // إذا كانت إجابة مركبة (مثل "AC")
+    if (
+      savedValue.length > 1 &&
+      document.querySelector(`.checkbox-row input[value="${savedValue}"]`)
+    ) {
+      const checkbox = document.querySelector(`.checkbox-row input[value="${savedValue}"]`);
+      if (checkbox) {
+        checkbox.checked = true;
       }
+    } else {
+      // إجابة مفردة
+      savedValue.split('').forEach(letter => {
+        const cb = document.getElementById("chk" + letter);
+        if (cb) cb.checked = true;
+      });
+    }
+  }
+});
+
+// تعطيل جميع checkboxes بعد عرض النتائج
+document.querySelectorAll("input[type='checkbox']").forEach(cb => {
+  cb.disabled = true;
+});
       
       
       
