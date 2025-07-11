@@ -1250,7 +1250,7 @@ if (hasGreenAndYellow && !hasGreenAndBlue) {
     label1.style.color = "red";
     // لا يتم إضافة شيء للفهرس في حالة الخطأ
   }
-  }
+  
   
   
   document.getElementById("checkAnswers").addEventListener("click", checkAnswers);
