@@ -1245,11 +1245,14 @@ function updatePageElements(rowNumber) {
     li.textContent = `${questionNumber} (جزئية)`;
     list2Element.appendChild(li);
   
-  } else {
-    label1.innerText = "Falsch beantwortet!";
-    label1.style.color = "red";
-    // لا يتم إضافة شيء للفهرس في حالة الخطأ
-  }
+  } else if (
+  hasGreenAndYellow &&
+  hasGreenAndBlue &&
+  !isSingleChoiceQuestion(currentRow)
+) {
+  label1.innerText = "Teilweise richtig!";
+  label1.style.color = "orange";
+}
   }
   
   
