@@ -1,6 +1,7 @@
 let originalHTML = ""; // متغير لحفظ النص الأصلي بالتنسيق
 let isTranslated = false; // حالة لمعرفة ما إذا كان النص مترجماً
 const comboOptionsMap = {};
+const checkboxSelections = {}; // مثل: {1: 'A', 2: 'C'}
 
 
 async function translateText() {
@@ -48,8 +49,6 @@ async function translateText() {
       return textToTranslate; // إذا حدث خطأ، أعد النص الأصلي
     }
   };
-
-  // ترجمة النصوص داخل `label:first-child`
   for (const label of labels) {
     const textToTranslate = label.textContent.trim();
     const translatedText = await translateNode(textToTranslate);
@@ -102,17 +101,6 @@ function restoreOriginalText() {
   // إعادة تعيين الخيار الافتراضي للقائمة المنسدلة
   languageSelector.value = ""; // ضبط القائمة على الخيار الافتراضي
 }
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -194,9 +182,7 @@ function FarbeinTable() {
               currentRowIndex = i; // تحديث الفهرس الحالي للصف
               displayRow(currentRow);
 
-              Punkte.style.display = "flex";
-              button.style.boxShadow = "0 0 10px rgba(0, 0, 0, 0.5)"; // إضافة ظل للزر
-
+              
               // إزالة تأثير التمييز من الأزرار الأخرى
               const allButtons = document.querySelectorAll("button");
               allButtons.forEach((btn) => {
@@ -209,8 +195,16 @@ function FarbeinTable() {
                 window.getComputedStyle(resultsContainer5).display === "flex" &&
                 window.getComputedStyle(buttonContainer).display === "none"
               ) {
+                if (
+                  window.getComputedStyle(resultsContainer5).display === "flex" &&
+                  window.getComputedStyle(buttonContainer).display === "none"
+                ) {
+                  // ← هذا مكان جيد
+                }
+                
                 resultsContainer5.style.display = "none";
                 buttonContainer.style.display = "flex";
+
                 resultsContainer.style.display = "none";
 
                 finalResultText.style.display = "none";
@@ -229,6 +223,8 @@ function FarbeinTable() {
                 document.getElementById("showResults").innerText =
                   "Ergebnisse ansehen";
               }
+
+
             });
 
             // بقية الكود
@@ -263,13 +259,13 @@ function FarbeinTable() {
     }
   }
 }
-
 // استدعاء الدالة عند تحميل الصفحة
 document.addEventListener("DOMContentLoaded", FarbeinTable);
 
 function displayRow(rowNumber) {
   // اكتب هنا السلوك المطلوب عند النقر على الزر
   console.log("تم النقر على الصف رقم:", rowNumber);
+
 }
 
 function displayRow(rowNumber) {
@@ -295,6 +291,8 @@ function displayCorrespondingRow(rowIndex) {
       alert("تم النقر على " + column.trim());
     });
     buttonContainer.appendChild(button);
+
+    
   });
 }
 
@@ -302,6 +300,7 @@ let currentRow = 1;
 let liIndex = 0; // تعريف متغير لتتبع معرف العناصر الفريدة
 const buttonContainer = document.getElementById("button-container");
 let correctAnswers = [];
+correctAnswersCheckbox = [];
 let list2 = [];
 let currentRowIndex = 0;
 
@@ -355,15 +354,21 @@ if (url) {
         quoteChar: '"',
         header: false,
       });
-      correctAnswers = parsedData.data.slice(0);
+      correctAnswers = parsedData.data.slice(1);
+      correctAnswersCheckbox = parsedData.data.slice(0);
+
     })
     .catch((error) =>
       console.error("Error fetching correct answers CSV file:", error)
     );
 }
 
+
+
+
+
 function getCorrectComboFromRow(rowData) {
-  const letters = ['A', 'B', 'C', 'D', 'E']; // الأعمدة
+  const letters = ['A', 'B', 'C', 'D']; // الأعمدة
   let combo = '';
 
   rowData.forEach((cell, index) => {
@@ -376,7 +381,7 @@ function getCorrectComboFromRow(rowData) {
 }
 
 function generateSmartCombos(correct, count = 4) {
-  const letters = ['A', 'B', 'C', 'D', 'E'];
+  const letters = ['A', 'B', 'C', 'D'];
   const allCombos = [];
 
   for (let i = 0; i < letters.length; i++) {
@@ -415,13 +420,18 @@ function isSingleChoiceQuestion(questionNumber) {
 
 // دالة لعرض صف الجدول المحدد
 function displayRow(rowNumber) {
-  const correctRow = correctAnswers[rowNumber] || [];
+
+
+  
+  const correctRow = correctAnswersCheckbox[rowNumber] || [];
+
+
   
 
 if (document.getElementById("answer-debug")) {
   const visibleAnswers = correctRow.filter(cell => cell.trim() !== "").join(", ");
   document.getElementById("answer-debug").textContent =
-    `Frage ${rowNumber}: Lösungen geladen → [${visibleAnswers}]`;
+    `Neues System Prüfung ab Juli 2025`;
 }
   const correctCombo = getCorrectComboFromRow(correctRow); // 🟢 أضف هذا مبكرًا!
   const correctCount = correctCombo.length;
@@ -515,7 +525,7 @@ if (document.getElementById("answer-debug")) {
 
                 td.appendChild(button);
                 
-                
+            
 
                 // Hier wird überprüft, ob die Hintergrundfarbe des Buttons in FarbeinTable geändert werden soll
               }
@@ -532,23 +542,60 @@ if (document.getElementById("answer-debug")) {
               }
             }
 
+          
+           
+            buttonContainer.querySelectorAll("button").forEach(btn => btn.disabled = true);
+
+            
+
             if (index === 4) {
               const checkboxRow = document.createElement("div");
               checkboxRow.style.display = "flex";
               checkboxRow.style.justifyContent = "space-evenly";
               checkboxRow.style.alignItems = "center";
-              checkboxRow.style.marginTop = "10px";
-              checkboxRow.style.marginBottom = "10px";
+              checkboxRow.style.marginTop = "15px";
+              checkboxRow.style.marginBottom = "15px";
               checkboxRow.style.width = "100%";
               checkboxRow.classList.add("checkbox-row");
             
+              // ✅ تحديد عدد الإجابات الصحيحة من ملف الإجابات
+              const correctRow = correctAnswers[rowNumber] || [];
+              const correctCount = correctRow.filter(cell => cell.trim() !== "").length;
+            
+              // ✅ تحديد إن كان السؤال Single أو لا
+              const isSingle = isSingleChoiceQuestion(rowNumber);
+            
+              // ✅ إنشاء النص الإرشادي
+              const infoText = document.createElement("div");
+              infoText.style.textAlign = "left";
+              infoText.style.marginBottom = "5px";
+              infoText.style.fontWeight = "bold";
+              infoText.style.fontSize = "14px";
+              infoText.style.color = "#333";
+            
+              if (isSingle) {
+                infoText.textContent = "✅ 1 richtige Antwort auswählen";
+              } else {
+                infoText.textContent = "✅ 2 richtige Antworten auswählen";
+              }
+            
+              // ✅ ضعه مباشرة في الـ container ليتوضع فوق الـ checkbox
+              buttonContainer.appendChild(infoText);
+            
+         
+            
+            
+            
+            
+             
+         
             
               
 
               
               if (isComboQuestion) {
              
-                const correctCombo = getCorrectComboFromRow(correctAnswers[rowNumber] || []);
+                const correctCombo = getCorrectComboFromRow(correctAnswersCheckbox[rowNumber] || []);
                 let comboOptions = comboOptionsMap[rowNumber];
                 
                 
@@ -569,9 +616,11 @@ checkboxRow.appendChild(dummyLabel);
                   label.style.alignItems = "center";
                   label.style.fontWeight = "bold";
                   label.innerHTML = `
-                    <input type="checkbox" value="${combo}" onchange="handleComboCheckboxChange(this)" style="margin-right: 5px;">
-                    ${combo}
-                  `;
+                    <input type="checkbox" value="${combo}" onchange="handleComboCheckboxChange(this)" style="width: 22px; height: 22px; margin-right: 8px;">
+                    ${combo}`;
+                
+                  
+                  
                   checkboxRow.appendChild(label);
                 });
                 buttonContainer.appendChild(checkboxRow);
@@ -597,7 +646,7 @@ checkboxRow.appendChild(dummyLabel);
                   label.style.alignItems = "center";
                   label.style.fontWeight = "bold";
                   label.innerHTML = `
-                    <input type="checkbox" value="${letter}" id="chk${letter}" onchange="handleCheckboxChange(this)" style="margin-right: 5px;">
+                    <input type="checkbox" value="${letter}" id="chk${letter}" onchange="handleCheckboxChange(this)" style="width: 22px; height: 22px; margin-right: 8px;">
                     ${letter}
                   `;
                   checkboxRow.appendChild(label);
@@ -631,7 +680,7 @@ checkboxRow.appendChild(dummyLabel);
                   });
               
                   // تحقق أنه لا يوجد زر زائد بلون أصفر
-                  const othersClear = ['A','B','C','D','E'].every(letter => {
+                  const othersClear = ['A','B','C','D'].every(letter => {
                     if (!letters.includes(letter)) {
                       const btn = document.getElementById("btn" + letter);
                       if (!btn) return true;
@@ -661,52 +710,55 @@ checkboxRow.appendChild(dummyLabel);
       .catch((error) => console.error("Error fetching CSV file:", error));
   }
 }
+
 // متغير عالمي لحفظ اختيارات المستخدمين لكل سؤال
-const checkboxSelections = {}; // مثل: {1: 'A', 2: 'C'}
 
 function handleCheckboxChange(checkbox) {
-  // السماح فقط بـ checkbox واحد
-  
   const letter = checkbox.value;
   const btn = document.getElementById("btn" + letter);
   if (!btn) return;
 
-  // 🟡 محاكاة الضغط على الزر
   toggleButtonColor(btn);
 
-  // 📝 حفظ التحديد بناءً على رقم السؤال الحالي
   const questionNumber = parseInt(document.getElementById("labelIndex").textContent);
-  checkboxSelections[questionNumber] = letter;
+
+  // ✅ اجمع كل الأزرار المختارة في هذا السؤال
+  const checkedLetters = [];
+  ['A', 'B', 'C', 'D'].forEach(l => {
+    const b = document.getElementById("btn" + l);
+    if (b && window.getComputedStyle(b).backgroundColor === "rgb(255, 255, 3)") {
+      checkedLetters.push(l);
+    }
+  });
+
+  checkboxSelections[questionNumber] = checkedLetters.join(""); // مثال: "AC"
 }
 
 function handleComboCheckboxChange(checkbox) {
-  // إلغاء تحديد كل checkboxes في نفس المجموعة
   document.querySelectorAll(".checkbox-row input[type='checkbox']").forEach(cb => {
     cb.checked = false;
   });
   checkbox.checked = true;
 
-  const comboValue = checkbox.value; // مثل "AB"
+  const comboValue = checkbox.value;
   const questionNumber = parseInt(document.getElementById("labelIndex").textContent);
   checkboxSelections[questionNumber] = comboValue;
 
-  // 🔄 إلغاء تفعيل الأزرار المفعلّة حاليًا (أي التي لونها أصفر فقط)
+  // إزالة التفعيل القديم
   ['A', 'B', 'C', 'D', 'E'].forEach(letter => {
     const btn = document.getElementById("btn" + letter);
-    if (btn) {
-      const color = window.getComputedStyle(btn).backgroundColor;
-      if (color === "rgb(255, 255, 3)") {
-        toggleButtonColor(btn); // ⛔️ نلغي فقط الأزرار المفعلّة
-      }
+    if (btn && window.getComputedStyle(btn).backgroundColor === "rgb(255, 255, 3)") {
+      toggleButtonColor(btn);
     }
   });
 
-  // ✅ تفعيل الأزرار الجديدة
+  // تفعيل الأزرار حسب المركب
   comboValue.split('').forEach(letter => {
     const btn = document.getElementById("btn" + letter);
-    if (btn) toggleButtonColor(btn); // تفعل فقط الأزرار المطلوبة
+    if (btn) toggleButtonColor(btn);
   });
 }
+
 
 
 // خارج أي دالة – هذا متغير عالمي لحفظ اختيارات المستخدم
@@ -722,7 +774,6 @@ function updatePageElements(rowNumber) {
   // Anzeigen der Frage Nummer in labelIndex
   document.getElementById("labelIndex").textContent = ` ${questionNumber}`;
   document.getElementById("label1").textContent = ``;
-
 
   let pageTitle;
 
@@ -807,763 +858,676 @@ function updatePageElements(rowNumber) {
   }
   
 
-  // Ändern des Seitentitels
-  document.title = pageTitle;
+    // Ändern des Seitentitels
+    document.title = pageTitle;
 
-  // Aktualisieren der title-bar mit den Buttons
-  document.getElementById("title-bar").innerHTML = `<h6>${pageTitle}</h6>`;
-
-  // Anzeigen oder Ausblenden der vorherigen und nächsten Buttons basierend auf der Frage Nummer
-  if (questionNumber === 1) {
-    document.getElementById("back").style.display = "none"; // Verstecken Sie die Zurück-Taste
-  } else if (questionNumber === 82) {
-    document.getElementById("next").style.display = "none"; // Verstecken Sie die Nächste-Taste
-  } else {
-    // Wenn die Frage im Bereich von 2 bis 71 liegt, können Sie die Buttons wieder anzeigen
-    document.getElementById("back").style.display = "block";
-    document.getElementById("next").style.display = "block";
-  }
-
-  // Nach Anzeige der neuen Frage, führen Sie die checkTextMatch Funktion aus
-  checkTextMatch();
-
-  // Hinzufügen des Index zur Liste 2
-  addIndexToList2(rowNumber);
-
-  Shawqi();
-
-
-
+    // Aktualisieren der title-bar mit den Buttons
+    document.getElementById("title-bar").innerHTML = `<h6>${pageTitle}</h6>`;
   
-  const labelIndex = parseInt(
-    document.getElementById("labelIndex").textContent
-  );
-
-  // استخدم الفهرس لتحديد الزر المرتبط به في الجدول الآخر
-  const tableBody = document.getElementById("table-body");
-  const targetButton = tableBody.querySelector(
-    `tr:nth-child(${labelIndex + 0}) button`
-  );
-
-  var resultsContainer5 = document.getElementById("resultsContainer5");
-  var buttonContainer = document.getElementById("button-container");
-
-  if (
-    resultsContainer5.style.display === "none" ||
-    buttonContainer.style.display === "flex"
-  ) {
-    checkAnswers(); // استدعاء الدالة checkAnswers()
-
-    if (targetButton) {
-      targetButton.style.backgroundColor = label1.style.color;
+    // Anzeigen oder Ausblenden der vorherigen und nächsten Buttons basierend auf der Frage Nummer
+    if (questionNumber === 1) {
+      document.getElementById("back").style.display = "none"; // Verstecken Sie die Zurück-Taste
+    } else if (questionNumber === 82) {
+      document.getElementById("next").style.display = "none"; // Verstecken Sie die Nächste-Taste
+    } else {
+      // Wenn die Frage im Bereich von 2 bis 71 liegt, können Sie die Buttons wieder anzeigen
+      document.getElementById("back").style.display = "block";
+      document.getElementById("next").style.display = "block";
     }
-
-    // استدعاء أي وظائف إضافية هنا
-    FarbeinTable();
-  }
-}
-
-// استدعاء الدالة عند تحميل الصفحة
-document.addEventListener("DOMContentLoaded", () => {
-  displayRow(1); // عرض الصف الأول عند تحميل الصفحة
-});
-
-// تعريف دالة لتبديل لون الزر
-function toggleButtonColor(button) {
-  // كود لتبديل لون الزر هنا
-}
-
-// تعريف دالة لإضافة الفهرس إلى list2
-function addIndexToList2(index) {
-  // كود لإضافة الفهرس إلى list2 هنا
-}
-
-function toggleButtonColor(button) {
-  const table = button.closest("table");
-  if (button.style.backgroundColor === "rgb(255, 255, 3)") {
-    button.style.color = "#ffffff";
-    button.style.backgroundColor = "#0603aa";
-    table.style.backgroundColor = "#0603aa";
-  } else {
-    button.style.color = "rgb(2, 0, 0)";
-    button.style.backgroundColor = "rgb(255, 255, 3)";
-    table.style.backgroundColor = "rgb(255, 255, 3)";
-  }
-
-  // Check if the button is the first button in the button-container
-  const buttons = document.querySelectorAll("#button-container button");
-  if (button === buttons[0]) {
-    const label40 = document.getElementById("label40");
-    label40.style.backgroundColor = button.style.backgroundColor;
-  }
-
-  if (button === buttons[1]) {
-    const label50 = document.getElementById("label50");
-    label50.style.backgroundColor = button.style.backgroundColor;
-  }
-
-  if (button === buttons[2]) {
-    const label60 = document.getElementById("label60");
-    label60.style.backgroundColor = button.style.backgroundColor;
-  }
-
-  if (button === buttons[3]) {
-    const label70 = document.getElementById("label70");
-    label70.style.backgroundColor = button.style.backgroundColor;
-  }
-
-  if (button === buttons[4]) {
-    const label80 = document.getElementById("label80");
-    label80.style.backgroundColor = button.style.backgroundColor;
-  }
-
-  if (table.style.backgroundColor === "rgb(255, 255, 3)") {
-    const ButtonText = button.textContent;
-    const listItems = document.getElementById("list").textContent.trim();
-    if (!listItems.includes(ButtonText)) {
-      const li = document.createElement("li");
-      li.textContent = ButtonText;
-      li.id = `listItem${liIndex++}`; // Assign a unique ID to each <li> element
-      document.getElementById("list").appendChild(li);
-      checkTextMatch();
+  
+    // Nach Anzeige der neuen Frage, führen Sie die checkTextMatch Funktion aus
+    checkTextMatch();
+  
+    // Hinzufügen des Index zur Liste 2
+    addIndexToList2(rowNumber);
+  
+    Shawqi();
+  
+    const labelIndex = parseInt(
+      document.getElementById("labelIndex").textContent
+    );
+  
+    // استخدم الفهرس لتحديد الزر المرتبط به في الجدول الآخر
+    const tableBody = document.getElementById("table-body");
+    const targetButton = tableBody.querySelector(
+      `tr:nth-child(${labelIndex + 0}) button`
+    );
+  
+    var resultsContainer5 = document.getElementById("resultsContainer5");
+    var buttonContainer = document.getElementById("button-container");
+    var AntwortenZahl = document.getElementById("AntwortenZahl");
+  
+  
+    if (
+      resultsContainer5.style.display === "none" ||
+      buttonContainer.style.display === "flex"
+      
+    ) {
+    AntwortenZahl.style.display = "flex"
+    checkAnswers(); // استدعاء الدالة checkAnswers()
+  
+      if (targetButton) {
+        targetButton.style.backgroundColor = label1.style.color;
+      }
+  
+      // استدعاء أي وظائف إضافية هنا
       FarbeinTable();
     }
   }
-
-  const computedStyle = getComputedStyle(button);
-  const backgroundColor = computedStyle.backgroundColor;
-  if (backgroundColor === "rgb(6, 3, 170)") {
-    const list = document.getElementById("list");
-    const buttonText = button.textContent; // Extract the button text
-    const listItemToRemove = Array.from(list.children).find(
-      (item) => item.textContent === buttonText
-    ); // Search for the item to remove based on its text
-    if (listItemToRemove) {
-      listItemToRemove.remove(); // Remove the item from the list if found
-      liIndex--; // Update the index for subsequent items
-    }
-  }
-
-  // احصل على قيمة الفهرس من العنصر HTML
-  const labelIndex = parseInt(
-    document.getElementById("labelIndex").textContent
-  );
-
-  // استخدم الفهرس لتحديد الزر المرتبط به في الجدول الآخر
-  const tableBody = document.getElementById("table-body");
-  const targetButton = tableBody.querySelector(
-    `tr:nth-child(${labelIndex + 0}) button`
-  );
-
-  if (targetButton) {
-    // قم بتغيير اللون أو أي عملية أخرى حسب الحالة
+  
+  // استدعاء الدالة عند تحميل الصفحة
+  document.addEventListener("DOMContentLoaded", () => {
+    displayRow(1); // عرض الصف الأول عند تحميل الصفحة
+  });
+  
+  // دالة لتغيير لون الزر عند النقر
+  function toggleButtonColor(button) {
+    const table = button.closest("table");
+  
+    // إذا كان الزر أصفر، نقوم بإعادته إلى الحالة الأصلية
     if (button.style.backgroundColor === "rgb(255, 255, 3)") {
-      targetButton.style.backgroundColor = button.style.backgroundColor;
-    } else {
-      targetButton.style.backgroundColor = "";
-    }
-
-    // استدعاء أي وظائف إضافية هنا
-    FarbeinTable();
-  }
-}
-
-function checkTextMatch() {
-  const buttons = document.querySelectorAll("#button-container button");
-  const listItems = document.getElementById("list").textContent.trim();
-
-  buttons.forEach((button) => {
-    const buttonText = button.textContent.trim();
-
-    // التحقق من مطابقة النصوص وتغيير الألوان بناءً على ذلك
-    if (listItems.includes(buttonText)) {
-      button.style.backgroundColor = "rgb(255, 255, 3)";
-      button.style.color = "#000"; // تغيير لون النص لزيادة وضوحه
-    } else {
+      button.style.color = "#ffffff";
       button.style.backgroundColor = "#0603aa";
-      button.style.color = "#fff"; // إعادة لون النص للون الأصلي
+      table.style.backgroundColor = "#0603aa";
+    } else {
+      // إذا كان الزر ليس أصفر، نقوم بتغييره إلى أصفر
+      button.style.color = "rgb(2, 0, 0)";
+      button.style.backgroundColor = "rgb(255, 255, 3)";
+      table.style.backgroundColor = "rgb(255, 255, 3)";
     }
-
-    const table = button.closest("table"); // تحديد الجدول المرتبط بالزر
-    if (table) {
-      // تغيير لون الجدول بناءً على حالة الزر
-      if (button.style.backgroundColor === "rgb(255, 255, 3)") {
-        table.style.backgroundColor = "rgb(255, 255, 3)";
-      } else {
-        table.style.backgroundColor = "#0603aa";
+  
+    // تحديد عدد الأزرار المحددة (الأصفر)
+    const allButtons = document.querySelectorAll("#button-container button");
+    const selectedButtons = Array.from(allButtons).filter(
+      (btn) => getComputedStyle(btn).backgroundColor === "rgb(255, 255, 3)"
+    );
+  
+    // معرفة نوع السؤال (اختيارات متعددة أو اختيار واحد)
+    const antwortText = document.getElementById("AntwortenZahl").innerText;
+    const isMultipleChoice = antwortText.includes("2 Punkte");
+    const maxSelections = isMultipleChoice ? 2 : 1; // 2 اختيارات لأسئلة متعددة و 1 لاختيار واحد
+  
+    // إذا تجاوز عدد التحديدات الحد، ألغي التحديد الأخير فورًا
+   
+  
+    // إذا كانت الإجابة صحيحة، إضافة الزر إلى قائمة الإجابات الصحيحة
+    if (table.style.backgroundColor === "rgb(255, 255, 3)") {
+      const ButtonText = button.textContent;
+      const listItems = document.getElementById("list").textContent.trim();
+      if (!listItems.includes(ButtonText)) {
+        const li = document.createElement("li");
+        li.textContent = ButtonText;
+        li.id = `listItem${liIndex++}`; // Assign a unique ID to each <li> element
+        document.getElementById("list").appendChild(li);
+        checkTextMatch();
+        FarbeinTable();
       }
     }
-
-    // تحديد الزر في الجدول وتغيير لونه بناءً على حالة الزر
-    if (button === buttons[0]) {
-      const label40 = document.getElementById("label40");
-      label40.style.backgroundColor = button.style.backgroundColor;
+  
+    // إزالة العنصر من القائمة إذا تم إلغاء تحديده
+    const computedStyle = getComputedStyle(button);
+    const backgroundColor = computedStyle.backgroundColor;
+    if (backgroundColor === "rgb(6, 3, 170)") {
+      const list = document.getElementById("list");
+      const buttonText = button.textContent; // استخراج نص الزر
+      const listItemToRemove = Array.from(list.children).find(
+        (item) => item.textContent === buttonText
+      ); // البحث عن العنصر لحذفه بناءً على النص
+      if (listItemToRemove) {
+        listItemToRemove.remove(); // إزالة العنصر من القائمة
+        liIndex--; // تحديث الفهرس
+      }
     }
-
-    if (button === buttons[1]) {
-      const label50 = document.getElementById("label50");
-      label50.style.backgroundColor = button.style.backgroundColor;
+  
+    // احصل على قيمة الفهرس من العنصر HTML
+    const labelIndex = parseInt(document.getElementById("labelIndex").textContent);
+  
+    // استخدم الفهرس لتحديد الزر المرتبط به في الجدول الآخر
+    const tableBody = document.getElementById("table-body");
+    const targetButton = tableBody.querySelector(
+      `tr:nth-child(${labelIndex + 0}) button`
+    );
+  
+    if (targetButton) {
+      // تغيير اللون أو أي عملية أخرى حسب الحالة
+      if (button.style.backgroundColor === "rgb(255, 255, 3)") {
+        targetButton.style.backgroundColor = button.style.backgroundColor;
+      } else {
+        targetButton.style.backgroundColor = "";
+      }
+  
+      // استدعاء أي وظائف إضافية هنا
+      FarbeinTable();
     }
-
-    if (button === buttons[2]) {
-      const label60 = document.getElementById("label60");
-      label60.style.backgroundColor = button.style.backgroundColor;
-    }
-
-    if (button === buttons[3]) {
-      const label70 = document.getElementById("label70");
-      label70.style.backgroundColor = button.style.backgroundColor;
-    }
-
-    if (button === buttons[4]) {
-      const label80 = document.getElementById("label80");
-      label80.style.backgroundColor = button.style.backgroundColor;
-    }
-  });
-}
-
-// عرض السؤال الأول عند بداية التحميل
-displayRow(currentRow);
-
-document.getElementById("next").addEventListener("click", () => {
-  Shawqi();
-  restoreOriginalText();
-  const labelIndex = parseInt(
-    document.getElementById("labelIndex").textContent
-  );
-  const nextLabelIndex = labelIndex + 1;
-
-  // هنا يمكنك استخدام nextLabelIndex لجلب السؤال التالي وعرضه
-  displayRow(nextLabelIndex);
-  currentRow = nextLabelIndex;
-});
-
-document.getElementById("back").addEventListener("click", () => {
-  Shawqi();
-  restoreOriginalText();
-
-  // التأكد من أن الصف الحالي أكبر من 1 قبل الانتقال للخلف
-
-  const labelIndex = parseInt(
-    document.getElementById("labelIndex").textContent
-  );
-  const previousLabelIndex = labelIndex - 1;
-  // استخدام previousLabelIndex لجلب السؤال السابق وعرضه
-  displayRow(previousLabelIndex);
-  // تحديث الصف الحالي بعد الانتقال للخلف
-  currentRow = previousLabelIndex;
-});
-
-const buttons = document.querySelectorAll("#button-container button");
-buttons.forEach((button, index) => {
-  const answer = button.textContent.trim();
-  const correctAnswer = correctAnswers[currentRow - 1][index];
-
-  if (!correctAnswer) {
-    if (button.style.backgroundColor === "rgb(255, 255, 3)") {
-      button.style.backgroundColor = "red";
+  }
+  
+  // دالة لفحص الألوان والتأكد من الإجابات
+  function checkTextMatch() {
+    const buttons = document.querySelectorAll("#button-container button");
+    const listItems = document.getElementById("list").textContent.trim();
+  
+    buttons.forEach((button) => {
+      const buttonText = button.textContent.trim();
+  
+      // التحقق من مطابقة النصوص وتغيير الألوان بناءً على ذلك
+      if (listItems.includes(buttonText)) {
+        button.style.backgroundColor = "rgb(255, 255, 3)";
+        button.style.color = "#000"; // تغيير لون النص لزيادة وضوحه
+      } else {
+        button.style.backgroundColor = "#0603aa";
+        button.style.color = "#fff"; // إعادة لون النص للون الأصلي
+      }
+  
+      const table = button.closest("table"); // تحديد الجدول المرتبط بالزر
+      if (table) {
+        // تغيير لون الجدول بناءً على حالة الزر
+        if (button.style.backgroundColor === "rgb(255, 255, 3)") {
+          table.style.backgroundColor = "rgb(255, 255, 3)";
+        } else {
+          table.style.backgroundColor = "#0603aa";
+        }
+      }
+  
+      // تحديد الزر في الجدول وتغيير لونه بناءً على حالة الزر
       if (button === buttons[0]) {
         const label40 = document.getElementById("label40");
-        document.getElementById("label40").innerText = "0";
+        label40.style.backgroundColor = button.style.backgroundColor;
       }
-    }
-  } else {
-    button.style.backgroundColor = "green";
-    const ButtonText = button.textContent;
-    document.getElementById("label1").textContent = answer + ", ";
-
-    if (button === buttons[0]) {
-      const label40 = document.getElementById("label40");
-      document.getElementById("label40").innerText = "1";
-    }
+  
+      if (button === buttons[1]) {
+        const label50 = document.getElementById("label50");
+        label50.style.backgroundColor = button.style.backgroundColor;
+      }
+  
+      if (button === buttons[2]) {
+        const label60 = document.getElementById("label60");
+        label60.style.backgroundColor = button.style.backgroundColor;
+      }
+  
+      if (button === buttons[3]) {
+        const label70 = document.getElementById("label70");
+        label70.style.backgroundColor = button.style.backgroundColor;
+      }
+  
+      if (button === buttons[4]) {
+        const label80 = document.getElementById("label80");
+        label80.style.backgroundColor = button.style.backgroundColor;
+      }
+    });
+    FarbeinTable();
   }
-  const table = button.closest("table");
-  if (table.style.backgroundColor === "rgb(255, 255, 3)") {
-    const ButtonText = button.textContent;
-    document.getElementById(
-      "list"
-    ).innerHTML += `<li id="${button.id}">${ButtonText}</li>`; // تعيين معرف فريد لكل عنصر <li>
+  
+    
+  
+  function checkTextMatch() {
+    const buttons = document.querySelectorAll("#button-container button");
+    const listItems = document.getElementById("list").textContent.trim();
+  
+    buttons.forEach((button) => {
+      const buttonText = button.textContent.trim();
+  
+      // التحقق من مطابقة النصوص وتغيير الألوان بناءً على ذلك
+      if (listItems.includes(buttonText)) {
+        button.style.backgroundColor = "rgb(255, 255, 3)";
+        button.style.color = "#000"; // تغيير لون النص لزيادة وضوحه
+      } else {
+        button.style.backgroundColor = "#0603aa";
+        button.style.color = "#fff"; // إعادة لون النص للون الأصلي
+      }
+  
+      const table = button.closest("table"); // تحديد الجدول المرتبط بالزر
+      if (table) {
+        // تغيير لون الجدول بناءً على حالة الزر
+        if (button.style.backgroundColor === "rgb(255, 255, 3)") {
+          table.style.backgroundColor = "rgb(255, 255, 3)";
+        } else {
+          table.style.backgroundColor = "#0603aa";
+        }
+      }
+  
+      // تحديد الزر في الجدول وتغيير لونه بناءً على حالة الزر
+      if (button === buttons[0]) {
+        const label40 = document.getElementById("label40");
+        label40.style.backgroundColor = button.style.backgroundColor;
+      }
+  
+      if (button === buttons[1]) {
+        const label50 = document.getElementById("label50");
+        label50.style.backgroundColor = button.style.backgroundColor;
+      }
+  
+      if (button === buttons[2]) {
+        const label60 = document.getElementById("label60");
+        label60.style.backgroundColor = button.style.backgroundColor;
+      }
+  
+      if (button === buttons[3]) {
+        const label70 = document.getElementById("label70");
+        label70.style.backgroundColor = button.style.backgroundColor;
+      }
+  
+      if (button === buttons[4]) {
+        const label80 = document.getElementById("label80");
+        label80.style.backgroundColor = button.style.backgroundColor;
+      }
+      
+      
+    });
   }
-});
-
-function checkAnswers() {
-  document.getElementById("label1").display = "flex";
-
-  var label1 = document.getElementById("label1");
-  label1.style.display = "flex";
-  const buttons_Answers = document.querySelectorAll("#button-container button");
-  buttons_Answers.forEach((button) => {
-    button.disabled = true;
+  
+  
+  displayRow(currentRow);
+  
+  document.getElementById("next").addEventListener("click", () => {
+    Shawqi();
+    restoreOriginalText();
+    const labelIndex = parseInt(
+      document.getElementById("labelIndex").textContent
+    );
+    const nextLabelIndex = labelIndex + 1;
+  
+    // هنا يمكنك استخدام nextLabelIndex لجلب السؤال التالي وعرضه
+    displayRow(nextLabelIndex);
+    currentRow = nextLabelIndex;
   });
-
-  if (correctAnswers.length === 0) {
-    alert("Seite wird geladen. Bitte warten...");
-    return;
-  }
-
-  let answerCorrect = true; // تفترض الإجابة الصحيحة في البداية
-
+  
+  document.getElementById("back").addEventListener("click", () => {
+    Shawqi();
+    restoreOriginalText();
+  
+    // التأكد من أن الصف الحالي أكبر من 1 قبل الانتقال للخلف
+  
+    const labelIndex = parseInt(
+      document.getElementById("labelIndex").textContent
+    );
+    const previousLabelIndex = labelIndex - 1;
+    // استخدام previousLabelIndex لجلب السؤال السابق وعرضه
+    displayRow(previousLabelIndex);
+    // تحديث الصف الحالي بعد الانتقال للخلف
+    currentRow = previousLabelIndex;
+  });
+  
   const buttons = document.querySelectorAll("#button-container button");
   buttons.forEach((button, index) => {
     const answer = button.textContent.trim();
     const correctAnswer = correctAnswers[currentRow - 1][index];
-    const table = button.closest("table");
-
-    // التحقق من صحة الإجابة وتحديد لون الزر والنص في الوسم
+  
     if (!correctAnswer) {
       if (button.style.backgroundColor === "rgb(255, 255, 3)") {
         button.style.backgroundColor = "red";
-        answerCorrect = false; // إذا كان هناك زر لونه أحمر فإن الإجابة خاطئة
+        if (button === buttons[0]) {
+          const label40 = document.getElementById("label40");
+          document.getElementById("label40").innerText = "0";
+        }
       }
     } else {
       button.style.backgroundColor = "green";
+      const ButtonText = button.textContent;
       document.getElementById("label1").textContent = answer + ", ";
-
-      // إذا كانت الإجابة صحيحة، أضف الفهرس (index) إلى list2
-    }
-
-    // التحقق من لون خلفية الجدول وتحديد صحة الإجابة بناءً على ذلك
-    if (
-      button.style.backgroundColor === "green" &&
-      (!table || table.style.backgroundColor !== "rgb(255, 255, 3)")
-    ) {
-      answerCorrect = false;
-    }
-  });
-  const currentCorrectAnswers = correctAnswers[currentRowIndex - 1];
-
-  // تعيين النص بناءً على صحة الإجابة
-  if (answerCorrect) {
-    document.getElementById("label1").innerText = "Richtig beantwortet!";
-    document.getElementById("label1").style.color = "green";
-
-    const list2Element = document.getElementById("list2");
-    const questionNumber = parseInt(
-      document.getElementById("labelIndex").textContent.split(" ")[1]
-    );
-    const listItems = list2Element.textContent.trim();
-
-    if (!listItems.includes(questionNumber.toString())) {
-      // تأكد من عدم وجود العنصر في القائمة بالفعل
-      const li = document.createElement("li");
-      li.textContent = questionNumber;
-      list2Element.appendChild(li);
-    }
-  } else {
-    document.getElementById("label1").innerText = "Falsch beantwortet!";
-    document.getElementById("label1").style.color = "red";
-
-    const list2Element = document.getElementById("list2");
-    const questionNumber = parseInt(
-      document.getElementById("labelIndex").textContent.split(" ")[1]
-    );
-    const listItems = list2Element.textContent.trim();
-
-    if (listItems.includes(questionNumber.toString())) {
-      // تحقق مما إذا كان العنصر موجودًا في الفهرس
-      const listItemToRemove = Array.from(list2Element.children).find(
-        (item) => item.textContent === questionNumber.toString()
-      ); // البحث عن العنصر المراد حذفه بناء على النص
-      if (listItemToRemove) {
-        listItemToRemove.remove(); // حذف العنصر من القائمة إذا تم العثور عليه
-        liIndex--; // إزالة العنصر من الفهرس
+  
+      if (button === buttons[0]) {
+        const label40 = document.getElementById("label40");
+        document.getElementById("label40").innerText = "1";
       }
     }
-  }
-}
-
-document.getElementById("checkAnswers").addEventListener("click", checkAnswers);
-
-document.getElementById("listenButton").addEventListener("click", () => {
-  const listenButton = document.getElementById("listenButton");
-  if (listenButton.innerText === "Hören") {
-    listenButton.innerText = "Stop";
-
-    // بدء النطق
-    adjustSpeechRate("male", 1.0);
-  } else {
-    listenButton.innerText = "Hören";
-
-    // إيقاف النطق
-    window.speechSynthesis.cancel();
-  }
-});
-
-function adjustSpeechRate(gender, speed) {
-  // كود إعداد النص للنطق
-  const buttons = document.querySelectorAll(
-    "#button-container label, #button-container button"
-  );
-  let textToSpeak = "";
-  buttons.forEach((button) => {
-    textToSpeak += button.textContent.trim() + ". ";
-  });
-
-  // إنشاء كائن النطق
-  const speechSynthesis = window.speechSynthesis;
-  const utterance = new SpeechSynthesisUtterance(textToSpeak);
-  utterance.lang = "de-DE";
-
-  // تعيين السرعة والصوت
-  if (gender === "male") {
-    utterance.pitch = 0.0; // قد يختلف هذا الرقم حسب المتصفح
-  } else if (gender === "female") {
-    utterance.pitch = 3.0; // قد يختلف هذا الرقم حسب المتصفح
-  }
-
-  // تعيين سرعة النطق
-  utterance.rate = speed; // القيمة الافتراضية هي 1.0
-
-  // بدء النطق
-  speechSynthesis.speak(utterance);
-}
-
-function showResults() {
-  const itemsFromList2 = Array.from(
-    document.getElementById("list2").children
-  ).map((item) => parseInt(item.textContent));
-  const selectedNumbers = itemsFromList2.filter((item) =>
-    [1, 2, 3, 4].includes(item)
-  );
-  const count = selectedNumbers.length;
-  const value = count > 4 ? 8 : count * 2;
-
-  document.getElementById(
-    "subjectTitle"
-  ).textContent = ` Recht der öffentlichen Sicherheit und Ordnung (${value} von 8)`;
-  const percentage = value > 0 ? (value / 8) * 100 : 0;
-  document.getElementById("progressBar").style.width = `${percentage}%`;
-  document.getElementById("percentage").textContent = `${percentage}%`;
-  document.getElementById("percentage").textContent = `${percentage.toFixed(
-    0
-  )}%`; // تحويل النسبة إلى صيغة عادية بدون أرقام عشرية
-
-  document.getElementById("progressBar").style.backgroundColor =
-    percentage < 50 ? "red" : "green"; // تغيير لون الشريط
-
-  return value; // إرجاع القيمة لحساب المتوسط
-}
-
-function showResults2() {
-  const itemsFromList2 = Array.from(
-    document.getElementById("list2").children
-  ).map((item) => parseInt(item.textContent));
-  const selectedNumbers = itemsFromList2.filter((item) =>
-    [5, 6, 7, 8].includes(item)
-  );
-  const count = selectedNumbers.length;
-  const value2 = count > 4 ? 8 : count * 1;
-
-  document.getElementById(
-    "subjectTitle2"
-  ).textContent = ` Gewerberecht (${value2} von 4)`;
-  const percentage = (value2 / 4) * 100; // تصحيح الخطأ هنا
-  document.getElementById("progressBar2").style.width = `${percentage}%`;
-  document.getElementById("percentage2").textContent = `${percentage}%`;
-  document.getElementById("percentage2").textContent = `${percentage.toFixed(
-    0
-  )}%`; // تحويل النسبة إلى صيغة عادية بدون أرقام عشرية
-
-  document.getElementById("progressBar2").style.backgroundColor =
-    percentage < 50 ? "red" : "green"; // تغيير لون الشريط
-  return value2;
-}
-
-function showResults3() {
-  const itemsFromList2 = Array.from(
-    document.getElementById("list2").children
-  ).map((item) => parseInt(item.textContent));
-  const selectedNumbers = itemsFromList2.filter((item) =>
-    [9, 10, 11, 12].includes(item)
-  );
-  const count = selectedNumbers.length;
-  const value3 = count > 4 ? 8 : count * 1;
-
-  document.getElementById(
-    "subjectTitle3"
-  ).textContent = ` Datenschutz (${value3} von 4)`;
-  const percentage = (value3 / 4) * 100;
-  document.getElementById("progressBar3").style.width = `${percentage}%`;
-  document.getElementById("percentage3").textContent = `${percentage}%`;
-  document.getElementById("percentage3").textContent = `${percentage.toFixed(
-    0
-  )}%`; // تحويل النسبة إلى صيغة عادية بدون أرقام عشرية
-
-  document.getElementById("progressBar3").style.backgroundColor =
-    percentage < 50 ? "red" : "green"; // تغيير لون الشريط
-  return value3;
-}
-
-function showResults4() {
-  const itemsFromList2 = Array.from(
-    document.getElementById("list2").children
-  ).map((item) => parseInt(item.textContent));
-  const selectedNumbers = itemsFromList2.filter((item) =>
-    [13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24].includes(item)
-  );
-  const count = selectedNumbers.length;
-  const value4 = count > 12 ? 24 : count * 2;
-
-  document.getElementById(
-    "subjectTitle4"
-  ).textContent = `Bürgliches Gesetzbuch (${value4} von 24)`;
-  const percentage = (value4 / 24) * 100;
-  document.getElementById("progressBar4").style.width = `${percentage}%`;
-  document.getElementById("percentage4").textContent = `${percentage.toFixed(
-    0
-  )}%`; // تحويل النسبة إلى صيغة عادية بدون أرقام عشرية
-  document.getElementById("progressBar4").style.backgroundColor =
-    percentage < 50 ? "red" : "green"; // تغيير لون الشريط
-  return value4;
-}
-
-function showResults5() {
-  const itemsFromList2 = Array.from(
-    document.getElementById("list2").children
-  ).map((item) => parseInt(item.textContent));
-  const selectedNumbers = itemsFromList2.filter((item) =>
-    [25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36].includes(item)
-  );
-  const count = selectedNumbers.length;
-  const value5 = count > 12 ? 24 : count * 2;
-
-  document.getElementById(
-    "subjectTitle5"
-  ).textContent = `Strafgesetzbuch (${value5} von 24)`;
-  const percentage = (value5 / 24) * 100;
-  document.getElementById("progressBar5").style.width = `${percentage}%`;
-  document.getElementById("percentage5").textContent = `${percentage.toFixed(
-    0
-  )}%`; // تحويل النسبة إلى صيغة عادية بدون أرقام عشرية
-  document.getElementById("progressBar5").style.backgroundColor =
-    percentage < 50 ? "red" : "green"; // تغيير لون الشريط
-  return value5;
-}
-
-function showResults6() {
-  const itemsFromList2 = Array.from(
-    document.getElementById("list2").children
-  ).map((item) => parseInt(item.textContent));
-  const selectedNumbers = itemsFromList2.filter((item) =>
-    [37, 38, 39, 40, 41, 42, 43, 44].includes(item)
-  );
-  const count = selectedNumbers.length;
-  const value6 = count > 4 ? 8 : count * 1;
-
-  document.getElementById(
-    "subjectTitle6"
-  ).textContent = ` Unfallverhütungsvorschriften (${value6} von 8)`;
-  const percentage = (value6 / 8) * 100;
-  document.getElementById("progressBar6").style.width = `${percentage}%`;
-  document.getElementById("percentage6").textContent = `${percentage}%`;
-  document.getElementById("percentage6").textContent = `${percentage.toFixed(
-    0
-  )}%`; // تحويل النسبة إلى صيغة عادية بدون أرقام عشرية
-
-  document.getElementById("progressBar6").style.backgroundColor =
-    percentage < 50 ? "red" : "green"; // تغيير لون الشريط
-  return value6;
-}
-
-function showResults7() {
-  const itemsFromList2 = Array.from(
-    document.getElementById("list2").children
-  ).map((item) => parseInt(item.textContent));
-  const selectedNumbers = itemsFromList2.filter((item) =>
-    [45, 46, 47, 48].includes(item)
-  );
-  const count = selectedNumbers.length;
-  const value7 = count > 2 ? 4 : count * 1;
-
-  document.getElementById(
-    "subjectTitle7"
-  ).textContent = ` Waffenrecht (${value7} von 4)`;
-  const percentage = (value7 / 4) * 100;
-  document.getElementById("progressBar7").style.width = `${percentage}%`;
-  document.getElementById("percentage7").textContent = `${percentage}%`;
-  document.getElementById("percentage7").textContent = `${percentage.toFixed(
-    0
-  )}%`; // تحويل النسبة إلى صيغة عادية بدون أرقام عشرية
-
-  document.getElementById("progressBar7").style.backgroundColor =
-    percentage < 50 ? "red" : "green"; // تغيير لون الشريط
-  return value7;
-}
-
-function showResults8() {
-  const itemsFromList2 = Array.from(
-    document.getElementById("list2").children
-  ).map((item) => parseInt(item.textContent));
-  const selectedNumbers = itemsFromList2.filter((item) =>
-    [49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64].includes(
-      item
-    )
-  );
-  const count = selectedNumbers.length;
-  const value8 = count > 8 ? 16 : count * 1; // تعريف المتغير value8 كمتغير محلي لهذه الدالة
-
-  document.getElementById(
-    "subjectTitle8"
-  ).textContent = ` Umgang mit Menschen (${value8} von 16)`;
-  const percentage = (value8 / 16) * 100;
-  document.getElementById("progressBar8").style.width = `${percentage}%`;
-  document.getElementById("percentage8").textContent = `${percentage}%`;
-  document.getElementById("percentage8").textContent = `${percentage.toFixed(
-    0
-  )}%`; // تحويل النسبة إلى صيغة عادية بدون أر��ام عشرية
-
-  document.getElementById("progressBar8").style.backgroundColor =
-    percentage < 50 ? "red" : "green"; // تغيير لون الشريط
-
-  return value8; // إرجاع قيمة value8
-}
-
-function showResults9() {
-  const itemsFromList2 = Array.from(
-    document.getElementById("list2").children
-  ).map((item) => parseInt(item.textContent));
-  const selectedNumbers = itemsFromList2.filter((item) =>
-    [65, 66, 67, 68, 69, 70, 71, 72].includes(item)
-  );
-  const count = selectedNumbers.length;
-  const value9 = count > 4 ? 8 : count * 1; // تعريف المتغير value9 كمتغير محلي لهذه الدالة
-
-  document.getElementById(
-    "subjectTitle9"
-  ).textContent = ` Sicherheitstechnik (${value9} von 8)`;
-  const percentage = (value9 / 8) * 100;
-  document.getElementById("progressBar9").style.width = `${percentage}%`;
-  document.getElementById("percentage9").textContent = `${percentage}%`;
-  document.getElementById("percentage9").textContent = `${percentage.toFixed(
-    0
-  )}%`; // تحويل النسبة إلى صيغة عادية بدون أرقام عشرية
-
-  document.getElementById("progressBar9").style.backgroundColor =
-    percentage < 50 ? "red" : "green"; // تغيير لون الشريط
-
-  return value9; // إرجاع قيمة value9
-}
-
-const totalAverage =
-  showResults() +
-  showResults2() +
-  showResults3() +
-  showResults4() +
-  showResults5() +
-  showResults6() +
-  showResults7() +
-  showResults8() +
-  showResults9();
-console.log("المتوسط العام:", totalAverage);
-
-function hideResultsDisplay() {
-  var resultsContainer = document.getElementById("resultsContainer");
-  resultsContainer.style.display = "flex";
-
-  var resultsContainer2 = document.getElementById("resultsContainer2");
-  resultsContainer2.style.display = "flex";
-
-  var resultsContainer3 = document.getElementById("resultsContainer3");
-  resultsContainer3.style.display = "flex";
-
-  var resultsContainer4 = document.getElementById("resultsContainer4");
-  resultsContainer4.style.display = "flex";
-
-  var resultsContainer5 = document.getElementById("resultsContainer5");
-  resultsContainer5.style.display = "flex";
-
-  var resultsContainer6 = document.getElementById("resultsContainer6");
-
-  resultsContainer6.style.display = "flex";
-
-  var resultsContainer7 = document.getElementById("resultsContainer7");
-
-  resultsContainer7.style.display = "flex";
-
-  var resultsContainer8 = document.getElementById("resultsContainer8");
-
-  resultsContainer8.style.display = "flex";
-
-  var resultsContainer9 = document.getElementById("resultsContainer9");
-
-  resultsContainer9.style.display = "flex";
-
-  var next = document.getElementById("next");
-  next.style.display = "none";
-
-  var back = document.getElementById("back");
-  back.style.display = "none";
-
-  var showResults = document.getElementById("showResults");
-  showResults.style.display = "none";
-
-  var checkAnswers = document.getElementById("checkAnswers");
-  checkAnswers.style.display = "none";
-  var listenButton = document.getElementById("listenButton");
-  listenButton.style.display = "none";
-
-  var buttonContainer = document.getElementById("button-container");
-  buttonContainer.style.display = "none"; // إظهار عنصر الأزرار
-}
-
-document.querySelector("#showResults").addEventListener("click", () => {
-  if (document.getElementById("showResults").innerText === "Prüfung abgeben") {
-    Shawqi();
-  }
-
-  Punkte.style.display = "none";
-
-  var listenButton = document.getElementById("listenButton");
-
-  if (document.getElementById("showResults").innerHTML == "Prüfung abgeben") {
-    const confirmation = confirm(
-      "Möchtest du wirklich den Test beenden und deine Ergebnisse sehen?"
-    );
-
-    // التحقق من رد المستخدم
-    if (confirmation) {
-      // قم بتنفيذ الأوامر
-      executeResults();
+    const table = button.closest("table");
+    if (table.style.backgroundColor === "rgb(255, 255, 3)") {
+      const ButtonText = button.textContent;
+      document.getElementById(
+        "list"
+      ).innerHTML += `<li id="${button.id}">${ButtonText}</li>`; // تعيين معرف فريد لكل عنصر <li>
     }
+  });
+  
+  function checkAnswers() {
+    const label1 = document.getElementById("label1");
+    label1.style.display = "flex";
+  
+    const buttons = document.querySelectorAll("#button-container button");
+    buttons.forEach((button) => {
+      button.disabled = true;
+    });
+  
+  
+  
+    let hasGreenAndYellow = false;
+    let hasGreenAndBlue = false;
+    let hasAnyCorrectSelection = false;
+  
+    buttons.forEach((button, index) => {
+      const answer = button.textContent.trim();
+      const correct = correctAnswers[currentRow - 1][index]; // من مصفوفة الإجابات الصحيحة
+  
+      const isSelected = button.style.backgroundColor === "rgb(255, 255, 3)"; // الأصفر
+  
+      if (correct) {
+        button.style.backgroundColor = "green";
+        if (isSelected) {
+          hasGreenAndYellow = true;
+          hasAnyCorrectSelection = true;
+        } else {
+          hasGreenAndBlue = true;
+        }
+      } else if (isSelected) {
+        // المستخدم اختار خيارًا خاطئًا
+        button.style.backgroundColor = "red";
+      }
+    });
+  
+    const list2Element = document.getElementById("list2");
+    const questionNumber = parseInt(
+      document.getElementById("labelIndex").textContent.split(" ")[1]
+    );
+  
+    const existingItem = Array.from(list2Element.children).find(
+      (item) => item.textContent.startsWith(`${questionNumber}`)
+    );
+    if (existingItem) existingItem.remove();
+  
+    const antwortenZahlText = document.getElementById("AntwortenZahl").innerText;
+    const isMultipleChoice = antwortenZahlText.includes("Multiple-Choice");
+  
+   if (hasGreenAndYellow && !hasGreenAndBlue) {
+    label1.innerText = "Richtig beantwortet!";
+    label1.style.color = "green";
+  
+    const li = document.createElement("li");
+    li.textContent = isMultipleChoice
+      ? `${questionNumber} (MC)`
+      : `${questionNumber}`;
+    list2Element.appendChild(li);
+  
+  } else if (hasGreenAndYellow && hasGreenAndBlue) {
+    label1.innerText = "Teilweise richtig!";
+    label1.style.color = "orange";
+  
+    const li = document.createElement("li");
+    li.textContent = `${questionNumber} (جزئية)`;
+    list2Element.appendChild(li);
+  
   } else {
-    // إذا كان مخفيًا، قم بتنفيذ الأوامر مباشرة
-    executeResults();
+    label1.innerText = "Falsch beantwortet!";
+    label1.style.color = "red";
+    // لا يتم إضافة شيء للفهرس في حالة الخطأ
   }
-});
-
-// دالة لتنفيذ الأوامر المشتركة في كلتا الحالتين
-function executeResults() {
-  hideResultsDisplay();
-  showResults();
-  showResults2();
-  showResults3();
-  showResults4();
-  showResults5();
-  showResults6();
-  showResults7();
-  showResults8();
-  showResults9();
-  activateFinalResult();
-  AlleFarben();
-  pageTitle = "Ergebnisse";
-  document.getElementById("title-bar").innerHTML = `<h1>${pageTitle}</h1>`;
-  var label1 = document.getElementById("label1");
-  label1.style.display = "none";
-
-  const currentTime = new Date().getTime();
-  const elapsedTime = startTime - currentTime;
-  const totalDuration = 120 * 60 * 1000;
-  const elapsedMinutes = Math.floor(
-    (elapsedTime % totalDuration) / (1000 * 60)
-  );
-  const elapsedSeconds = Math.floor((elapsedTime % (1000 * 60)) / 1000);
-  document.getElementById(
-    "countdown-timer"
-  ).innerText = `Zeit verbraucht: ${elapsedMinutes} Minuten ${elapsedSeconds} Sekunden`;
-}
-
-function activateFinalResult() {
-  const totalPercentage =
+  }
+  
+  
+  document.getElementById("checkAnswers").addEventListener("click", checkAnswers);
+  
+  document.getElementById("listenButton").addEventListener("click", () => {
+    const listenButton = document.getElementById("listenButton");
+    if (listenButton.innerText === "Hören") {
+      listenButton.innerText = "Stop";
+  
+      // بدء النطق
+      adjustSpeechRate("male", 1.0);
+    } else {
+      listenButton.innerText = "Hören";
+  
+     // ✅ التحقق من دعم speechSynthesis قبل الاستدعاء
+     if (typeof window.speechSynthesis !== 'undefined' &&
+      typeof window.speechSynthesis.cancel === 'function') {
+    window.speechSynthesis.cancel();
+  } else {
+    console.warn("speechSynthesis غير مدعومة في هذا المتصفح أو WebView.");
+  }
+  }
+  });
+  
+  function adjustSpeechRate(gender, speed) {
+    // كود إعداد النص للنطق
+    const buttons = document.querySelectorAll(
+      "#button-container label, #button-container button"
+    );
+    let textToSpeak = "";
+    buttons.forEach((button) => {
+      textToSpeak += button.textContent.trim() + ". ";
+    });
+  
+    // إنشاء كائن النطق
+    const speechSynthesis = window.speechSynthesis;
+    const utterance = new SpeechSynthesisUtterance(textToSpeak);
+    utterance.lang = "de-DE";
+  
+    // تعيين السرعة والصوت
+    if (gender === "male") {
+      utterance.pitch = 0.0; // قد يختلف هذا الرقم حسب المتصفح
+    } else if (gender === "female") {
+      utterance.pitch = 3.0; // قد يختلف هذا الرقم حسب المتصفح
+    }
+  
+    // تعيين سرعة النطق
+    utterance.rate = speed; // القيمة الافتراضية هي 1.0
+  
+    // بدء النطق
+    speechSynthesis.speak(utterance);
+  }
+  
+  function showResults() {
+    const itemsFromList2 = Array.from(
+      document.getElementById("list2").children
+    );
+  
+    let value = 0;
+  
+    itemsFromList2.forEach((item) => {
+      const number = parseInt(item.textContent);
+      if (number >= 1 && number <= 7) {
+        const text = item.textContent;
+  
+      if (text.includes("(جزئية)")) {
+        value += 1; // إجابة متعددة جزئية = 1 نقطة
+      } else if (text.includes("(MC)")) {
+        value += 2; // إجابة متعددة كاملة = 2 نقاط
+      } else {
+        value += 1; // إجابة فردية صحيحة = 1 نقطة
+      }
+    }
+    });
+  
+    const maxValue = 11; // 4 MC * 2 + 3 SC * 1
+  
+    document.getElementById("subjectTitle").textContent =
+      `Recht der öffentlichen Sicherheit und Ordnung (${value} von ${maxValue})`;
+  
+    const percentage = value > 0 ? (value / maxValue) * 100 : 0;
+    document.getElementById("progressBar").style.width = `${percentage}%`;
+    document.getElementById("percentage").textContent = `${percentage.toFixed(0)}%`;
+    document.getElementById("progressBar").style.backgroundColor =
+      percentage < 50 ? "red" : "green";
+  
+    return value;
+  }
+  
+  
+  function showResults2() {
+    const itemsFromList2 = Array.from(document.getElementById("list2").children);
+    let value2 = 0;
+  
+    itemsFromList2.forEach((item) => {
+      const number = parseInt(item.textContent);
+      if (number >= 8 && number <= 12) {
+        const text = item.textContent;
+  
+        if (text.includes("(جزئية)")) {
+          value2 += 1;
+        } else if (text.includes("(MC)")) {
+          value2 += 2;
+        } else {
+          value2 += 1;
+        }
+      }
+    });
+  
+    const maxValue = 8; // 3 MC * 2 + 2 SC * 1
+  
+    document.getElementById("subjectTitle2").textContent = `Gewerberecht (${value2} von ${maxValue})`;
+    const percentage = (value2 / maxValue) * 100;
+    document.getElementById("progressBar2").style.width = `${percentage}%`;
+    document.getElementById("percentage2").textContent = `${percentage.toFixed(0)}%`;
+    document.getElementById("progressBar2").style.backgroundColor = percentage < 50 ? "red" : "green";
+  
+    return value2;
+  }
+  
+  
+  // Datenschutz
+  function showResults3() {
+    const itemsFromList2 = Array.from(document.getElementById("list2").children);
+    let value3 = 0;
+    itemsFromList2.forEach((item) => {
+      const number = parseInt(item.textContent);
+      if (number >= 13 && number <= 17) {
+        const text = item.textContent;
+        if (text.includes("(جزئية)")) value3 += 1;
+        else if (text.includes("(MC)")) value3 += 2;
+        else value3 += 1;
+      }
+    });
+    const maxValue = 8;
+    document.getElementById("subjectTitle3").textContent = `Datenschutz (${value3} von ${maxValue})`;
+    const percentage = (value3 / maxValue) * 100;
+    document.getElementById("progressBar3").style.width = `${percentage}%`;
+    document.getElementById("percentage3").textContent = `${percentage.toFixed(0)}%`;
+    document.getElementById("progressBar3").style.backgroundColor = percentage < 50 ? "red" : "green";
+    return value3;
+  }
+  
+  // Bürgerliches Recht
+  function showResults4() {
+    const itemsFromList2 = Array.from(document.getElementById("list2").children);
+    let value4 = 0;
+    itemsFromList2.forEach((item) => {
+      const number = parseInt(item.textContent);
+      if (number >= 18 && number <= 30) {
+        const text = item.textContent;
+        if (text.includes("(جزئية)")) value4 += 1;
+        else if (text.includes("(MC)")) value4 += 2;
+        else value4 += 1;
+      }
+    });
+    const maxValue = 21;
+    document.getElementById("subjectTitle4").textContent = `Bürgerliches Recht (${value4} von ${maxValue})`;
+    const percentage = (value4 / maxValue) * 100;
+    document.getElementById("progressBar4").style.width = `${percentage}%`;
+    document.getElementById("percentage4").textContent = `${percentage.toFixed(0)}%`;
+    document.getElementById("progressBar4").style.backgroundColor = percentage < 50 ? "red" : "green";
+    return value4;
+  }
+  
+  // Strafrecht
+  function showResults5() {
+    const itemsFromList2 = Array.from(document.getElementById("list2").children);
+    let value5 = 0;
+    itemsFromList2.forEach((item) => {
+      const number = parseInt(item.textContent);
+      if (number >= 31 && number <= 43) {
+        const text = item.textContent;
+        if (text.includes("(جزئية)")) value5 += 1;
+        else if (text.includes("(MC)")) value5 += 2;
+        else value5 += 1;
+      }
+    });
+    const maxValue = 21;
+    document.getElementById("subjectTitle5").textContent = `Strafrecht (${value5} von ${maxValue})`;
+    const percentage = (value5 / maxValue) * 100;
+    document.getElementById("progressBar5").style.width = `${percentage}%`;
+    document.getElementById("percentage5").textContent = `${percentage.toFixed(0)}%`;
+    document.getElementById("progressBar5").style.backgroundColor = percentage < 50 ? "red" : "green";
+    return value5;
+  }
+  
+  // BWL
+  function showResults6() {
+    const itemsFromList2 = Array.from(document.getElementById("list2").children);
+    let value6 = 0;
+    itemsFromList2.forEach((item) => {
+      const number = parseInt(item.textContent);
+      if (number >= 44 && number <= 62) {
+        const text = item.textContent;
+        if (text.includes("(جزئية)")) value6 += 1;
+        else if (text.includes("(MC)")) value6 += 2;
+        else value6 += 1;
+      }
+    });
+    const maxValue = 19;
+    document.getElementById("subjectTitle6").textContent = `Umgang mit Menschen (${value6} von ${maxValue})`;
+    const percentage = (value6 / maxValue) * 100;
+    document.getElementById("progressBar6").style.width = `${percentage}%`;
+    document.getElementById("percentage6").textContent = `${percentage.toFixed(0)}%`;
+    document.getElementById("progressBar6").style.backgroundColor = percentage < 50 ? "red" : "green";
+    return value6;
+  }
+  
+  // VWL
+  function showResults7() {
+    const itemsFromList2 = Array.from(document.getElementById("list2").children);
+    let value7 = 0;
+    itemsFromList2.forEach((item) => {
+      const number = parseInt(item.textContent);
+      if (number >= 63 && number <= 67) {
+        const text = item.textContent;
+        if (text.includes("(جزئية)")) value7 += 1;
+        else if (text.includes("(MC)")) value7 += 2;
+        else value7 += 1;
+      }
+    });
+    const maxValue = 8;
+    document.getElementById("subjectTitle7").textContent = `Waffenrecht (${value7} von ${maxValue})`;
+    const percentage = (value7 / maxValue) * 100;
+    document.getElementById("progressBar7").style.width = `${percentage}%`;
+    document.getElementById("percentage7").textContent = `${percentage.toFixed(0)}%`;
+    document.getElementById("progressBar7").style.backgroundColor = percentage < 50 ? "red" : "green";
+    return value7;
+  }
+  
+  // Steuerrecht
+  function showResults8() {
+    const itemsFromList2 = Array.from(document.getElementById("list2").children);
+    let value8 = 0;
+    itemsFromList2.forEach((item) => {
+      const number = parseInt(item.textContent);
+      if (number >= 68 && number <= 75) {
+        const text = item.textContent;
+        if (text.includes("(جزئية)")) value8 += 1;
+        else if (text.includes("(MC)")) value8 += 2;
+        else value8 += 1;
+      }
+    });
+    const maxValue = 13;
+    document.getElementById("subjectTitle8").textContent = `Unfallverhütungsvorschriften (${value8} von ${maxValue})`;
+    const percentage = (value8 / maxValue) * 100;
+    document.getElementById("progressBar8").style.width = `${percentage}%`;
+    document.getElementById("percentage8").textContent = `${percentage.toFixed(0)}%`;
+    document.getElementById("progressBar8").style.backgroundColor = percentage < 50 ? "red" : "green";
+    return value8;
+  }
+  
+  // Rechnungswesen
+  function showResults9() {
+    const itemsFromList2 = Array.from(document.getElementById("list2").children);
+    let value9 = 0;
+    itemsFromList2.forEach((item) => {
+      const number = parseInt(item.textContent);
+      if (number >= 76 && number <= 82) {
+        const text = item.textContent;
+        if (text.includes("(جزئية)")) value9 += 1;
+        else if (text.includes("(MC)")) value9 += 2;
+        else value9 += 1;
+      }
+    });
+    const maxValue = 11;
+    document.getElementById("subjectTitle9").textContent = `Sicherheitstechnik (${value9} von ${maxValue})`;
+    const percentage = (value9 / maxValue) * 100;
+    document.getElementById("progressBar9").style.width = `${percentage}%`;
+    document.getElementById("percentage9").textContent = `${percentage.toFixed(0)}%`;
+    document.getElementById("progressBar9").style.backgroundColor = percentage < 50 ? "red" : "green";
+    return value9;
+  }
+  
+  
+  const totalAverage =
     showResults() +
     showResults2() +
     showResults3() +
@@ -1573,427 +1537,557 @@ function activateFinalResult() {
     showResults7() +
     showResults8() +
     showResults9();
-  const finalResultText = document.getElementById("finalResultText");
-  if (isNaN(totalPercentage)) {
-    finalResultText.textContent = "Leider nicht Bestanden";
-    finalResultText.style.color = "red";
-    finalResultText.style.fontWeight = "bold";
-  } else if (totalPercentage < 50) {
-    finalResultText.innerHTML = `<p><strong>Ergebnis</strong>; <span style="color: rgb(226, 80, 65); font-size: 22px;">NICHT BESTANDEN</span><br><strong>Gesamtpunkte: &quot;<span style="font-size: 22px;">${totalPercentage}</span>&quot; Punkte</strong></p>`;
-  } else {
-    finalResultText.innerHTML = `<p><strong>Ergebnis:</strong>&nbsp; <strong><span style="font-size: 22px; color: rgb(97, 189, 109);">BESTANDEN</span></strong></p>
-<p><strong>Gesamtpunkte: </strong><span style="font-size: 22px;">${totalPercentage}</span> Punkte erreicht</p>`;
+  console.log("المتوسط العام:", totalAverage);
+  
+  function hideResultsDisplay() {
+    var resultsContainer = document.getElementById("resultsContainer");
+    resultsContainer.style.display = "flex";
+  
+    var resultsContainer2 = document.getElementById("resultsContainer2");
+    resultsContainer2.style.display = "flex";
+  
+    var resultsContainer3 = document.getElementById("resultsContainer3");
+    resultsContainer3.style.display = "flex";
+  
+    var resultsContainer4 = document.getElementById("resultsContainer4");
+    resultsContainer4.style.display = "flex";
+  
+    var resultsContainer5 = document.getElementById("resultsContainer5");
+    resultsContainer5.style.display = "flex";
+  
+    var resultsContainer6 = document.getElementById("resultsContainer6");
+  
+    resultsContainer6.style.display = "flex";
+  
+    var resultsContainer7 = document.getElementById("resultsContainer7");
+  
+    resultsContainer7.style.display = "flex";
+  
+    var resultsContainer8 = document.getElementById("resultsContainer8");
+  
+    resultsContainer8.style.display = "flex";
+  
+    var resultsContainer9 = document.getElementById("resultsContainer9");
+  
+    resultsContainer9.style.display = "flex";
+  
+    var next = document.getElementById("next");
+    next.style.display = "none";
+  
+    var back = document.getElementById("back");
+    back.style.display = "none";
+  
+    var showResults = document.getElementById("showResults");
+    showResults.style.display = "none";
+  
+    var checkAnswers = document.getElementById("checkAnswers");
+    checkAnswers.style.display = "none";
+    var listenButton = document.getElementById("listenButton");
+    listenButton.style.display = "none";
+  
+    var buttonContainer = document.getElementById("button-container");
+    buttonContainer.style.display = "none"; // إظهار عنصر الأزرار
+  
+    var AntwortenZahl = document.getElementById("AntwortenZahl");
+    AntwortenZahl.style.display = "none";
+  
   }
-  finalResultText.style.display = "block";
-}
-
-document.getElementById("Pro").addEventListener("click", () => {
-  const buttons_Answers = document.querySelectorAll("#button-container button");
-  buttons_Answers.forEach((button) => {
-    button.disabled = true;
-  });
-
-  if (correctAnswers.length === 0) {
-    alert("Seite wird geladen. Bitte warten....");
-    return;
-  }
-
-  let answerCorrect = true; // تفترض الإجابة الصحيحة في البداية
-
-  const buttons = document.querySelectorAll("#button-container button");
-  buttons.forEach((button, index) => {
-    const answer = button.textContent.trim();
-    const correctAnswer = correctAnswers[currentRow - 1][index];
-    const table = button.closest("table");
-
-    if (correctAnswer || !correctAnswer) {
-      const labelIndex = parseInt(
-        document.getElementById("labelIndex").textContent
-      );
-      const tableBody = document.getElementById("table-body");
-      const targetButton = tableBody.querySelector(
-        `tr:nth-child(${labelIndex + 0}) button`
-      );
-
-      if (button.style.backgroundColor == "rgb(255, 255, 3)") {
-        targetButton.style.backgroundColor = "rgb(255, 255, 3)";
-        FarbeinTable();
-      }
+  
+  document.querySelector("#showResults").addEventListener("click", () => {
+    if (document.getElementById("showResults").innerText === "Prüfung abgeben") {
+      Shawqi();
     }
-
-    // التحقق من صحة الإجابة وتحديد لون الزر والنص في الوسم
-    if (!correctAnswer) {
-      if (button.style.backgroundColor === "rgb(255, 255, 3)") {
-        answerCorrect = false;
+  
+  
+  
+    var listenButton = document.getElementById("listenButton");
+  
+    if (document.getElementById("showResults").innerHTML == "Prüfung abgeben") {
+      const confirmation = confirm(
+        "Möchtest du wirklich den Test beenden und deine Ergebnisse sehen?"
+      );
+  
+      // التحقق من رد المستخدم
+      if (confirmation) {
+        // قم بتنفيذ الأوامر
+        executeResults();
+      }
+    } else {
+      // إذا كان مخفيًا، قم بتنفيذ الأوامر مباشرة
+      executeResults();
+    }
+  });
+  
+  // دالة لتنفيذ الأوامر المشتركة في كلتا الحالتين
+  function executeResults() {
+    hideResultsDisplay();
+    showResults();
+    showResults2();
+    showResults3();
+    showResults4();
+    showResults5();
+    showResults6();
+    showResults7();
+    showResults8();
+    showResults9();
+    activateFinalResult();
+    AlleFarben();
+    pageTitle = "Ergebnisse";
+    document.getElementById("title-bar").innerHTML = `<h1>${pageTitle}</h1>`;
+    var label1 = document.getElementById("label1");
+    label1.style.display = "none";
+  
+    const currentTime = new Date().getTime();
+    const elapsedTime = startTime - currentTime;
+    const totalDuration = 120 * 60 * 1000;
+    const elapsedMinutes = Math.floor(
+      (elapsedTime % totalDuration) / (1000 * 60)
+    );
+    const elapsedSeconds = Math.floor((elapsedTime % (1000 * 60)) / 1000);
+    document.getElementById(
+      "countdown-timer"
+    ).innerText = `Zeit verbraucht: ${elapsedMinutes} Min. ${elapsedSeconds} Sek.`;
+  }
+  
+  function activateFinalResult() {
+    const totalPercentage =
+      showResults() +
+      showResults2() +
+      showResults3() +
+      showResults4() +
+      showResults5() +
+      showResults6() +
+      showResults7() +
+      showResults8() +
+      showResults9();
+    const finalResultText = document.getElementById("finalResultText");
+    if (isNaN(totalPercentage)) {
+      finalResultText.textContent = "Leider nicht Bestanden";
+      finalResultText.style.color = "red";
+      finalResultText.style.fontWeight = "bold";
+    } else if (totalPercentage < 50) {
+      finalResultText.innerHTML = `<p><strong>Ergebnis</strong>; <span style="color: rgb(226, 80, 65); font-size: 22px;">NICHT BESTANDEN</span><br><strong>Gesamtpunkte: &quot;<span style="font-size: 25px;">${totalPercentage} von 120</span>&quot; Punkte</strong></p>`;
+    } else {
+      finalResultText.innerHTML = `<p><strong>Ergebnis:</strong>&nbsp; <strong><span style="font-size: 22px; color: rgb(97, 189, 109);">BESTANDEN</span></strong></p>
+  <p><strong>Gesamtpunkte: </strong><span style="font-size: 22px;">${totalPercentage}</span> Punkte erreicht</p>`;
+    }
+    finalResultText.style.display = "block";
+  }
+  
+  document.getElementById("Pro").addEventListener("click", () => {
+    const buttons_Answers = document.querySelectorAll("#button-container button");
+    buttons_Answers.forEach((button) => {
+      button.disabled = true;
+    });
+  
+  
+  
+    let answerCorrect = true; // تفترض الإجابة الصحيحة في البداية
+  
+    const buttons = document.querySelectorAll("#button-container button");
+    buttons.forEach((button, index) => {
+      const answer = button.textContent.trim();
+      const correctAnswer = correctAnswers[currentRow - 1][index];
+      const table = button.closest("table");
+  
+      if (correctAnswer || !correctAnswer) {
+        const labelIndex = parseInt(
+          document.getElementById("labelIndex").textContent
+        );
+        const tableBody = document.getElementById("table-body");
+        const targetButton = tableBody.querySelector(
+          `tr:nth-child(${labelIndex + 0}) button`
+        );
+  
+        if (button.style.backgroundColor == "rgb(255, 255, 3)") {
+          targetButton.style.backgroundColor = "rgb(255, 255, 3)";
+          FarbeinTable();
+        }
+      }
+  
+      // التحقق من صحة الإجابة وتحديد لون الزر والنص في الوسم
+      if (!correctAnswer) {
+        if (button.style.backgroundColor === "rgb(255, 255, 3)") {
+          answerCorrect = false;
+          if (button === buttons[0]) {
+            const label40 = document.getElementById("label40");
+            label40.textContent = 0;
+          }
+          if (button === buttons[1]) {
+            const label50 = document.getElementById("label50");
+            label50.textContent = 0;
+          }
+          if (button === buttons[2]) {
+            const label60 = document.getElementById("label60");
+            label60.textContent = 0;
+          }
+          if (button === buttons[3]) {
+            const label70 = document.getElementById("label70");
+            label70.textContent = 0;
+          }
+          if (button === buttons[4]) {
+            const label80 = document.getElementById("label80");
+            label80.textContent = 0;
+          }
+        }
+      } else {
+        document.getElementById("label1").textContent = answer + ", ";
         if (button === buttons[0]) {
           const label40 = document.getElementById("label40");
-          label40.textContent = 0;
+          label40.textContent = 1;
         }
         if (button === buttons[1]) {
           const label50 = document.getElementById("label50");
-          label50.textContent = 0;
+          label50.textContent = 1;
         }
         if (button === buttons[2]) {
           const label60 = document.getElementById("label60");
-          label60.textContent = 0;
+          label60.textContent = 1;
         }
         if (button === buttons[3]) {
           const label70 = document.getElementById("label70");
-          label70.textContent = 0;
+          label70.textContent = 1;
         }
         if (button === buttons[4]) {
           const label80 = document.getElementById("label80");
-          label80.textContent = 0;
+          label80.textContent = 1;
         }
       }
-    } else {
-      document.getElementById("label1").textContent = answer + ", ";
-      if (button === buttons[0]) {
-        const label40 = document.getElementById("label40");
-        label40.textContent = 1;
+  
+      if (
+        (label40.textContent === "1" &&
+          label40.style.backgroundColor !== "rgb(255, 255, 3)") ||
+        (label50.textContent === "1" &&
+          label50.style.backgroundColor !== "rgb(255, 255, 3)") ||
+        (label60.textContent === "1" &&
+          label60.style.backgroundColor !== "rgb(255, 255, 3)") ||
+        (label70.textContent === "1" &&
+          label70.style.backgroundColor !== "rgb(255, 255, 3)") ||
+        (label80.textContent === "1" &&
+          label80.style.backgroundColor !== "rgb(255, 255, 3)")
+      ) {
+        answerCorrect = false;
       }
-      if (button === buttons[1]) {
-        const label50 = document.getElementById("label50");
-        label50.textContent = 1;
-      }
-      if (button === buttons[2]) {
-        const label60 = document.getElementById("label60");
-        label60.textContent = 1;
-      }
-      if (button === buttons[3]) {
-        const label70 = document.getElementById("label70");
-        label70.textContent = 1;
-      }
-      if (button === buttons[4]) {
-        const label80 = document.getElementById("label80");
-        label80.textContent = 1;
-      }
-    }
-
-    if (
-      (label40.textContent === "1" &&
-        label40.style.backgroundColor !== "rgb(255, 255, 3)") ||
-      (label50.textContent === "1" &&
-        label50.style.backgroundColor !== "rgb(255, 255, 3)") ||
-      (label60.textContent === "1" &&
-        label60.style.backgroundColor !== "rgb(255, 255, 3)") ||
-      (label70.textContent === "1" &&
-        label70.style.backgroundColor !== "rgb(255, 255, 3)") ||
-      (label80.textContent === "1" &&
-        label80.style.backgroundColor !== "rgb(255, 255, 3)")
-    ) {
-      answerCorrect = false;
-    }
-  });
-  const currentCorrectAnswers = correctAnswers[currentRowIndex - 1];
-
-  // تعيين النص بناءً على صحة الإجابة
-  if (answerCorrect) {
-    document.getElementById("label1").innerText = "Richtig beantwortet!";
-    document.getElementById("label1").style.color = "green";
-
-    const list2Element = document.getElementById("list2");
-    const questionNumber = parseInt(
-      document.getElementById("labelIndex").textContent.split(" ")[1]
-    );
-    const listItems = list2Element.textContent.trim();
-
-    if (!listItems.includes(questionNumber.toString())) {
-      // تأكد من عدم وجود العنصر في القائمة بالفعل
-      const li = document.createElement("li");
-      li.textContent = questionNumber;
-      list2Element.appendChild(li);
-    }
-  } else {
-    document.getElementById("label1").innerText = "Falsch beantwortet!";
-    document.getElementById("label1").style.color = "red";
-
-    const list2Element = document.getElementById("list2");
-    const questionNumber = parseInt(
-      document.getElementById("labelIndex").textContent.split(" ")[1]
-    );
-    const listItems = list2Element.textContent.trim();
-
-    if (listItems.includes(questionNumber.toString())) {
-      // تحقق مما إذا كان العنصر موجودًا في الفهرس
-      const listItemToRemove = Array.from(list2Element.children).find(
-        (item) => item.textContent === questionNumber.toString()
-      ); // البحث عن العنصر المراد حذفه بناء على النص
-      if (listItemToRemove) {
-        listItemToRemove.remove(); // حذف العنصر من القائمة إذا تم العثور عليه
-        liIndex--; // إزالة العنصر من الفهرس
-      }
-    }
-  }
-});
-
-function AlleFarben() {
-  const list2Items = document
-    .getElementById("list2")
-    .getElementsByTagName("li");
-
-  // تحديد أزرار الجدول
-  const tableButtons = document.querySelectorAll("#table-body button");
-
-  // الاستمرار في فحص كل زر في الجدول
-  tableButtons.forEach((button, index) => {
-    let found = false; // مؤشر للتحقق مما إذا كان العنصر موجودًا في list2 أم لا
-    for (let i = 0; i < list2Items.length; i++) {
-      const listItemText = parseInt(list2Items[i].textContent);
-      if (listItemText === index + 1) {
-        // +1 لأن list2 يبدأ من 1 و index يبدأ من 0
-        found = true;
-        break;
-      }
-    }
-    // تغيير لون الزر بناءً على العثور على العنصر في list2
-    if (found) {
-      button.style.backgroundColor = "green"; // لون الزر الأخضر لوجود العنصر في list2
-    } else {
-      button.style.backgroundColor = "red"; // لون الزر الأحمر لعدم وجود العنصر في list2
-    }
-  });
-}
-
-function Shawqi() {
-  document.getElementById("label1").style.display = "none";
-  const listenButton = document.getElementById("listenButton");
-  if (listenButton.innerText === "Stop") {
-    listenButton.innerText = "Hören";
-
-    // بدء النطق
-    adjustSpeechRate("male", 1.0);
-  } else {
-    listenButton.innerText = "Hören";
-
-    // إيقاف النطق
-    window.speechSynthesis.cancel();
-  }
-
-  if (correctAnswers.length === 0) {
-    alert("Seite wird geladen. Bitte warten...");
-    return;
-  }
-
-  let answerCorrect = true; // تفترض الإجابة الصحيحة في البداية
-
-  const buttons = document.querySelectorAll("#button-container button");
-  buttons.forEach((button, index) => {
-    const answer = button.textContent.trim();
-    const correctAnswer = correctAnswers[currentRow - 1][index];
-    const table = button.closest("table");
-
-    if (correctAnswer || !correctAnswer) {
-      const labelIndex = parseInt(
-        document.getElementById("labelIndex").textContent
+    });
+    const currentCorrectAnswers = correctAnswers[currentRowIndex - 1];
+  
+    // تعيين النص بناءً على صحة الإجابة
+    if (answerCorrect) {
+      document.getElementById("label1").innerText = "Richtig beantwortet!";
+      document.getElementById("label1").style.color = "green";
+  
+      const list2Element = document.getElementById("list2");
+      const questionNumber = parseInt(
+        document.getElementById("labelIndex").textContent.split(" ")[1]
       );
+      const listItems = list2Element.textContent.trim();
+  
+      if (!listItems.includes(questionNumber.toString())) {
+        // تأكد من عدم وجود العنصر في القائمة بالفعل
+        const li = document.createElement("li");
+        li.textContent = questionNumber;
+        list2Element.appendChild(li);
+      }
+    } else {
+      document.getElementById("label1").innerText = "Falsch beantwortet!";
+      document.getElementById("label1").style.color = "red";
+  
+      const list2Element = document.getElementById("list2");
+      const questionNumber = parseInt(
+        document.getElementById("labelIndex").textContent.split(" ")[1]
+      );
+      const listItems = list2Element.textContent.trim();
+  
+      if (listItems.includes(questionNumber.toString())) {
+        // تحقق مما إذا كان العنصر موجودًا في الفهرس
+        const listItemToRemove = Array.from(list2Element.children).find(
+          (item) => item.textContent === questionNumber.toString()
+        ); // البحث عن العنصر المراد حذفه بناء على النص
+        if (listItemToRemove) {
+          listItemToRemove.remove(); // حذف العنصر من القائمة إذا تم العثور عليه
+          liIndex--; // إزالة العنصر من الفهرس
+        }
+      }
+    }
+  });
+  
+  function AlleFarben() {
+    const list2Items = document
+      .getElementById("list2")
+      .getElementsByTagName("li");
+  
+    const tableButtons = document.querySelectorAll("#table-body button");
+  
+    tableButtons.forEach((button, index) => {
+      let found = false;
+      let isPartial = false;
+  
+      for (let i = 0; i < list2Items.length; i++) {
+        const text = list2Items[i].textContent.trim();
+        const number = parseInt(text);
+        if (number === index + 1) {
+          found = true;
+  
+          if (text.includes("جزئية")) {
+            isPartial = true;
+          }
+  
+          break;
+        }
+      }
+  
+      if (found) {
+        if (isPartial) {
+          button.style.backgroundColor = "#ff9d00"; // برتقالي للإجابة الجزئية
+        } else {
+          button.style.backgroundColor = "green"; // أخضر للإجابة الصحيحة
+        }
+      } else {
+        button.style.backgroundColor = "red"; // أحمر للإجابة الخاطئة أو غير المجابة
+      }
+    });
+  }
+  
+  
+  function Shawqi() {
+    document.getElementById("label1").style.display = "none";
+    const listenButton = document.getElementById("listenButton");
+    if (listenButton.innerText === "Stop") {
+      listenButton.innerText = "Hören";
+      adjustSpeechRate("male", 1.0); // بدء النطق
+    } else {
+      listenButton.innerText = "Hören";
+      if (typeof window.speechSynthesis !== 'undefined' &&
+        typeof window.speechSynthesis.cancel === 'function') {
+      window.speechSynthesis.cancel();
+    } else {
+      console.warn("speechSynthesis غير مدعومة في هذا المتصفح أو WebView.");
+    }
+  }
+ 
+  
+    let answerCorrect = true;
+  
+    const buttons = document.querySelectorAll("#button-container button");
+    const labels = [
+      document.getElementById("label40"),
+      document.getElementById("label50"),
+      document.getElementById("label60"),
+      document.getElementById("label70"),
+      document.getElementById("label80")
+    ];
+  
+    // حساب الحالات اللونية
+    let hasGreenAndYellow = false;
+    let hasGreenAndBlue = false;
+  
+    buttons.forEach((button, index) => {
+      const correct = correctAnswers[currentRow - 1][index];
+      const isSelected = button.style.backgroundColor === "rgb(255, 255, 3)";
+  
+      if (correct) {
+        if (isSelected) {
+          hasGreenAndYellow = true;
+        } else {
+          hasGreenAndBlue = true;
+        }
+      }
+    });
+  
+    buttons.forEach((button, index) => {
+      const correctAnswer = correctAnswers[currentRow - 1][index];
+      const labelIndex = parseInt(document.getElementById("labelIndex").textContent);
       const tableBody = document.getElementById("table-body");
-      const targetButton = tableBody.querySelector(
-        `tr:nth-child(${labelIndex + 0}) button`
-      );
-
+      const targetButton = tableBody.querySelector(`tr:nth-child(${labelIndex}) button`);
+  
       if (button.style.backgroundColor === "rgb(255, 255, 3)") {
         targetButton.style.backgroundColor = button.style.backgroundColor;
       }
-    }
-
-    // التحقق من صحة الإجابة وتحديد لون الزر والنص في الوسم
-    if (!correctAnswer) {
-      if (button.style.backgroundColor === "rgb(255, 255, 3)") {
+  
+      // تحديث النتائج في الوسوم بناءً على الحالة
+      if (hasGreenAndYellow && !hasGreenAndBlue) {
+        labels[index].textContent = 1;
+      } else if (hasGreenAndYellow && hasGreenAndBlue) {
+        labels[index].textContent = 0.5;
+      } else {
+        labels[index].textContent = 0;
+      }
+  
+      // التحقق من الخطأ إذا كانت القيمة 1 بدون تحديد الزر بالأصفر
+      if (
+        labels[index].textContent === "1" &&
+        labels[index].style.backgroundColor !== "rgb(255, 255, 3)"
+      ) {
         answerCorrect = false;
-        if (button === buttons[0]) {
-          const label40 = document.getElementById("label40");
-          label40.textContent = 0;
+      }
+      const questionNumber = parseInt(document.getElementById("labelIndex").textContent);
+      const savedValue = checkboxSelections[questionNumber];
+      
+   
+      if (
+        savedValue &&
+        document.getElementById("showResults").innerText === "Ergebnisse ansehen"
+      ) {
+        if (
+          savedValue.length === 1 ||
+          (savedValue.length > 1 &&
+           !document.querySelector(`.checkbox-row input[value="${savedValue}"]`))
+        ) {
+          savedValue.split('').forEach(letter => {
+            const cb = document.getElementById("chk" + letter);
+            if (cb) cb.checked = true;
+          });
+        } else {
+          const savedCheckbox = document.querySelector(
+            `.checkbox-row input[type="checkbox"][value="${savedValue}"]`
+          );
+          if (savedCheckbox) savedCheckbox.checked = true;
         }
-        if (button === buttons[1]) {
-          const label50 = document.getElementById("label50");
-          label50.textContent = 0;
-        }
-        if (button === buttons[2]) {
-          const label60 = document.getElementById("label60");
-          label60.textContent = 0;
-        }
-        if (button === buttons[3]) {
-          const label70 = document.getElementById("label70");
-          label70.textContent = 0;
-        }
-        if (button === buttons[4]) {
-          const label80 = document.getElementById("label80");
-          label80.textContent = 0;
-        }
+      
+        // ⛔️ تعطيل جميع checkboxes (سواء محددة أم لا)
+        document.querySelectorAll(".checkbox-row input[type='checkbox']").forEach(cb => {
+          cb.disabled = true;
+        });
       }
-    } else {
-      document.getElementById("label1").textContent = answer + ", ";
-      if (button === buttons[0]) {
-        const label40 = document.getElementById("label40");
-        label40.textContent = 1;
-      }
-      if (button === buttons[1]) {
-        const label50 = document.getElementById("label50");
-        label50.textContent = 1;
-      }
-      if (button === buttons[2]) {
-        const label60 = document.getElementById("label60");
-        label60.textContent = 1;
-      }
-      if (button === buttons[3]) {
-        const label70 = document.getElementById("label70");
-        label70.textContent = 1;
-      }
-      if (button === buttons[4]) {
-        const label80 = document.getElementById("label80");
-        label80.textContent = 1;
-      }
-    }
+      
+      
+      
+      
 
-    if (
-      (label40.textContent === "1" &&
-        label40.style.backgroundColor !== "rgb(255, 255, 3)") ||
-      (label50.textContent === "1" &&
-        label50.style.backgroundColor !== "rgb(255, 255, 3)") ||
-      (label60.textContent === "1" &&
-        label60.style.backgroundColor !== "rgb(255, 255, 3)") ||
-      (label70.textContent === "1" &&
-        label70.style.backgroundColor !== "rgb(255, 255, 3)") ||
-      (label80.textContent === "1" &&
-        label80.style.backgroundColor !== "rgb(255, 255, 3)")
-    ) {
-      answerCorrect = false;
-    }
-  });
-  const currentCorrectAnswers = correctAnswers[currentRowIndex - 1];
 
-  // تعيين النص بناءً على صحة الإجابة
-  if (answerCorrect) {
-    document.getElementById("label1").innerText = "Richtig beantwortet!";
-    document.getElementById("label1").style.color = "green";
-
+    });
+  
+    // التقييم العام وعرض النتيجة
     const list2Element = document.getElementById("list2");
-    const questionNumber = parseInt(
-      document.getElementById("labelIndex").textContent.split(" ")[1]
+    const questionNumber = parseInt(document.getElementById("labelIndex").textContent.split(" ")[1]);
+  
+    const existingItem = Array.from(list2Element.children).find(
+      (item) => item.textContent.startsWith(`${questionNumber}`)
     );
-    const listItems = list2Element.innerText.trim();
-
-    if (!listItems.includes(questionNumber.toString())) {
-      // تأكد من عدم وجود العنصر في القائمة بالفعل
+    if (existingItem) existingItem.remove();
+  
+    const antwortenZahlText = document.getElementById("AntwortenZahl").innerText;
+    const isMultipleChoice = antwortenZahlText.includes("Multiple-Choice");
+  
+    if (hasGreenAndYellow && !hasGreenAndBlue) {
+      label1.innerText = "Richtig beantwortet!";
+      label1.style.color = "green";
+  
       const li = document.createElement("li");
-      li.textContent = questionNumber;
+      li.textContent = isMultipleChoice ? `${questionNumber} (MC)` : `${questionNumber}`;
       list2Element.appendChild(li);
-    }
-  } else {
-    document.getElementById("label1").innerText = "Falsch beantwortet!";
-    document.getElementById("label1").style.color = "red";
-
-    const list2Element = document.getElementById("list2");
-    const questionNumber = parseInt(
-      document.getElementById("labelIndex").textContent.split(" ")[1]
-    );
-    const listItems = list2Element.innerText.trim();
-
-    if (listItems.includes(questionNumber.toString())) {
-      // تحقق مما إذا كان العنصر موجودًا في الفهرس
-      const listItemToRemove = Array.from(list2Element.children).find(
-        (item) => item.textContent === questionNumber.toString()
-      ); // البحث عن العنصر المراد حذفه بناء على النص
-      if (listItemToRemove) {
-        listItemToRemove.remove(); // حذف العنصر من القائمة إذا تم العثور عليه
-        liIndex--; // إزالة العنصر من الفهرس
-      }
+  
+    } else if (hasGreenAndYellow && hasGreenAndBlue) {
+      label1.innerText = "Teilweise richtig!";
+      label1.style.color = "orange";
+  
+      const li = document.createElement("li");
+      li.textContent = `${questionNumber} (جزئية)`;
+      list2Element.appendChild(li);
+  
+    } else {
+      label1.innerText = "Falsch beantwortet!";
+      label1.style.color = "red";
+      // لا يتم الإضافة للفهرس في حالة الخطأ الكامل
     }
   }
-}
-const startTime = new Date().getTime();
-const duration = 120 * 60 * 1000; // 120 دقيقة محولة إلى ميلي ثانية
-const endTime = startTime + duration; // تحديد وقت الانتهاء
-
-// دالة عرض الوقت المتبقي
-function displayCountdown(minutes, seconds) {
-  if (listenButton.style.display === "") {
-    document.getElementById(
-      "countdown-timer"
-    ).textContent = ` ${minutes} Minuten ${seconds} Sekunden`;
-  }
-}
-
-// بدء العد التنازلي
-const countdownInterval = setInterval(() => {
-  const currentTime = new Date().getTime();
-  const remainingTime = endTime - currentTime;
-
-  // تحويل الوقت المتبقي إلى دقائق وثواني
-  const minutes = Math.floor((remainingTime % (1000 * 60 * 120)) / (1000 * 60));
-  const seconds = Math.floor((remainingTime % (1000 * 60)) / 1000);
-
-  // عرض الوقت المتبقي
-  displayCountdown(minutes, seconds);
-
-  // عند انتهاء الوقت
-  if (remainingTime <= 0) {
-    clearInterval(countdownInterval); // توقف العد التنازلي
-    console.log("Die Zeit ist abgelaufen!"); // أداء الإجراء المطلوب عند انتهاء الوقت
-  }
-}, 1000); // يتم تحديث العد كل ثانية
-function iconeHeder() {
-  const icone = document.querySelector(".icon");
-  const tableContainer = document.querySelector(".table-container");
-
-  // إضافة مستمع الحدث عند النقر على الأيقونة
-  icone.addEventListener("click", function (event) {
-    event.stopPropagation(); // منع الحدث من الانتقال إلى العناصر الأب
-    tableContainer.classList.toggle("tableAdd");
-  });
-
-  // إضافة مستمع الحدث للنقر على النافذة
-  window.addEventListener("click", function (event) {
-    // التحقق إذا كان النقر ليس داخل الـ tableContainer أو الأيقونة
-    if (!tableContainer.contains(event.target) && event.target !== icone) {
-      tableContainer.classList.remove("tableAdd"); // إزالة الكلاس
+  
+  const startTime = new Date().getTime();
+  const duration = 120 * 60 * 1000; // 120 دقيقة محولة إلى ميلي ثانية
+  const endTime = startTime + duration; // تحديد وقت الانتهاء
+  
+  // دالة عرض الوقت المتبقي
+  function displayCountdown(minutes, seconds) {
+    if (listenButton.style.display === "") {
+      document.getElementById(
+        "countdown-timer"
+      ).textContent = ` ${minutes} Min. ${seconds} Sek.`;
     }
-  });
-}
-
-iconeHeder();
-
-
-
-// إضافة خاصية التمرير إلى الأعلى لزر "Weiter"
-document.getElementById('next').addEventListener('click', function() {
-  window.scrollTo({
-      top: 0,
-      behavior: 'smooth'
-  });
-});
-
-// إضافة خاصية التمرير إلى الأعلى لزر "Zurück"
-document.getElementById('back').addEventListener('click', function() {
-  window.scrollTo({
-      top: 0,
-      behavior: 'smooth'
-  });
-});
-
-function iconeHeder() {
-  const icone = document.querySelector(".icon");
-  const tableContainer = document.querySelector(".table-container");
-
-  // إضافة مستمع الحدث عند النقر على الأيقونة
-  icone.addEventListener("click", function (event) {
-    event.stopPropagation(); // منع الحدث من الانتقال إلى العناصر الأب
-    tableContainer.classList.toggle("tableAdd");
-  });
-
-  // إضافة مستمع الحدث للنقر على النافذة
-  window.addEventListener("click", function (event) {
-    // التحقق إذا كان النقر ليس داخل الـ tableContainer أو الأيقونة
-    if (!tableContainer.contains(event.target) && event.target !== icone) {
-      tableContainer.classList.remove("tableAdd"); // إزالة الكلاس
+  }
+  
+  // بدء العد التنازلي
+  const countdownInterval = setInterval(() => {
+    const currentTime = new Date().getTime();
+    const remainingTime = endTime - currentTime;
+  
+    // تحويل الوقت المتبقي إلى دقائق وثواني
+    const minutes = Math.floor((remainingTime % (1000 * 60 * 120)) / (1000 * 60));
+    const seconds = Math.floor((remainingTime % (1000 * 60)) / 1000);
+  
+    // عرض الوقت المتبقي
+    displayCountdown(minutes, seconds);
+  
+    // عند انتهاء الوقت
+    if (remainingTime <= 0) {
+      clearInterval(countdownInterval); // توقف العد التنازلي
+      console.log("Die Zeit ist abgelaufen!"); // أداء الإجراء المطلوب عند انتهاء الوقت
     }
-      if (tableContainer.contains(event.target) && event.target !== icone) {
+  }, 1000); // يتم تحديث العد كل ثانية
+  function iconeHeder() {
+    const icone = document.querySelector(".icon");
+    const tableContainer = document.querySelector(".table-container");
+  
+    // إضافة مستمع الحدث عند النقر على الأيقونة
+    icone.addEventListener("click", function (event) {
+      event.stopPropagation(); // منع الحدث من الانتقال إلى العناصر الأب
+      tableContainer.classList.toggle("tableAdd");
+    });
+  
+    // إضافة مستمع الحدث للنقر على النافذة
+    window.addEventListener("click", function (event) {
+      // التحقق إذا كان النقر ليس داخل الـ tableContainer أو الأيقونة
+      if (!tableContainer.contains(event.target) && event.target !== icone) {
         tableContainer.classList.remove("tableAdd"); // إزالة الكلاس
       }
-    
+    });
+  }
+  
+  iconeHeder();
+  
+  
+  
+  // إضافة خاصية التمرير إلى الأعلى لزر "Weiter"
+  document.getElementById('next').addEventListener('click', function() {
+    window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+    });
   });
-}
+  
+  // إضافة خاصية التمرير إلى الأعلى لزر "Zurück"
+  document.getElementById('back').addEventListener('click', function() {
+    window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+    });
+  });
+  
+  function iconeHeder() {
+    const icone = document.querySelector(".icon");
+    const tableContainer = document.querySelector(".table-container");
+  
+    // إضافة مستمع الحدث عند النقر على الأيقونة
+    icone.addEventListener("click", function (event) {
+      event.stopPropagation(); // منع الحدث من الانتقال إلى العناصر الأب
+      tableContainer.classList.toggle("tableAdd");
+    });
+  
+    // إضافة مستمع الحدث للنقر على النافذة
+    window.addEventListener("click", function (event) {
+      // التحقق إذا كان النقر ليس داخل الـ tableContainer أو الأيقونة
+      if (!tableContainer.contains(event.target) && event.target !== icone) {
+        tableContainer.classList.remove("tableAdd"); // إزالة الكلاس
+      }
+        if (tableContainer.contains(event.target) && event.target !== icone) {
+          tableContainer.classList.remove("tableAdd"); // إزالة الكلاس
+        }
+      
+    });
+  }
+  
+  
+
+  
 
 // ✅ أنشئ العنصر مرة واحدة فقط
 if (!document.getElementById("answer-debug")) {
@@ -2019,4 +2113,8 @@ const correctRow = correctAnswers[rowNumber] || [];
 
 // ✅ ثم أضف هذا السطر لعرض ما تم قراءته
 document.getElementById("answer-debug").textContent =
-  `✅ Frage ${rowNumber} → Lösungen geladen: [${correctRow.filter(cell => cell.trim() !== "").join(", ")}]`;
+  `✅ Neues System  → Prüfung ab Juli 2025]`;
+
+ 
+  
+  
