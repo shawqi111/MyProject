@@ -1224,26 +1224,21 @@ function updatePageElements(rowNumber) {
     );
     if (existingItem) existingItem.remove();
   
-    const antwortenZahlText = document.getElementById("AntwortenZahl").innerText;
-    const isMultipleChoice = antwortenZahlText.includes("Multiple-Choice");
-  
-   if (hasGreenAndYellow && !hasGreenAndBlue) {
-    label1.innerText = "Richtig beantwortet!";
-    label1.style.color = "green";
-  
-    const li = document.createElement("li");
-    li.textContent = isMultipleChoice
-      ? `${questionNumber} (MC)`
-      : `${questionNumber}`;
-    list2Element.appendChild(li);
-  
-  } else if (
+    const antwortenZahlText = document.getElementById("AntwortenZahl").innerText.trim();
+
+if (hasGreenAndYellow && !hasGreenAndBlue) {
+  label1.innerText = "Richtig beantwortet!";
+  label1.style.color = "green";
+} else if (
   hasGreenAndYellow &&
   hasGreenAndBlue &&
-  document.getElementById("AntwortenZahl").innerText !== "(Single-Choice Fragen) 1 Punkt"
+  antwortenZahlText !== "(Single-Choice Fragen) 1 Punkt"
 ) {
   label1.innerText = "Teilweise richtig!";
   label1.style.color = "orange";
+} else {
+  label1.innerText = "Falsch beantwortet!";
+  label1.style.color = "red";
 }
   
     const li = document.createElement("li");
