@@ -866,6 +866,7 @@ function updatePageElements(rowNumber) {
   
     // Anzeigen oder Ausblenden der vorherigen und nächsten Buttons basierend auf der Frage Nummer
     if (questionNumber === 1) {
+      
       document.getElementById("back").style.display = "none"; // Verstecken Sie die Zurück-Taste
     } else if (questionNumber === 82) {
       document.getElementById("next").style.display = "none"; // Verstecken Sie die Nächste-Taste
@@ -881,6 +882,9 @@ function updatePageElements(rowNumber) {
     // Hinzufügen des Index zur Liste 2
     addIndexToList2(rowNumber);
   
+
+
+    
     Shawqi();
   
     const labelIndex = parseInt(
@@ -1152,98 +1156,144 @@ function updatePageElements(rowNumber) {
     const answer = button.textContent.trim();
     const correctAnswer = correctAnswers[currentRow - 1][index];
   
-function checkAnswers() {
-  const label1 = document.getElementById("label1");
-  label1.style.display = "flex";
-
-  const buttons = document.querySelectorAll("#button-container button");
-  buttons.forEach((button) => {
-    button.disabled = true;
-  });
-
-  const list2Element = document.getElementById("list2");
-  const questionNumber = parseInt(document.getElementById("labelIndex").textContent.split(" ")[1]);
-  const antwortenZahlText = document.getElementById("AntwortenZahl").innerText;
-
-  const isMultipleChoice = antwortenZahlText.includes("Multiple-Choice");
-  const isSingleChoice = antwortenZahlText.includes("Single-Choice");
-
-  let selectedButtons = [];
-  let correctSelectedCount = 0;
-  let wrongSelectedCount = 0;
-  let totalCorrect = 0;
-
-  buttons.forEach((button, index) => {
-    const correct = correctAnswers[currentRow - 1][index];
-    const isSelected = button.style.backgroundColor === "rgb(255, 255, 3)";
-
-    if (correct) {
-      totalCorrect++;
-    }
-
-    if (isSelected) {
-      selectedButtons.push(button);
-      if (correct) {
-        correctSelectedCount++;
-      } else {
-        wrongSelectedCount++;
+    if (!correctAnswer) {
+      if (button.style.backgroundColor === "rgb(255, 255, 3)") {
+        button.style.backgroundColor = "red";
+        if (button === buttons[0]) {
+          const label40 = document.getElementById("label40");
+          document.getElementById("label40").innerText = "0";
+        }
+      }
+    } else {
+      button.style.backgroundColor = "green";
+      const ButtonText = button.textContent;
+      document.getElementById("label1").textContent = answer + ", ";
+  
+      if (button === buttons[0]) {
+        const label40 = document.getElementById("label40");
+        document.getElementById("label40").innerText = "1";
       }
     }
-  });
-
-  // تلوين الأزرار
-  buttons.forEach((button, index) => {
-    const correct = correctAnswers[currentRow - 1][index];
-    const isSelected = button.style.backgroundColor === "rgb(255, 255, 3)";
-
-    if (correct && isSelected) {
-      button.style.backgroundColor = "green";
-    } else if (correct && !isSelected) {
-      button.style.backgroundColor = "green";
-    } else if (!correct && isSelected) {
-      button.style.backgroundColor = "red";
+    const table = button.closest("table");
+    if (table.style.backgroundColor === "rgb(255, 255, 3)") {
+      const ButtonText = button.textContent;
+      document.getElementById(
+        "list"
+      ).innerHTML += `<li id="${button.id}">${ButtonText}</li>`; // تعيين معرف فريد لكل عنصر <li>
     }
   });
+  
+  function checkAnswers() {
+    const label1 = document.getElementById("label1");
+    label1.style.display = "flex";
+  
+    const buttons = document.querySelectorAll("#button-container button");
+    buttons.forEach((button) => {
+      button.disabled = true;
+    });
+   
 
-  // حذف النتيجة القديمة إن وجدت
-  const existingItem = Array.from(list2Element.children).find(
-    (item) => item.textContent.startsWith(`${questionNumber}`)
-  );
-  if (existingItem) existingItem.remove();
-
-  const li = document.createElement("li");
-
-  // منطق التقييم:
-  if (isSingleChoice) {
-    if (correctSelectedCount === 1 && wrongSelectedCount === 0 && selectedButtons.length === 1) {
-      label1.innerText = "Richtig beantwortet!";
-      label1.style.color = "green";
-      li.textContent = `${questionNumber}`;
-      list2Element.appendChild(li);
-    } else {
-      label1.innerText = "Falsch beantwortet!";
-      label1.style.color = "red";
-    }
-  } else if (isMultipleChoice) {
-    if (selectedButtons.length > 2) {
-      label1.innerText = "Falsch beantwortet!";
-      label1.style.color = "red";
-    } else if (correctSelectedCount === 2 && wrongSelectedCount === 0) {
-      label1.innerText = "Richtig beantwortet!";
-      label1.style.color = "green";
-      li.textContent = `${questionNumber} (MC)`;
-      list2Element.appendChild(li);
-    } else if (correctSelectedCount === 1 && wrongSelectedCount === 1) {
-      label1.innerText = "Teilweise richtig!";
-      label1.style.color = "orange";
-      li.textContent = `${questionNumber} (جزئية)`;
-      list2Element.appendChild(li);
-    } else {
-      label1.innerText = "Falsch beantwortet!";
-      label1.style.color = "red";
+    const list2Element = document.getElementById("list2");
+    const questionNumber = parseInt(document.getElementById("labelIndex").textContent.split(" ")[1]);
+    const antwortenZahlText = document.getElementById("AntwortenZahl").innerText;
+  
+    const isMultipleChoice = antwortenZahlText.includes("Multiple-Choice");
+    const isSingleChoice = antwortenZahlText.includes("Single-Choice");
+  
+    let selectedButtons = [];
+    let correctSelectedCount = 0;
+    let wrongSelectedCount = 0;
+    let totalCorrect = 0;
+  
+    buttons.forEach((button, index) => {
+      const correct = correctAnswers[currentRow - 1][index];
+      const isSelected = button.style.backgroundColor === "rgb(255, 255, 3)";
+  
+      if (correct) {
+        totalCorrect++;
+      }
+  
+      if (isSelected) {
+        selectedButtons.push(button);
+        if (correct) {
+          correctSelectedCount++;
+        } else {
+          wrongSelectedCount++;
+        }
+        document.querySelectorAll(".checkbox-row input[type='checkbox']").forEach(cb => {
+          cb.disabled = true;});
+      }
+    });
+  
+    // تلوين الأزرار
+    buttons.forEach((button, index) => {
+      const correct = correctAnswers[currentRow - 1][index];
+      const isSelected = button.style.backgroundColor === "rgb(255, 255, 3)";
+  
+      if (correct && isSelected) {
+        button.style.backgroundColor = "green";
+      } else if (correct && !isSelected) {
+        button.style.backgroundColor = "green";
+      } else if (!correct && isSelected) {
+        button.style.backgroundColor = "red";
+      }
+    });
+  
+    // حذف النتيجة القديمة إن وجدت
+    const existingItem = Array.from(list2Element.children).find(
+      (item) => item.textContent.startsWith(`${questionNumber}`)
+    );
+    if (existingItem) existingItem.remove();
+  
+    const li = document.createElement("li");
+  
+    // منطق التقييم:
+    if (isSingleChoice) {
+      if (correctSelectedCount === 2 && wrongSelectedCount === 0 && selectedButtons.length === 2) {
+        label1.innerText = "Richtig beantwortet!";
+        label1.style.color = "green";
+        li.textContent = `${questionNumber}`;
+        list2Element.appendChild(li);
+      } else {
+        label1.innerText = "Falsch beantwortet!";
+        label1.style.color = "red";
+      }
+    } else if (isMultipleChoice) {
+      if (selectedButtons.length > 2) {
+        label1.innerText = "Falsch beantwortet!";
+        label1.style.color = "red";
+      } else if (correctSelectedCount === 2 && wrongSelectedCount === 0) {
+        label1.innerText = "Richtig beantwortet!";
+        label1.style.color = "green";
+        li.textContent = `${questionNumber} (MC)`;
+        list2Element.appendChild(li);
+      } else if (correctSelectedCount === 1 && wrongSelectedCount === 1) {
+        label1.innerText = "Teilweise richtig!";
+        label1.style.color = "orange";
+      
+        li.textContent = `${questionNumber} (جزئية)`;
+        list2Element.appendChild(li);
+      }
+        else if (
+          correctSelectedCount === 1 &&
+          wrongSelectedCount === 0 &&
+          isMultipleChoice
+        ) {
+          label1.innerText = "Teilweise richtig!";
+          label1.style.color = "orange";
+        
+          const li = document.createElement("li");
+          li.textContent = `${questionNumber} (جزئية)`;
+          list2Element.appendChild(li);
+        }
+        
+       else {
+        label1.innerText = "Falsch beantwortet!";
+        label1.style.color = "red";
+      }
     }
   }
-}
+  
   
   
   document.getElementById("checkAnswers").addEventListener("click", checkAnswers);
