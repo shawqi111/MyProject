@@ -1288,15 +1288,17 @@ function updatePageElements(rowNumber) {
   
     // منطق التقييم:
     if (isSingleChoice) {
-      if (correctSelectedCount === 2 && wrongSelectedCount === 0 && selectedButtons.length === 2) {
-        label1.innerText = "Richtig beantwortet!";
-        label1.style.color = "green";
-        li.textContent = `${questionNumber}`;
-        list2Element.appendChild(li);
-      } else {
-        label1.innerText = "Falsch beantwortet!";
-        label1.style.color = "red";
-      }
+  if (correctSelectedCount === 1 && wrongSelectedCount === 0) {
+    label1.innerText = "Richtig beantwortet!";
+    label1.style.color = "green";
+    li.textContent = `${questionNumber}`;
+    list2Element.appendChild(li);
+  } else {
+    label1.innerText = "Falsch beantwortet!";
+    label1.style.color = "red";
+    // لا يتم الإضافة للقائمة
+  }
+}
     } else if (isMultipleChoice) {
       if (selectedButtons.length > 2) {
         label1.innerText = "Falsch beantwortet!";
