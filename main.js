@@ -116,33 +116,33 @@ function FarbeinTable() {
   if (!isFunctionCalled) {
     let url;
     if (value === 14) {
-      url = "eins203.csv";
+      url = "1eins203.csv";
     } else if (value === 15) {
-      url = "Zwei204.csv";
+      url = "2Zwei204.csv";
     } else if (value === 16) {
-      url = "Drei211.csv";
+      url = "3Drei211.csv";
     } else if (value === 17) {
-      url = "vier213.csv";
+      url = "4vier213.csv";
     } else if (value === 18) {
-      url = "funf217.csv";
+      url = "5funf217.csv";
     } else if (value === 19) {
-      url = "sechs219.csv";
+      url = "6sechs219.csv";
     } else if (value === 20) {
-      url = "sieben221.csv";
+      url = "7sieben221.csv";
     } else if (value === 21) {
-      url = "MP18.csv";
+      url = "8MP18.csv";
     } else if (value === 22) {
-      url = "Prüfung 1.csv";
+      url = "9Prüfung1.csv";
     } else if (value === 23) {
-      url = "Prüfung 2.csv";
+      url = "10Prüfung2.csv";
     } else if (value === 24) {
-      url = "Prüfung 3.csv";
+      url = "11Prüfung3.csv";
     } else if (value === 25) {
-      url = "Pr4.csv";
+      url = "12Pr4.csv";
     } else if (value === 26) {
-      url = "Pr5.csv";
+      url = "13Pr5.csv";
     } else {
-      url = "NeuePrJuli.csv";
+      url = "1eins203.csv";
     }
     if (url) {
       fetch(url)
@@ -314,35 +314,35 @@ const value = parseInt(urlParams.get("value"));
 
 let url;
 if (value === 14) {
-  url = "Lösung203.csv";
+  url = "1Lös203.csv";
 } else if (value === 15) {
-  url = "lösung204.csv";
+  url = "2Lös204.csv";
 } else if (value === 16) {
-  url = "Lösung211.csv";
+  url = "3Lös211.csv";
 } else if (value === 17) {
-  url = "Lösung213.csv";
+  url = "4Lös213.csv";
 } else if (value === 18) {
-  url = "Lösung217.csv";
+  url = "5Lös217.csv";
 } else if (value === 19) {
-  url = "Lösung219.csv";
+  url = "6Lös219.csv";
 } else if (value === 20) {
-  url = "Lösung221.csv";
+  url = "7Lös221.csv";
 } else if (value === 21) {
-  url = "MPLös18.csv";
+  url = "8Lös18.csv";
 } else if (value === 22) {
-  url = "LösungPr1.csv";
+  url = "9LösPr1.csv";
 } else if (value === 23) {
-  url = "LösungPr2.csv";
+  url = "10LösPr2.csv";
 
 } else if (value === 24) {
-  url = "LösungPr3.csv";
+  url = "11LösPr3.csv";
 } else if (value === 25) {
-  url = "LösungPr4.csv";
+  url = "12LösPr4.csv";
 } else if (value === 26) {
-  url = "LösungPr5.csv";
+  url = "13LösPr5.csv";
 } 
 else {
-  url = "LösungPr5.csv";
+  url = "1Lös203.csv";
 } 
  
 if (url) {
@@ -446,33 +446,33 @@ if (document.getElementById("answer-debug")) {
   const value = parseInt(urlParams.get("value"));
   let url;
   if (value === 14) {
-    url = "eins203.csv";
+    url = "1eins203.csv";
   } else if (value === 15) {
-    url = "Zwei204.csv";
+    url = "2Zwei204.csv";
   } else if (value === 16) {
-    url = "Drei211.csv";
+    url = "3Drei211.csv";
   } else if (value === 17) {
-    url = "vier213.csv";
+    url = "4vier213.csv";
   } else if (value === 18) {
-    url = "funf217.csv";
+    url = "5funf217.csv";
   } else if (value === 19) {
-    url = "sechs219.csv";
+    url = "6sechs219.csv";
   } else if (value === 20) {
-    url = "sieben221.csv";
+    url = "7sieben221.csv";
   } else if (value === 21) {
-    url = "MP18.csv";
+    url = "8MP18.csv";
   } else if (value === 22) {
-    url = "Prüfung 1.csv";
+    url = "9Prüfung1.csv";
   } else if (value === 23) {
-    url = "Prüfung 2.csv";
+    url = "10Prüfung2.csv";
   } else if (value === 24) {
-    url = "Prüfung 3.csv";
+    url = "11Prüfung3.csv";
   } else if (value === 25) {
-    url = "Pr4.csv";
+    url = "12Pr4.csv";
   } else if (value === 26) {
-    url = "Pr5.csv";
+    url = "13Pr5.csv";
   } else {
-    url = "Pr5.csv";
+    url = "1eins203.csv";
   }
 
   if (url) {
@@ -640,17 +640,28 @@ checkboxRow.appendChild(dummyLabel);
                 const dummyLabel = document.createElement("label");
 dummyLabel.style.display = "none"; // لا يظهر
 checkboxRow.appendChild(dummyLabel);
-                ['A', 'B', 'C', 'D'].forEach((letter) => {
-                  const label = document.createElement("label");
-                  label.style.display = "flex";
-                  label.style.alignItems = "center";
-                  label.style.fontWeight = "bold";
-                  label.innerHTML = `
-                    <input type="checkbox" value="${letter}" id="chk${letter}" onchange="handleCheckboxChange(this)" style="width: 22px; height: 22px; margin-right: 8px;">
-                    ${letter}
-                  `;
-                  checkboxRow.appendChild(label);
-                });
+const availableLetters = [];
+const currentRowData = rows[rowNumber]; // تأكد أن هذا موجود لديك بالفعل
+for (let i = 1; i < currentRowData.length; i++) {
+  const cell = currentRowData[i].trim();
+  if (cell !== "" && cell !== ".") {
+    const letter = String.fromCharCode(64 + i); // 65 = A
+    availableLetters.push(letter);
+  }
+}
+
+availableLetters.forEach((letter) => {
+  const label = document.createElement("label");
+  label.style.display = "flex";
+  label.style.alignItems = "center";
+  label.style.fontWeight = "bold";
+  label.innerHTML = `
+    <input type="checkbox" value="${letter}" id="chk${letter}" onchange="handleCheckboxChange(this)" style="width: 22px; height: 22px; margin-right: 8px;">
+    ${letter}
+  `;
+  checkboxRow.appendChild(label);
+});
+
             
                 // مزامنة التحديد مع الأزرار الصفراء
                 setTimeout(() => {
@@ -1963,31 +1974,47 @@ function updatePageElements(rowNumber) {
       ) {
         answerCorrect = false;
       }
-      // عرض اختيارات المستخدم المحفوظة
-const questionNumber = parseInt(document.getElementById("labelIndex").textContent);
-const savedValue = checkboxSelections[questionNumber];
+      const questionNumber = parseInt(document.getElementById("labelIndex").textContent);
+      const savedValue = checkboxSelections[questionNumber];
+      
+   
+      if (
+        savedValue &&
+        document.getElementById("showResults").innerText === "Ergebnisse ansehen"
+      ) {
+        if (
+          savedValue.length === 1 ||
+          (savedValue.length > 1 &&
+           !document.querySelector(`.checkbox-row input[value="${savedValue}"]`))
+        ) {
+          savedValue.split('').forEach(letter => {
+            const cb = document.getElementById("chk" + letter);
+            if (cb) cb.checked = true;
+          });
+        } else {
+          const savedCheckbox = document.querySelector(
+            `.checkbox-row input[type="checkbox"][value="${savedValue}"]`
+          );
+          if (savedCheckbox) savedCheckbox.checked = true;
+        }
+      
+    
+      
+      }
+      
+      
+      if (document.getElementById("showResults").innerText === "Ergebnisse ansehen") {
+        document.querySelectorAll(".checkbox-row input[type='checkbox']").forEach(cb => {
+          cb.disabled = true;
+          document.getElementById("AntwortenZahl").style.marginBottom = "30px";
 
-if (savedValue) {
-  // إن كانت إجابة مركبة مثل "AC"
-  const isComboCheckbox = document.querySelector(`.checkbox-row input[value="${savedValue}"]`);
-  
-  if (savedValue.length > 1 && isComboCheckbox) {
-    // مركبة
-    isComboCheckbox.checked = true;
-  } else {
-    // مفردة: يمكن أن تكون A أو AC غير موجودة كمجموعة
-    savedValue.split('').forEach(letter => {
-      const cb = document.getElementById("chk" + letter);
-      if (cb) cb.checked = true;
+        });
+      }
+      
+
+
     });
-  }
-}
-
-// ⛔️ تعطيل جميع checkboxes بعد عرض النتائج
-document.querySelectorAll(".checkbox-row input[type='checkbox']").forEach(cb => {
-  cb.disabled = true;
-});
-  });
+  
     // التقييم العام وعرض النتيجة
     const list2Element = document.getElementById("list2");
     const questionNumber = parseInt(document.getElementById("labelIndex").textContent.split(" ")[1]);
@@ -2146,6 +2173,7 @@ const correctRow = correctAnswers[rowNumber] || [];
 document.getElementById("answer-debug").textContent =
   `✅ Neues System  → Prüfung ab Juli 2025]`;
 
- 
+
+  
   
   
