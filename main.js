@@ -1288,16 +1288,19 @@ function updatePageElements(rowNumber) {
   
     // منطق التقييم:
     if (isSingleChoice) {
-  if (correctSelectedCount === 1 && wrongSelectedCount === 0) {
-    label1.innerText = "Richtig beantwortet!";
-    label1.style.color = "green";
-    li.textContent = `${questionNumber}`;
-    list2Element.appendChild(li);
-  } else {
-    label1.innerText = "Falsch beantwortet!";
-    label1.style.color = "red";
-    // لا يتم الإضافة للقائمة
-  }
+  // دعم الإجابات المركبة في Single-Choice
+const saved = checkboxSelections[questionNumber];
+const correctCombo = getCorrectComboFromRow(correctAnswers[questionNumber - 1]);
+
+if (saved === correctCombo) {
+  label1.innerText = "Richtig beantwortet!";
+  label1.style.color = "green";
+  li.textContent = `${questionNumber}`;
+  list2Element.appendChild(li);
+} else {
+  label1.innerText = "Falsch beantwortet!";
+  label1.style.color = "red";
+}
 
     } else if (isMultipleChoice) {
       if (selectedButtons.length > 2) {
