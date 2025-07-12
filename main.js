@@ -1987,9 +1987,11 @@ if (saved === correctCombo) {
       const tableBody = document.getElementById("table-body");
       const targetButton = tableBody.querySelector(`tr:nth-child(${labelIndex}) button`);
   
-      if (button.style.backgroundColor === "rgb(255, 255, 3)") {
-        targetButton.style.backgroundColor = button.style.backgroundColor;
-      }
+      const isAfterSubmission = document.getElementById("checkAnswers").innerText === "Ergebnisse ansehen";
+
+if (!isAfterSubmission && button.style.backgroundColor === "rgb(255, 255, 3)") {
+  targetButton.style.backgroundColor = button.style.backgroundColor;
+}
   
       // تحديث النتائج في الوسوم بناءً على الحالة
       if (hasGreenAndYellow && !hasGreenAndBlue) {
