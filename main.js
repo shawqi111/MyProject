@@ -730,34 +730,38 @@ function handleCheckboxChange(checkbox) {
   if (!btn) return;
 
   const questionNumber = parseInt(document.getElementById("labelIndex").textContent);
+  const isSingle = isSingleChoiceQuestion(questionNumber);
 
-  // ✅ تحقق إذا كانت هذه الأسئلة من نوع Single
-  if (isSingleChoiceQuestion(questionNumber)) {
-    // إلغاء تحديد كل الـ checkboxes في نفس السؤال
+  if (isSingle) {
+    // 🔹 SINGLE-CHOICE: إلغاء جميع checkboxes والألوان أولاً
     document.querySelectorAll(".checkbox-row input[type='checkbox']").forEach(cb => {
       cb.checked = false;
     });
 
-    // إلغاء تفعيل كل الأزرار الصفراء
     ['A', 'B', 'C', 'D', 'E'].forEach(l => {
       const b = document.getElementById("btn" + l);
       if (b && window.getComputedStyle(b).backgroundColor === "rgb(255, 255, 3)") {
-        const wasYellow = window.getComputedStyle(btn).backgroundColor === "rgb(255, 255, 3)";
-toggleButtonColor(btn);
-
-// إذا كان الزر مفعلًا وتم إلغاءه، ألغِ التحديد عن الـ checkbox أيضًا
-if (wasYellow && checkbox.checked) {
-  checkbox.checked = false;
-};
+        toggleButtonColor(b);
       }
     });
+
+    // 🔸 فعّل فقط هذا الخيار
+    checkbox.checked = true;
+    toggleButtonColor(btn);
+
+  } else {
+    // 🔹 MULTIPLE-CHOICE: إذا كان مفعلًا ألغِ التحديد
+    const wasYellow = window.getComputedStyle(btn).backgroundColor === "rgb(255, 255, 3)";
+    toggleButtonColor(btn);
+
+    if (wasYellow && checkbox.checked) {
+      checkbox.checked = false;
+    } else {
+      checkbox.checked = true;
+    }
   }
 
-  // حدد هذا فقط
-  checkbox.checked = true;
-  toggleButtonColor(btn);
-
-  // حفظ التحديد
+  // ✅ حفظ الإجابات
   const checkedLetters = [];
   ['A', 'B', 'C', 'D'].forEach(l => {
     const b = document.getElementById("btn" + l);
@@ -766,7 +770,7 @@ if (wasYellow && checkbox.checked) {
     }
   });
 
-  checkboxSelections[questionNumber] = checkedLetters.join("");
+  checkboxSelections[questionNumber] = checkedLetters.join(""); // مثال: "AC"
 }
 
 function handleComboCheckboxChange(checkbox) {
