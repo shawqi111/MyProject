@@ -729,11 +729,29 @@ function handleCheckboxChange(checkbox) {
   const btn = document.getElementById("btn" + letter);
   if (!btn) return;
 
-  toggleButtonColor(btn);
-
   const questionNumber = parseInt(document.getElementById("labelIndex").textContent);
 
-  // ✅ اجمع كل الأزرار المختارة في هذا السؤال
+  // ✅ تحقق إذا كانت هذه الأسئلة من نوع Single
+  if (isSingleChoiceQuestion(questionNumber)) {
+    // إلغاء تحديد كل الـ checkboxes في نفس السؤال
+    document.querySelectorAll(".checkbox-row input[type='checkbox']").forEach(cb => {
+      cb.checked = false;
+    });
+
+    // إلغاء تفعيل كل الأزرار الصفراء
+    ['A', 'B', 'C', 'D', 'E'].forEach(l => {
+      const b = document.getElementById("btn" + l);
+      if (b && window.getComputedStyle(b).backgroundColor === "rgb(255, 255, 3)") {
+        toggleButtonColor(b);
+      }
+    });
+  }
+
+  // حدد هذا فقط
+  checkbox.checked = true;
+  toggleButtonColor(btn);
+
+  // حفظ التحديد
   const checkedLetters = [];
   ['A', 'B', 'C', 'D'].forEach(l => {
     const b = document.getElementById("btn" + l);
@@ -742,7 +760,7 @@ function handleCheckboxChange(checkbox) {
     }
   });
 
-  checkboxSelections[questionNumber] = checkedLetters.join(""); // مثال: "AC"
+  checkboxSelections[questionNumber] = checkedLetters.join("");
 }
 
 function handleComboCheckboxChange(checkbox) {
