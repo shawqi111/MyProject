@@ -1298,7 +1298,7 @@ function updatePageElements(rowNumber) {
     label1.style.color = "red";
     // لا يتم الإضافة للقائمة
   }
-}
+
     } else if (isMultipleChoice) {
       if (selectedButtons.length > 2) {
         label1.innerText = "Falsch beantwortet!";
