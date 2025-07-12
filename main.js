@@ -742,7 +742,13 @@ function handleCheckboxChange(checkbox) {
     ['A', 'B', 'C', 'D', 'E'].forEach(l => {
       const b = document.getElementById("btn" + l);
       if (b && window.getComputedStyle(b).backgroundColor === "rgb(255, 255, 3)") {
-        toggleButtonColor(b);
+        const wasYellow = window.getComputedStyle(btn).backgroundColor === "rgb(255, 255, 3)";
+toggleButtonColor(btn);
+
+// إذا كان الزر مفعلًا وتم إلغاءه، ألغِ التحديد عن الـ checkbox أيضًا
+if (wasYellow && checkbox.checked) {
+  checkbox.checked = false;
+};
       }
     });
   }
