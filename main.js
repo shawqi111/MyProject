@@ -142,7 +142,7 @@ function FarbeinTable() {
     } else if (value === 26) {
       url = "13Pr5.csv";
     } else {
-      url = "1eins203.csv";
+      url = "Drei211.csv";
     }
     if (url) {
       fetch(url)
@@ -342,7 +342,7 @@ if (value === 14) {
   url = "13LösPr5.csv";
 } 
 else {
-  url = "1Lös203.csv";
+  url = "Lösung211.csv";
 } 
  
 if (url) {
@@ -472,7 +472,7 @@ if (document.getElementById("answer-debug")) {
   } else if (value === 26) {
     url = "13Pr5.csv";
   } else {
-    url = "1eins203.csv";
+    url = "Drei211.csv";
   }
 
   if (url) {
