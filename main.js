@@ -733,7 +733,7 @@ function handleCheckboxChange(checkbox) {
   const isSingle = isSingleChoiceQuestion(questionNumber);
 
   if (isSingle) {
-    // 🔹 SINGLE-CHOICE: إلغاء جميع checkboxes والألوان أولاً
+    // 🟦 SINGLE-CHOICE
     document.querySelectorAll(".checkbox-row input[type='checkbox']").forEach(cb => {
       cb.checked = false;
     });
@@ -745,23 +745,24 @@ function handleCheckboxChange(checkbox) {
       }
     });
 
-    // 🔸 فعّل فقط هذا الخيار
     checkbox.checked = true;
     toggleButtonColor(btn);
 
   } else {
-    // 🔹 MULTIPLE-CHOICE: إذا كان مفعلًا ألغِ التحديد
-    const wasYellow = window.getComputedStyle(btn).backgroundColor === "rgb(255, 255, 3)";
-    toggleButtonColor(btn);
-
-    if (wasYellow && checkbox.checked) {
+    // 🟨 MULTIPLE-CHOICE
+    const isYellow = window.getComputedStyle(btn).backgroundColor === "rgb(255, 255, 3)";
+    
+    // إذا كان مفعلًا (أصفر) → ألغِه
+    if (isYellow) {
+      toggleButtonColor(btn);
       checkbox.checked = false;
     } else {
+      toggleButtonColor(btn);
       checkbox.checked = true;
     }
   }
 
-  // ✅ حفظ الإجابات
+  // ✅ تحديث القيم المحفوظة
   const checkedLetters = [];
   ['A', 'B', 'C', 'D'].forEach(l => {
     const b = document.getElementById("btn" + l);
@@ -770,9 +771,8 @@ function handleCheckboxChange(checkbox) {
     }
   });
 
-  checkboxSelections[questionNumber] = checkedLetters.join(""); // مثال: "AC"
+  checkboxSelections[questionNumber] = checkedLetters.join(""); // مثل "AC"
 }
-
 function handleComboCheckboxChange(checkbox) {
   document.querySelectorAll(".checkbox-row input[type='checkbox']").forEach(cb => {
     cb.checked = false;
